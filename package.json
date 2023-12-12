@@ -24,6 +24,8 @@
     "eslint-plugin-react-refresh": "^0.4.4",
     "framer-motion": "^10.16.16",
     "normalize.css": "^8.0.1",
+    "react-icomoon": "^2.5.7",
+    "react-icons": "^4.12.0",
     "react-router-dom": "^6.20.1",
     "styled-components": "^6.1.1",
     "typescript": "^5.2.2",
