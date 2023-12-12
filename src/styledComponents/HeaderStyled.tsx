@@ -11,7 +11,7 @@ export const StyledHeader = styled.header`
     height: clamp(${rem(70)}, 10.5vw, ${rem(80)});
 `;
 
-export const LogoWrapper = styled(Link)`
+export const LogoLink = styled(Link)`
     background-color: var(--logo-violet-dark);
     height: 100%;
     width: clamp(${rem(72)}, 10.5vw, ${rem(80)});
