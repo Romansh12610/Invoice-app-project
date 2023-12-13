@@ -21,9 +21,7 @@ export default function Header() {
                     color={colorTheme.general.iconColor}
                 />
             </ThemeButton>
-            <AvatarWrapper>
-
-            </AvatarWrapper>
+            <AvatarWrapper />
         </StyledHeader>
     )
 }
