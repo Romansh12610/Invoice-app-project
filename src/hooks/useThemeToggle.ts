@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
-type Theme = 'light' | 'dark';
+type ThemeType = 'light' | 'dark';
 
 const getThemeFromLocalStorage = () => {
-    return localStorage.getItem('theme') as Theme | null;
+    return localStorage.getItem('theme') as ThemeType | null;
 };
 
-const postThemeToLocalStorage = (newTheme: Theme) => {
+const postThemeToLocalStorage = (newTheme: ThemeType) => {
     return localStorage.setItem('theme', newTheme);
 }
 
 const getPreferredTheme = () => {
     const isUserPrefersDark: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    return isUserPrefersDark ? 'dark' : 'light';
+    return isUserPrefersDark ? 'dark' : 'light' as ThemeType;
 }
 
 const useThemeToggle = () => {
@@ -30,7 +30,7 @@ const useThemeToggle = () => {
         theme === 'light' ? setTheme('dark') : setTheme('light');
     }
 
-    return [theme, toggleTheme];
+    return [theme, toggleTheme] as const;
 }
 
 export default useThemeToggle;

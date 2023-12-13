@@ -1,9 +1,11 @@
-import { MainBody, Heading } from "../styledComponents/InvoicesStyled";
+import { MainContainer, Heading } from "../styledComponents/InvoicesStyled";
 
 export default function Main() {
     return (
-        <MainBody>
+        <MainContainer flexArgs={{
+            direction: 'column',
+        }}>
            <Heading>I'm Main</Heading>
-        </MainBody>
+        </MainContainer>
     )
 }

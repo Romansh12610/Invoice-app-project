@@ -1,16 +1,12 @@
-import GlobalStyles, { colorTheme } from '../styledComponents/GlobalStyles';
+import GlobalStyles, { styleTheme } from '../styledComponents/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import useThemeToggle from '../hooks/useThemeToggle';
+import GlobalContextInt from '../interfaces/globalContextInt';
 
-// types
-type VoidFunction = () => void;
-type AppContextType = {
-	[prop: string]: string | VoidFunction;
-}
 
-const AppContext = React.createContext<AppContextType | null>(null);
+const AppContext = React.createContext<GlobalContextInt | null>(null);
 
 export default function ContextWrapper({ children }: { children: React.JSX.Element}) {
 
@@ -23,7 +19,7 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 			theme,
 			toggleTheme,
 		}}>
-			<ThemeProvider theme={colorTheme}>
+			<ThemeProvider theme={styleTheme}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>
 				<BrowserRouter>
 					{children}
@@ -35,5 +31,5 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 }
 
 export const useGlobalContext = () => {
-	return React.useContext(AppContext) as AppContextType;
+	return React.useContext(AppContext) as GlobalContextInt;
 }

@@ -10,8 +10,8 @@ export default function App() {
 	return (
 		<ContextWrapper>
 			<Routes>
-				<Route path='/' element={<Layout />}>
-					<Route index element={<Invoices />} />
+				<Route element={<Layout />}>
+					<Route path='/' element={<Invoices />} />
 					<Route path='/:invoiceId' element={<InvoiceView />} />
 				</Route>
 			</Routes>
