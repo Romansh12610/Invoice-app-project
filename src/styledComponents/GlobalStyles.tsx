@@ -2,6 +2,7 @@ import { createGlobalStyle, css } from 'styled-components';
 import ThemeInterface from '../interfaces/styled';
 import FlexMixinInterface from '../interfaces/flexMixin';
 import FontMixinInterface from '../interfaces/fontMixin';
+import rem from '../utilities/PxIntoRem';
 
 export const styleTheme: ThemeInterface = {
     light: {
@@ -39,19 +40,19 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
     }
 `;
 
-export const createFlexMixin = (flexArgs: FlexMixinInterface) => css`
+export const createFlexMixin = ($flexArgs: FlexMixinInterface) => css`
     display: flex;
-    flex-direction: ${flexArgs.direction ? flexArgs.direction : 'row'};
-    justify-content: ${flexArgs.justify ? flexArgs.justify : 'flex-start'};
-    align-items: ${flexArgs.alignItems ? flexArgs.alignItems : 'flex-start'};
-    align-content: ${flexArgs.alignContent ? flexArgs.alignContent : 'flex-start'};
+    flex-direction: ${$flexArgs.direction ? $flexArgs.direction : 'row'};
+    justify-content: ${$flexArgs.justify ? $flexArgs.justify : 'flex-start'};
+    align-items: ${$flexArgs.alignItems ? $flexArgs.alignItems : 'flex-start'};
+    align-content: ${$flexArgs.alignContent ? $flexArgs.alignContent : 'flex-start'};
 `
 
 export const createFontMixin = (fontArgs: FontMixinInterface) => css`
-    font-size: ${fontArgs.size};
-    font-weight: ${fontArgs.weight};
-    letter-spacing: ${fontArgs.letterSpacing ? fontArgs.letterSpacing : '1'};
-    line-height: ${fontArgs.lineHeight ? fontArgs.lineHeight : '1'};
-`
+    font-size: ${rem(fontArgs.$size)};
+    font-weight: ${fontArgs.$weight};
+    letter-spacing: ${fontArgs.$letterSpacing ? rem(fontArgs.$letterSpacing) : 'normal'};
+    line-height: ${fontArgs.$lineHeight ? fontArgs.$lineHeight : '1'};
+`;
 
 export default GlobalStyles;

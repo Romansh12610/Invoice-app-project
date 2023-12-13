@@ -1,6 +1,6 @@
 export default interface FontMixinInterface {
-    size: string;
-    weight: string;
-    letterSpacing?: string;
-    lineHeight?: string;
+    $size: number;
+    $weight: '500' | '600' | '700';
+    $letterSpacing?: number;
+    $lineHeight?: string;
 }
