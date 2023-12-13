@@ -6,7 +6,7 @@ import { useTheme } from "styled-components";
 export default function Header() {
 
     const {
-        theme,
+        theme, toggleTheme
     } = useGlobalContext();
 
     const colorTheme = useTheme();
@@ -14,7 +14,9 @@ export default function Header() {
     return (
         <StyledHeader>
             <LogoLink to='/' />
-            <ThemeButton>
+            <ThemeButton
+                onClick={() => toggleTheme()}
+            >
                 <Icon 
                     name={theme === 'light' ? 'moon' : 'sun'}
                     size={20}

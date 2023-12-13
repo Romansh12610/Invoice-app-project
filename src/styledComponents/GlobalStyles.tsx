@@ -1,56 +1,57 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
+import ThemeInterface from '../interfaces/styled';
+import FlexMixinInterface from '../interfaces/flexMixin';
+import FontMixinInterface from '../interfaces/fontMixin';
 
-type Colors = {
-    bgColor: string;
-    textColor: string;
-    textColorSec?: string;
-}
-
-type Theme = {
-    light: Colors;
-    dark: Colors;
-    general: {
-        [col: string]: string;
-    };
-};
-
-export const colorTheme: Theme = {
+export const styleTheme: ThemeInterface = {
     light: {
-        bgColor: 'hsl(240,27%,98%)',
-        textColor: 'hsl(231,28%,7%)',
-        textColorSec: 'hsl(231,20%,61%)'
+        bgColor: '#f9f9fb',
+        textColor: '#0d0e17',
+        textColorSecondary: '#888eaf'
     },
     dark: {
-        bgColor: 'hsl(231,30%,11%)',
-        textColor: 'hsl(0,0%,100%)',
+        bgColor: '#141624',
+        textColor: '#ffffff',
     },
     general: {
-        iconColor: 'hsl(0, 0%, 77.25490196078432%)',
+        iconColor: '#c5c5c5',
+        logoPurple: '#7b5cfa',
+        logoPurpleLight: '#b9a7ff',
+        green: '#33d7a0',
+        greenLight: '#b3ffd9',
+        headerBg: '#1e2139',
+        orange: '#ff9100',
+        orangeLight: '#ffe2ad',
+        gray: '#909eeb',
+        white: '#fff',
+        black: '#000',
     }
 }
 
 const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
-    :root {
-        --black: hsl(0, 0%, 0%);
-        --white: hsl(0, 0%, 100%);
-        --header-bg: hsl(233,31%,17%);
-        --logo-violet-dark: hsl(252,94%,67%);
-        --logo-violet-light: hsl(252.39669421487602, 100%, 76.27450980392156%);
-        --light-green: hsl(150, 100%, 85%);
-        --saturated-green: hsl(160,67%,52%);
-        --light-orange: hsl(39, 100%, 84%);
-        --saturated-orange: hsl(34,100%,50%);
-        --gray: hsl(231,20%,61%);
-        --light-gray: rgb(197, 197, 197);
-        --font-main: font-family: 'League Spartan', sans-serif;
-    }
-
     body {
         min-height: 100vh;
-        font-family: var(--font-main);
-        background-color: ${ ({ $isDark }) => $isDark ? colorTheme.dark.bgColor : colorTheme.light.bgColor};
-        color: ${ ({ $isDark }) => $isDark ? colorTheme.dark.textColor : colorTheme.light.textColor}
+        font-family: 'League Spartan', sans-serif;
+        background-color: ${ ({ $isDark }) => $isDark ? styleTheme.dark.bgColor : styleTheme.light.bgColor};
+        color: ${ ({ $isDark }) => $isDark ? styleTheme.dark.textColor : styleTheme.light.textColor};
+
+        transition: all 400ms ease-in;
     }
 `;
+
+export const createFlexMixin = (flexArgs: FlexMixinInterface) => css`
+    display: flex;
+    flex-direction: ${flexArgs.direction ? flexArgs.direction : 'row'};
+    justify-content: ${flexArgs.justify ? flexArgs.justify : 'flex-start'};
+    align-items: ${flexArgs.alignItems ? flexArgs.alignItems : 'flex-start'};
+    align-content: ${flexArgs.alignContent ? flexArgs.alignContent : 'flex-start'};
+`
+
+export const createFontMixin = (fontArgs: FontMixinInterface) => css`
+    font-size: ${fontArgs.size};
+    font-weight: ${fontArgs.weight};
+    letter-spacing: ${fontArgs.letterSpacing ? fontArgs.letterSpacing : '1'};
+    line-height: ${fontArgs.lineHeight ? fontArgs.lineHeight : '1'};
+`
 
 export default GlobalStyles;
