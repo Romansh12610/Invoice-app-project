@@ -4,14 +4,14 @@ export default interface ThemeInterface {
     textColorSecondary: string;
     general: {
         iconColor: string;
-        logoPurple: string;
-        logoPurpleLight: string;
+        purple: string;
+        purpleLight: string;
         green: string;
         greenLight: string;
         headerBg: string;
         orange: string;
         orangeLight: string;
-        gray: string;
+        grayishBlue: string;
         white: string;
         black: string;
     }

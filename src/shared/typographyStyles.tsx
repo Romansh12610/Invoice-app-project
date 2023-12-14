@@ -6,13 +6,13 @@ type WeightsType = '500' | '600' | '700';
 
 const fontMapping = {
     size: {
-        small: 15,
+        small: 16,
         medium: 18,
         large: 22,
     },
     weight: {
-        thin: '500',
-        medium: '600',
+        thin: '200',
+        medium: '400',
         bold: '700'
     },
     letterSpacing: {
@@ -31,7 +31,7 @@ export const CustomizableTextItem = styled.p<FontPropsInterface>`
     ${props => createFontMixin({
         $size: fontMapping.size[props.$size],
         $weight: fontMapping.weight[props.$weight] as WeightsType,
-        $letterSpacing: props.$letterSpacing ? fontMapping.letterSpacing[props.$letterSpacing] : undefined,
-        $lineHeight: props.$lineHeight ? fontMapping.lineHeight[props.$lineHeight] : undefined
+        $letterSpacing: props.$letterSpacing ? fontMapping.letterSpacing[props.$letterSpacing] : '',
+        $lineHeight: props.$lineHeight ? fontMapping.lineHeight[props.$lineHeight] : '',
     })};
 `;

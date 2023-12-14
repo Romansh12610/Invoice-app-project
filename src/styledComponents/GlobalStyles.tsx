@@ -14,14 +14,14 @@ export const styleTheme: {
         textColorSecondary: '#888eaf',
         general: {
             iconColor: '#c5c5c5',
-            logoPurple: '#7b5cfa',
-            logoPurpleLight: '#b9a7ff',
+            purple: '#7b5cfa',
+            purpleLight: '#b9a7ff',
             green: '#33d7a0',
             greenLight: '#b3ffd9',
             headerBg: '#1e2139',
             orange: '#ff9100',
             orangeLight: '#ffe2ad',
-            gray: '#909eeb',
+            grayishBlue: '#909eeb',
             white: '#fff',
             black: '#000',
         }
@@ -32,14 +32,14 @@ export const styleTheme: {
         textColorSecondary: '#fff',
         general: {
             iconColor: '#c5c5c5',
-            logoPurple: '#7b5cfa',
-            logoPurpleLight: '#b9a7ff',
+            purple: '#7b5cfa',
+            purpleLight: '#b9a7ff',
             green: '#33d7a0',
             greenLight: '#b3ffd9',
             headerBg: '#1e2139',
             orange: '#ff9100',
             orangeLight: '#ffe2ad',
-            gray: '#909eeb',
+            grayishBlue: '#909eeb',
             white: '#fff',
             black: '#000',
         }
@@ -47,6 +47,15 @@ export const styleTheme: {
 };
 
 const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
+    h1, h2, h3, p {
+        margin: 0;
+        padding: 0;
+    };
+
+    button {
+        border: none;
+    }
+
     body {
         min-height: 100vh;
         font-family: 'League Spartan', sans-serif;
@@ -71,5 +80,20 @@ export const createFontMixin = (fontArgs: FontMixinInterface) => css`
     letter-spacing: ${fontArgs.$letterSpacing ? `${fontArgs.$letterSpacing}px` : 'normal'};
     line-height: ${fontArgs.$lineHeight ? fontArgs.$lineHeight : '1'};
 `;
+
+export const svgBackgroundMixin = (svgUrl: string, pos: 'right' | 'left' | 'center' = 'center', pxFormat: boolean = false, rounded: boolean = false, bgContain: 'auto' | 'contain' = 'contain') => css`
+    position: absolute;
+    top: calc(50% - (${pxFormat ? '32px' : '35%'} / 2));
+    left: calc(${pos === 'center' ? 50 : pos === 'left' ? 25 : 75}% - (35% / 2));
+    content: '';
+    width: ${pxFormat ? '32px' : '35%'};
+    height: ${pxFormat ? '32px' : '35%'};
+    background: url(${svgUrl});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: ${bgContain};
+    border-radius: ${rounded ? '50%' : ''};
+`;
+
 
 export default GlobalStyles;
