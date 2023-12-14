@@ -19,7 +19,7 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 			theme,
 			toggleTheme,
 		}}>
-			<ThemeProvider theme={styleTheme}>
+			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>
 				<BrowserRouter>
 					{children}

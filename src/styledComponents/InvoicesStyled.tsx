@@ -1,8 +1,9 @@
 import { styled } from "styled-components";
 import { createFlexMixin } from "./GlobalStyles";
 import FlexMixinInterface from "../interfaces/flexMixin";
-import FontPropsInterface from "../interfaces/fontMixin";
 import { CustomizableTextItem } from "../shared/typographyStyles";
+import FontPropsInterface from "../interfaces/fontProps";
+
 
 export const MainContainer = styled.main<{ $flexArgs: FlexMixinInterface }>`
     ${props => createFlexMixin(props.$flexArgs)};
@@ -21,7 +22,4 @@ export const HeadingTitle = styled.h1`
 
 export const HeadingSubtitle = styled(CustomizableTextItem)<FontPropsInterface>`
     color: ${ ({theme}) => theme.textColor};
-    ${props => props.lineHeight && `line-height: ${props.lineHeight};`}
-`;
-
-//continue here
+`

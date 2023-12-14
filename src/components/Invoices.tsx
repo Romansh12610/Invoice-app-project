@@ -7,10 +7,9 @@ export default function Main() {
         }}>
             <HeadingTitle>I'm Main</HeadingTitle>
             <HeadingSubtitle
-                size='small'
-                weight='thin'
-                letterSpacing='thin'
-                lineHeight='low'
+                $size='large'
+                $weight='thin'
+                $letterSpacing='wide'
             >There are X total invoices</HeadingSubtitle>
         </MainContainer>
     )

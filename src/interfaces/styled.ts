@@ -1,15 +1,7 @@
 export default interface ThemeInterface {
-    light: {
-        bgColor: string;
-        textColor: string;
-        textColorSecondary: string;
-    },
-    
-    dark: {
-        bgColor: string;
-        textColor: string;
-    },
-
+    bgColor: string;
+    textColor: string;
+    textColorSecondary: string;
     general: {
         iconColor: string;
         logoPurple: string;

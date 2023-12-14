@@ -4,30 +4,47 @@ import FlexMixinInterface from '../interfaces/flexMixin';
 import FontMixinInterface from '../interfaces/fontMixin';
 import rem from '../utilities/PxIntoRem';
 
-export const styleTheme: ThemeInterface = {
+export const styleTheme: {
+    light: ThemeInterface,
+    dark: ThemeInterface,
+} = {
     light: {
         bgColor: '#f9f9fb',
         textColor: '#0d0e17',
-        textColorSecondary: '#888eaf'
+        textColorSecondary: '#888eaf',
+        general: {
+            iconColor: '#c5c5c5',
+            logoPurple: '#7b5cfa',
+            logoPurpleLight: '#b9a7ff',
+            green: '#33d7a0',
+            greenLight: '#b3ffd9',
+            headerBg: '#1e2139',
+            orange: '#ff9100',
+            orangeLight: '#ffe2ad',
+            gray: '#909eeb',
+            white: '#fff',
+            black: '#000',
+        }
     },
     dark: {
         bgColor: '#141624',
-        textColor: '#ffffff',
-    },
-    general: {
-        iconColor: '#c5c5c5',
-        logoPurple: '#7b5cfa',
-        logoPurpleLight: '#b9a7ff',
-        green: '#33d7a0',
-        greenLight: '#b3ffd9',
-        headerBg: '#1e2139',
-        orange: '#ff9100',
-        orangeLight: '#ffe2ad',
-        gray: '#909eeb',
-        white: '#fff',
-        black: '#000',
+        textColor: '#fff',
+        textColorSecondary: '#fff',
+        general: {
+            iconColor: '#c5c5c5',
+            logoPurple: '#7b5cfa',
+            logoPurpleLight: '#b9a7ff',
+            green: '#33d7a0',
+            greenLight: '#b3ffd9',
+            headerBg: '#1e2139',
+            orange: '#ff9100',
+            orangeLight: '#ffe2ad',
+            gray: '#909eeb',
+            white: '#fff',
+            black: '#000',
+        }
     }
-}
+};
 
 const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
     body {
@@ -51,7 +68,7 @@ export const createFlexMixin = ($flexArgs: FlexMixinInterface) => css`
 export const createFontMixin = (fontArgs: FontMixinInterface) => css`
     font-size: ${rem(fontArgs.$size)};
     font-weight: ${fontArgs.$weight};
-    letter-spacing: ${fontArgs.$letterSpacing ? rem(fontArgs.$letterSpacing) : 'normal'};
+    letter-spacing: ${fontArgs.$letterSpacing ? `${fontArgs.$letterSpacing}px` : 'normal'};
     line-height: ${fontArgs.$lineHeight ? fontArgs.$lineHeight : '1'};
 `;
 
