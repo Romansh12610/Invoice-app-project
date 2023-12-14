@@ -9,6 +9,7 @@ export default function Main() {
     return (
         <MainContainer $flexArgs={{
             direction: 'column',
+            alignItems: 'center',
         }}>
             <HeadingWrapper
                 $flexArgs={{

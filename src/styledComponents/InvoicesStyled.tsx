@@ -18,10 +18,13 @@ export const MainContainer = styled.main<{ $flexArgs: FlexMixinInterface }>`
 
 export const HeadingWrapper = styled.div<{$flexArgs: FlexMixinInterface}>`
     ${props => createFlexMixin(props.$flexArgs)};
+    margin-block: ${rem(40)};
+    width: 100%;
 `;
 
 export const TitleWrapper = styled.div<{ $flexArgs: FlexMixinInterface}>`
     ${props => createFlexMixin(props.$flexArgs)};
+    
 `;
 
 export const HeadingTitle = styled.h1`
@@ -36,18 +39,20 @@ export const HeadingSubtitle = styled(CustomizableTextItem)<FontPropsInterface>`
 export const FilterButton = styled.button<{ $flexArgs: FlexMixinInterface}>`
     background-color: inherit;
     width: fit-content;
-    ${props => createFlexMixin(props.$flexArgs)}
+    margin-left: auto;
+    ${props => createFlexMixin(props.$flexArgs)};
 `;
 
 export const FilterText = styled(CustomizableTextItem)<FontPropsInterface>`
     color: ${ ({theme}) => theme.textColor};
-    padding-right: ${rem(15)};
+    padding-right: ${rem(5)};
 `;
 
 export const NewInvoiceButton = styled(ButtonDefault)<{$justify: JustifyType}>`
     background-color: ${ ({theme}) => theme.general.purple};
     color: ${ ({theme}) => theme.general.white};
     padding-right: ${rem(15)};
+    margin-left: 2svw;
 
     &::before {
         ${svgBackgroundMixin(plusIcon, 'left', true, true, 'auto')};
