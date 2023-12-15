@@ -1,10 +1,11 @@
-import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrapper, FilterButton, FilterText, NewInvoiceButton, NewInvoiceText } from "../styledComponents/InvoicesStyled";
-import Icon from "../Icon/Icon";
-import { useTheme } from "styled-components";
+import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrapper, NewInvoiceButton, NewInvoiceText } from "../styledComponents/InvoicesStyled";
+import Filter from "./Filter";
+import { useGlobalContext } from "./ContextWrapper";
+
 
 export default function Main() {
 
-    const colorTheme = useTheme();
+    const { orientation } = useGlobalContext();
 
     return (
         <MainContainer $flexArgs={{
@@ -26,31 +27,16 @@ export default function Main() {
                     <HeadingSubtitle
                         $size="medium"
                         $weight="thin"
-                    >There are X total invoices</HeadingSubtitle>
+                    >{orientation === 'desktop' && 'There are'} X total invoices</HeadingSubtitle>
                 </TitleWrapper>
-                <FilterButton
-                    $flexArgs={{
-                        direction: "row",
-
-                    }}
-                >
-                    <FilterText
-                        $size="medium"
-                        $weight="bold"
-                    >Filter by status</FilterText>
-                    <Icon 
-                        name="arrow-down"
-                        size={11}
-                        color={colorTheme.general.purple}
-                    />
-                </FilterButton>
+                <Filter />
                 <NewInvoiceButton $justify="flex-end">
                     <NewInvoiceText
                         $size="small"
-                        $weight="medium"
+                        $weight="bold"
                         $letterSpacing="medium"
                     >
-                        New Invoice
+                        New {orientation === 'desktop' && 'Invoice'}
                     </NewInvoiceText>
                 </NewInvoiceButton>
             </HeadingWrapper>

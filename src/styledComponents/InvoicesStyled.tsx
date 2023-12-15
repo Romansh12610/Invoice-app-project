@@ -24,28 +24,15 @@ export const HeadingWrapper = styled.div<{$flexArgs: FlexMixinInterface}>`
 
 export const TitleWrapper = styled.div<{ $flexArgs: FlexMixinInterface}>`
     ${props => createFlexMixin(props.$flexArgs)};
-    
 `;
 
 export const HeadingTitle = styled.h1`
     color: ${({ theme }) => theme.textColor};
-    font-size: clamp(1.4rem, 5vw, 2.5rem);
+    font-size: clamp(1.4rem, 8vw, 2.8rem);
 `;
 
 export const HeadingSubtitle = styled(CustomizableTextItem)<FontPropsInterface>`
     color: ${({theme}) => theme.textColor};
-`;
-
-export const FilterButton = styled.button<{ $flexArgs: FlexMixinInterface}>`
-    background-color: inherit;
-    width: fit-content;
-    margin-left: auto;
-    ${props => createFlexMixin(props.$flexArgs)};
-`;
-
-export const FilterText = styled(CustomizableTextItem)<FontPropsInterface>`
-    color: ${ ({theme}) => theme.textColor};
-    padding-right: ${rem(5)};
 `;
 
 export const NewInvoiceButton = styled(ButtonDefault)<{$justify: JustifyType}>`
