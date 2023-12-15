@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
 import FlexMixinInterface from "../interfaces/flexMixin";
 import FontPropsInterface from "../interfaces/fontProps";
 import { CustomizableTextItem } from "../shared/typographyStyles";
@@ -6,6 +6,7 @@ import { createFlexMixin } from "./GlobalStyles";
 import rem from "../utilities/PxIntoRem";
 import { motion } from 'framer-motion';
 import checkmark from '../assets/icon-check.svg';
+import { CustomHTMLButtonElement } from "../interfaces/globalContextInt";
 
 export const FilterWrapper = styled.div`
     margin-left: auto;
@@ -29,19 +30,33 @@ export const FilterList = styled(motion.ul)<{ $flexArgs: FlexMixinInterface }>`
 export const FilterListItem = styled(motion.li)`
 `;
 
-export const ListItemButton = styled.button<{ $checked: boolean, type: "draft" | "pending" | "paid" }>`
+const svgBgCheckmarkMixin = css`
+    background-image: url(${checkmark});
+    background-repeat: no-repeat;
+    background-position: center;
+`; 
+
+export const ListItemButton = styled.button<CustomHTMLButtonElement>`
     background-color: inherit;
-    padding-left: ${rem(30)};
+    color: ${ ({theme}) => theme.textColor};
+    font-weight: bold;
+    padding-left: ${rem(24)};
+    position: relative;
+    cursor: pointer;
 
     &::before {
+        content: '';
         width: ${rem(16)};
         height: ${rem(16)};
-        background-color: ${props => props.$checked ? props.theme.filterCheck : props.theme.general.purple};
-        background-image: ${props => props.$checked ? `url(${checkmark})` : ''};
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-`
+        display: block;
+        background-color: ${props => props.$checked ? props.theme.general.purple : props.theme.filterCheck};
+        position: absolute;
+        top: 0;
+        left: ${rem(-3)};
+
+        ${props => props.$checked ? svgBgCheckmarkMixin : '0'};
+    };
+` as React.FC<CustomHTMLButtonElement>;
 
 export const FilterButton = styled.button<{ $flexArgs: FlexMixinInterface}>`
     background-color: inherit;

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FilterWrapper, FilterButton, FilterList, FilterText, FilterListItem, ListItemButton } from '../styledComponents/FilterStyled';
 import Icon from "../Icon/Icon";
 import { useGlobalContext } from './ContextWrapper';
 import { useTheme } from "styled-components";
+import { FilterUnionType } from '../interfaces/globalContextInt';
 
 
 export default function Filter() {
@@ -13,8 +14,13 @@ export default function Filter() {
     // open / closed list
     const [isOpen, setIsOpen] = useState(false);
 
-    // filter listItems managing
-    
+    // filter event handling
+    function handleFilterButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
+        const target = e.currentTarget;
+        const filterType = target.getAttribute('data-filtertype') as FilterUnionType;
+
+        handleFilterChange(filterType);
+    }
 
     return (
         <FilterWrapper>
@@ -37,7 +43,7 @@ export default function Filter() {
             </FilterButton>
 
             {isOpen && 
-            <FilterList
+            (<FilterList
                 $flexArgs={{
                     direction: 'column',
                     justify: 'space-evenly',
@@ -48,22 +54,25 @@ export default function Filter() {
                 <FilterListItem>
                     <ListItemButton
                         $checked={filterStatus.draft}
-                        type='draft'    
+                        data-filtertype='draft'
+                        onClick={handleFilterButtonClick}    
                     >Draft</ListItemButton>
                 </FilterListItem>
                 <FilterListItem>
                     <ListItemButton
                         $checked={filterStatus.pending}
-                        type='pending'
+                        data-filtertype='pending'
+                        onClick={handleFilterButtonClick}
                     >Pending</ListItemButton>
                 </FilterListItem>
                 <FilterListItem>
                     <ListItemButton
                         $checked={filterStatus.paid}
-                        type='paid'
+                        data-filtertype='paid'
+                        onClick={handleFilterButtonClick}
                     >Paid</ListItemButton>
                 </FilterListItem>
-            </FilterList>}
+            </FilterList>)}
         </FilterWrapper>
     )
 }

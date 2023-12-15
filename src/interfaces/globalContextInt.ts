@@ -1,4 +1,10 @@
+import React from "react";
+
+// generic helper types
 type VoidFuncType = () => void;
+
+// filter stuff
+export type FilterUnionType = 'pending' | 'draft' | 'paid';
 
 export type FilterStatusType = {
     all: boolean,
@@ -7,14 +13,16 @@ export type FilterStatusType = {
     paid: boolean,
 };
 
-export interface CustomHTMLButtonElement extends HTMLButtonElement {
-    filterType: 'pending' | 'draft' | 'paid';
+export interface CustomHTMLButtonElement extends React.ComponentPropsWithoutRef<"button"> {
+    'data-filtertype': FilterUnionType; 
     $checked: boolean;
 };
 
-type FilterHandleType = (e: React.MouseEvent<CustomHTMLButtonElement>) => void;
+export type FilterEventType = React.MouseEvent<CustomHTMLButtonElement>; 
 
+type FilterHandleType = (filterType: FilterUnionType) => void;
 
+// globalContext interface
 export default interface GlobalContextInt {
     theme: "light" | "dark";
     toggleTheme: VoidFuncType;

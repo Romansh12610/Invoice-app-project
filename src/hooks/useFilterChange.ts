@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CustomHTMLButtonElement } from '../interfaces/globalContextInt';
+import { FilterUnionType } from '../interfaces/globalContextInt';
 import { FilterStatusType } from '../interfaces/globalContextInt';
 
 const useFilterChange = () => {
@@ -10,8 +10,7 @@ const useFilterChange = () => {
         paid: false,
     });
 
-    const handleFilterChange = (e: React.MouseEvent<CustomHTMLButtonElement>) => {
-        const { filterType } = e.currentTarget;
+    const handleFilterChange = (filterType: FilterUnionType) => {
 
         setFilterStatus((prevStatus: FilterStatusType) => {
             const newObject = {...prevStatus};
@@ -33,7 +32,7 @@ const useFilterChange = () => {
                 all: true,
             }));
         }
-    }
+    };
 
     return [filterStatus, handleFilterChange] as const;
 }
