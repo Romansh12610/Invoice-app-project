@@ -3,7 +3,7 @@ import { createFlexMixin } from "./GlobalStyles";
 import FlexMixinInterface from "../interfaces/flexMixin";
 import { CustomizableTextItem } from "../shared/typographyStyles";
 import FontPropsInterface from "../interfaces/fontProps";
-import rem from "../utilities/PxIntoRem";
+import rem from "../utilities/pxIntoRem";
 import ButtonDefault from "../shared/buttons";
 import { JustifyType } from "../shared/buttons";
 import { svgBackgroundMixin } from "../styledComponents/GlobalStyles";

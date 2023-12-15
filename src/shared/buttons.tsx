@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import rem from "../utilities/PxIntoRem";
+import rem from "../utilities/pxIntoRem";
 
 export type JustifyType = 'space-between' | 'space-evenly' | 'space-around' | 'flex-start' | 'flex-end'
 

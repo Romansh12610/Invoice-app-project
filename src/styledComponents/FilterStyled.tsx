@@ -3,7 +3,7 @@ import FlexMixinInterface from "../interfaces/flexMixin";
 import FontPropsInterface from "../interfaces/fontProps";
 import { CustomizableTextItem } from "../shared/typographyStyles";
 import { createFlexMixin } from "./GlobalStyles";
-import rem from "../utilities/PxIntoRem";
+import rem from "../utilities/pxIntoRem";
 import { motion } from 'framer-motion';
 import checkmark from '../assets/icon-check.svg';
 import { CustomHTMLButtonElement } from "../interfaces/globalContextInt";

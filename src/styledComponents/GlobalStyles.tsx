@@ -2,7 +2,7 @@ import { createGlobalStyle, css } from 'styled-components';
 import ThemeInterface from '../interfaces/styled';
 import FlexMixinInterface from '../interfaces/flexMixin';
 import FontMixinInterface from '../interfaces/fontMixin';
-import rem from '../utilities/PxIntoRem';
+import rem from '../utilities/pxIntoRem';
 
 export const styleTheme: {
     light: ThemeInterface,

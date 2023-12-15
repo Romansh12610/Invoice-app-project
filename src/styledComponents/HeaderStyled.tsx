@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import rem from "../utilities/PxIntoRem";
+import rem from "../utilities/pxIntoRem";
 import logo from '../assets/logo.svg';
 import avatar from '../assets/image-avatar.jpg';
 import { Link } from "react-router-dom";
