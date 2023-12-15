@@ -9,9 +9,13 @@ export const styleTheme: {
     dark: ThemeInterface,
 } = {
     light: {
-        bgColor: '#f9f9fb',
+        bgColor: '#e6e6e6',
         textColor: '#0d0e17',
         textColorSecondary: '#888eaf',
+        itemBg: '#fff',
+        itemBgSecondary: '#e6e6e6',
+        filterListBg: '#fff', 
+        filterCheck: '#cfcdcd',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -30,6 +34,10 @@ export const styleTheme: {
         bgColor: '#141624',
         textColor: '#fff',
         textColorSecondary: '#fff',
+        itemBg: '#2c325c',
+        itemBgSecondary: '#3f4785',
+        filterListBg: '#3f4785',
+        filterCheck: '#20233b', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',

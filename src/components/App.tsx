@@ -3,7 +3,7 @@ import 'normalize.css';
 import ContextWrapper from './ContextWrapper';
 import Layout from './Layout';
 import Invoices from './Invoices';
-import InvoiceView from './InvoiceView';
+import InvoiceInfo from './InvoiceInfo';
 
 
 export default function App() {
@@ -12,7 +12,7 @@ export default function App() {
 			<Routes>
 				<Route element={<Layout />}>
 					<Route path='/' element={<Invoices />} />
-					<Route path='/:invoiceId' element={<InvoiceView />} />
+					<Route path='/:invoiceId' element={<InvoiceInfo />} />
 				</Route>
 			</Routes>
 		</ContextWrapper>

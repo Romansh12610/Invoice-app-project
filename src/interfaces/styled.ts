@@ -2,6 +2,10 @@ export default interface ThemeInterface {
     bgColor: string;
     textColor: string;
     textColorSecondary: string;
+    itemBg: string;
+    itemBgSecondary: string;
+    filterListBg: string;
+    filterCheck: string;
     general: {
         iconColor: string;
         purple: string;
