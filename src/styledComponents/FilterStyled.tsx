@@ -53,9 +53,17 @@ export const ListItemButton = styled.button<CustomHTMLButtonElement>`
         position: absolute;
         top: 0;
         left: ${rem(-3)};
-
+        border: ${rem(2)} solid transparent;
+        border-radius: ${rem(5)};
         ${props => props.$checked ? svgBgCheckmarkMixin : '0'};
+        transition: all 300ms ease-in-out;
     };
+
+    &:hover {
+        &::before {
+            border: ${rem(2)} solid ${ ({theme}) => theme.general.purple};
+        }
+    }
 ` as React.FC<CustomHTMLButtonElement>;
 
 export const FilterButton = styled.button<{ $flexArgs: FlexMixinInterface}>`

@@ -10,6 +10,7 @@ const useFilterChange = () => {
         paid: false,
     });
 
+    // event handler on checkbox
     const handleFilterChange = (filterType: FilterUnionType) => {
 
         setFilterStatus((prevStatus: FilterStatusType) => {
