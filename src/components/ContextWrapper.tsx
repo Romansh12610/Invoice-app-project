@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import useThemeToggle from '../hooks/useThemeToggle';
 import GlobalContextInt from '../interfaces/globalContextInt';
 import useFilterChange from '../hooks/useFilterChange';
+import useManageInvoices from '../hooks/useManageInvoices';
 
 const mobileWidthCondition = "(max-width: 768px)";
 
@@ -31,10 +32,12 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 		}
 	});
 
-	// hooks
+	// take global values from hooks
     const [theme, toggleTheme] = useThemeToggle();
-
 	const [filterStatus, handleFilterChange] = useFilterChange();
+	const {
+		currentInvoiceList
+	} = useManageInvoices();
 
     return (
 		<AppContext.Provider value={{
@@ -43,7 +46,7 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 			filterStatus,
 			handleFilterChange,
 			orientation: isMobile ? "mobile" : "desktop",
-			
+			currentInvoiceList,
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>

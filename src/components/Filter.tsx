@@ -4,7 +4,8 @@ import Icon from "../Icon/Icon";
 import { useGlobalContext } from './ContextWrapper';
 import { useTheme } from "styled-components";
 import { FilterUnionType } from '../interfaces/globalContextInt';
-
+import { motion } from 'framer-motion';
+import { filterListVariants, filterItemVariants } from '../utilities/animationVariants';
 
 export default function Filter() {
 
@@ -41,38 +42,48 @@ export default function Filter() {
                     color={colorTheme.general.purple}
                 />
             </FilterButton>
-
-            {isOpen && 
-            (<FilterList
+            <FilterList
+                as={motion.ul}
+                animate={isOpen ? 'visible' : 'hidden'}
+                variants={filterListVariants}
                 $flexArgs={{
                     direction: 'column',
                     justify: 'space-evenly',
                     alignItems: 'flex-start',
-                    gap: '15'
+                    gap: '8'
                 }}
             >    
-                <FilterListItem>
+                <FilterListItem
+                    as={motion.li}
+                    variants={filterItemVariants}
+                >
                     <ListItemButton
                         $checked={filterStatus.draft}
                         data-filtertype='draft'
                         onClick={handleFilterButtonClick}    
                     >Draft</ListItemButton>
                 </FilterListItem>
-                <FilterListItem>
+                <FilterListItem
+                    as={motion.li}
+                    variants={filterItemVariants}
+                >
                     <ListItemButton
                         $checked={filterStatus.pending}
                         data-filtertype='pending'
                         onClick={handleFilterButtonClick}
                     >Pending</ListItemButton>
                 </FilterListItem>
-                <FilterListItem>
+                <FilterListItem
+                    as={motion.li}
+                    variants={filterItemVariants}
+                >
                     <ListItemButton
                         $checked={filterStatus.paid}
                         data-filtertype='paid'
                         onClick={handleFilterButtonClick}
                     >Paid</ListItemButton>
                 </FilterListItem>
-            </FilterList>)}
+            </FilterList>
         </FilterWrapper>
     )
 }
