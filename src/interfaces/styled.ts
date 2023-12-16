@@ -2,21 +2,22 @@ export default interface ThemeInterface {
     bgColor: string;
     textColor: string;
     textColorSecondary: string;
-    itemBg: string;
-    itemBgSecondary: string;
     filterListBg: string;
     filterCheck: string;
+    invoiceBg: string;
+    invoiceBgSecondary: string;
     general: {
         iconColor: string;
         purple: string;
         purpleLight: string;
-        green: string;
+        greenBg: string;
         greenLight: string;
         headerBg: string;
-        orange: string;
+        orangeBg: string;
         orangeLight: string;
-        grayishBlue: string;
+        gray: string;
         white: string;
         black: string;
+        uidHash: string;
     }
 }

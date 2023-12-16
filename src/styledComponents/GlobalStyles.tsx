@@ -12,44 +12,46 @@ export const styleTheme: {
         bgColor: '#e6e6e6',
         textColor: '#0d0e17',
         textColorSecondary: '#888eaf',
-        itemBg: '#fff',
-        itemBgSecondary: '#e6e6e6',
         filterListBg: '#fff', 
         filterCheck: '#cfcdcd',
+        invoiceBg: '#fff',
+        invoiceBgSecondary: '#e6e6e6',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
             purpleLight: '#b9a7ff',
-            green: '#33d7a0',
-            greenLight: '#b3ffd9',
+            greenBg: '#79ffbc6e', 
+            greenLight: '#33d7a0',
             headerBg: '#1e2139',
-            orange: '#ff9100',
-            orangeLight: '#ffe2ad',
-            grayishBlue: '#909eeb',
+            orangeBg: '#ffb9379b',
+            orangeLight: '#ff9100',
+            gray: '#9191916f',
             white: '#fff',
             black: '#000',
+            uidHash: '#8283c0',
         }
     },
     dark: {
         bgColor: '#141624',
         textColor: '#fff',
         textColorSecondary: '#fff',
-        itemBg: '#2c325c',
-        itemBgSecondary: '#3f4785',
         filterListBg: '#3f4785',
-        filterCheck: '#20233b', 
+        filterCheck: '#20233b',
+        invoiceBg: '#2c325c',
+        invoiceBgSecondary: '#3f4785', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
             purpleLight: '#b9a7ff',
-            green: '#33d7a0',
-            greenLight: '#b3ffd9',
+            greenBg: '#79ffbc6e', 
+            greenLight: '#33d7a0',
             headerBg: '#1e2139',
-            orange: '#ff9100',
-            orangeLight: '#ffe2ad',
-            grayishBlue: '#909eeb',
+            orangeBg: '#ffb9379b',
+            orangeLight: '#ff9100',
+            gray: '#9191916f',
             white: '#fff',
             black: '#000',
+            uidHash: '#8283c0',
         }
     }
 };
@@ -80,6 +82,7 @@ export const createFlexMixin = ($flexArgs: FlexMixinInterface) => css`
     justify-content: ${$flexArgs.justify ? $flexArgs.justify : 'flex-start'};
     align-items: ${$flexArgs.alignItems ? $flexArgs.alignItems : 'flex-start'};
     align-content: ${$flexArgs.alignContent ? $flexArgs.alignContent : 'flex-start'};
+    gap: ${$flexArgs.gap ? $flexArgs.gap : '0'}px;
 `
 
 export const createFontMixin = (fontArgs: FontMixinInterface) => css`

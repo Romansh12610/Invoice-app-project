@@ -1,4 +1,5 @@
 import React from "react";
+import Invoices from '../data/data.json';
 
 // generic helper types
 type VoidFuncType = () => void;
@@ -22,6 +23,10 @@ export type FilterEventType = React.MouseEvent<CustomHTMLButtonElement>;
 
 type FilterHandleType = (filterType: FilterUnionType) => void;
 
+//invoice types
+type InvoiceList = typeof Invoices;
+
+
 // globalContext interface
 export default interface GlobalContextInt {
     theme: "light" | "dark";
@@ -29,4 +34,5 @@ export default interface GlobalContextInt {
     filterStatus: FilterStatusType;
     handleFilterChange: FilterHandleType;
     orientation: "mobile" | "desktop";
+    currentInvoiceList: InvoiceList;
 }
