@@ -4,28 +4,23 @@ import Invoices from '../data/data.json';
 // generic helper types
 type VoidFuncType = () => void;
 
-// filter stuff
-export type FilterUnionType = 'pending' | 'draft' | 'paid';
-
-export type FilterStatusType = {
-    all: boolean,
-    draft: boolean,
-    pending: boolean,
-    paid: boolean,
-};
+// filter types
+export type FilterActiveType = 'paid' | 'pending' | 'draft';
+export type FilterStatusType = 'all' | FilterActiveType;
 
 export interface CustomHTMLButtonElement extends React.ComponentPropsWithoutRef<"button"> {
-    'data-filtertype': FilterUnionType; 
+    'data-filtertype': FilterStatusType; 
     $checked: boolean;
 };
 
 export type FilterEventType = React.MouseEvent<CustomHTMLButtonElement>; 
 
-type FilterHandleType = (filterType: FilterUnionType) => void;
+type FilterHandleType = (filterType: FilterStatusType) => void;
 
 //invoice types
-type InvoiceList = typeof Invoices;
+export type InvoiceListType = typeof Invoices;
 
+export type InvoiceListSetterType = React.Dispatch<React.SetStateAction<InvoiceListType>>
 
 // globalContext interface
 export default interface GlobalContextInt {
@@ -34,5 +29,6 @@ export default interface GlobalContextInt {
     filterStatus: FilterStatusType;
     handleFilterChange: FilterHandleType;
     orientation: "mobile" | "desktop";
-    currentInvoiceList: InvoiceList;
+    currentInvoiceList: InvoiceListType;
+    setCurrentInvoiceList: InvoiceListSetterType;
 }

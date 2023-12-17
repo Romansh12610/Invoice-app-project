@@ -13,6 +13,7 @@ export default interface ThemeInterface {
         greenBg: string;
         greenLight: string;
         headerBg: string;
+        headerBorder: string;
         orangeBg: string;
         orangeLight: string;
         gray: string;
