@@ -18,7 +18,7 @@ export const MainContainer = styled.main<{ $flexArgs: FlexMixinInterface }>`
 
 export const HeadingWrapper = styled.div<{$flexArgs: FlexMixinInterface}>`
     ${props => createFlexMixin(props.$flexArgs)};
-    margin-block: ${rem(40)};
+    margin-block: ${rem(25)};
     width: 100%;
 `;
 

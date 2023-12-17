@@ -1,6 +1,9 @@
 import { InvoiceUl, InvoiceDate, InvoiceLink, InvoiceListItem, InvoiceName, InvoicePrice, InvoiceUid, SpanUid } from "../styledComponents/invoiceListStyled";
 import { StyledLabel } from "../shared/colorLabels";
 import { useGlobalContext } from "./ContextWrapper";
+import capitalizeFirstLetter from "../utilities/capitalizeFirstLetter";
+import convertDateFromString from "../utilities/convertDate";
+import formatPrice from "../utilities/formatPrice";
 
 
 const InvoiceList = () => {
@@ -12,17 +15,17 @@ const InvoiceList = () => {
         <InvoiceListItem key={invoice.id}>
             <InvoiceLink to={`/${invoice.id}`}>
                 <InvoiceUid
-                    $size='medium'
+                    $size='small'
                     $weight='bold'
                     $letterSpacing='thin'
                     $lineHeight='medium'
                 ><SpanUid>#</SpanUid>{invoice.id}</InvoiceUid>
                 <InvoiceDate
-                    $size='medium'
+                    $size='small'
                     $weight='thin'
-                >{invoice.paymentDue}</InvoiceDate>
+                >{convertDateFromString(invoice.paymentDue)}</InvoiceDate>
                 <InvoiceName
-                    $size='medium'
+                    $size='small'
                     $weight='thin'
                 >{invoice.clientName}</InvoiceName>
                 <InvoicePrice
@@ -30,11 +33,13 @@ const InvoiceList = () => {
                     $weight='bold'
                     $letterSpacing='thin'
                     $lineHeight='high'
-                >{invoice.total}</InvoicePrice>
+                >&#163; {formatPrice(invoice.total)}</InvoicePrice>
                 <StyledLabel
+                    $gridArea="status"
+                    $justifySelf="end"
                     $color={invoice.status === 'paid' ? 'green' :
                             invoice.status === 'pending' ? 'orange' : 'gray'}       
-                >{invoice.status}</StyledLabel>
+                >{capitalizeFirstLetter(invoice.status)}</StyledLabel>
             </InvoiceLink>
         </InvoiceListItem>
     ));
