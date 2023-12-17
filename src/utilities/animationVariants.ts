@@ -1,13 +1,14 @@
 // filter
+import { Variants } from "framer-motion";
 
-export const filterListVariants = {
+export const filterListVariants: Variants = {
     visible: {
         clipPath: "inset(0% 0% 0% 0% round 10px)",
         transition: {
             type: 'spring',
             duration: 0.6,
-            delayChildren: 0.2,
-            staggerChildren: 0.4,
+            delayChildren: 0.3,
+            staggerChildren: 0.2,
         }
     },
     hidden: {
@@ -21,15 +22,16 @@ export const filterListVariants = {
     }
 };
 
-export const filterItemVariants = {
+export const filterItemVariants: Variants = {
     visible: {
         opacity: 1,
         y: 0,
         transition: {
             type: 'spring',
-            stiffness: 200,
-            damping: 24,
-            duration: 0.8
+            stiffness: 300,
+            bounce: 0.5,
+            damping: 15,
+            duration: 0.5
         }
     },
     hidden: {
@@ -40,7 +42,8 @@ export const filterItemVariants = {
                 duration: 0.15
             },
             y: {
-                duration: 0.3
+                duration: 0.3,
+                stiffness: 200
             }
         }
     }
