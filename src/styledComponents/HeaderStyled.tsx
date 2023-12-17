@@ -58,7 +58,7 @@ export const AvatarWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 1px solid ${ ({ theme }) => theme.general.grayishBlue};
+    border-left: 1px solid ${ ({ theme }) => theme.general.gray};
     height: 100%;
     width: clamp(${rem(85)}, 10.5vw, ${rem(150)});
     position: relative;

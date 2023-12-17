@@ -2,16 +2,16 @@ import { createFontMixin } from "../styledComponents/GlobalStyles";
 import { styled } from "styled-components";
 import FontPropsInterface from "../interfaces/fontProps";
 
-type WeightsType = '500' | '600' | '700';
+type WeightsType = '300' | '400' | '700';
 
 const fontMapping = {
     size: {
-        small: 16,
+        small: 17,
         medium: 18,
         large: 22,
     },
     weight: {
-        thin: '200',
+        thin: '300',
         medium: '400',
         bold: '700'
     },

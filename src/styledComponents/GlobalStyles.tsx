@@ -13,17 +13,18 @@ export const styleTheme: {
         textColor: '#0d0e17',
         textColorSecondary: '#888eaf',
         filterListBg: '#fff', 
-        filterCheck: '#cfcdcd',
+        filterCheck: '#e0e4fa',
         invoiceBg: '#fff',
         invoiceBgSecondary: '#e6e6e6',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
             purpleLight: '#b9a7ff',
-            greenBg: '#79ffbc6e', 
+            greenBg: '#79ffbc24', 
             greenLight: '#33d7a0',
             headerBg: '#1e2139',
-            orangeBg: '#ffb9379b',
+            headerBorder: '#181d3a',
+            orangeBg: '#ffb93724',
             orangeLight: '#ff9100',
             gray: '#9191916f',
             white: '#fff',
@@ -36,17 +37,18 @@ export const styleTheme: {
         textColor: '#fff',
         textColorSecondary: '#fff',
         filterListBg: '#3f4785',
-        filterCheck: '#20233b',
-        invoiceBg: '#2c325c',
+        filterCheck: '#181d3a',
+        invoiceBg: '#212542',
         invoiceBgSecondary: '#3f4785', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
             purpleLight: '#b9a7ff',
-            greenBg: '#79ffbc6e', 
+            greenBg: '#79ffbc24', 
             greenLight: '#33d7a0',
             headerBg: '#1e2139',
-            orangeBg: '#ffb9379b',
+            headerBorder: '#181d3a',
+            orangeBg: '#ffb93724',
             orangeLight: '#ff9100',
             gray: '#9191916f',
             white: '#fff',
@@ -62,6 +64,10 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
         padding: 0;
     };
 
+    a {
+        text-decoration: none;
+    }
+
     button {
         border: none;
     }
@@ -72,7 +78,7 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
         background-color: ${ ({ $isDark }) => $isDark ? styleTheme.dark.bgColor : styleTheme.light.bgColor};
         color: ${ ({ $isDark }) => $isDark ? styleTheme.dark.textColor : styleTheme.light.textColor};
 
-        transition: all 400ms ease-in;
+        transition: all 300ms ease-in;
     }
 `;
 
@@ -90,6 +96,7 @@ export const createFontMixin = (fontArgs: FontMixinInterface) => css`
     font-weight: ${fontArgs.$weight};
     letter-spacing: ${fontArgs.$letterSpacing ? `${fontArgs.$letterSpacing}px` : 'normal'};
     line-height: ${fontArgs.$lineHeight ? fontArgs.$lineHeight : '1'};
+    transition: color 300ms ease-in-out;
 `;
 
 export const svgBackgroundMixin = (svgUrl: string, pos: 'right' | 'left' | 'center' = 'center', pxFormat: boolean = false, rounded: boolean = false, bgContain: 'auto' | 'contain' = 'contain') => css`
