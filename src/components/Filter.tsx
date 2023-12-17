@@ -3,7 +3,7 @@ import { FilterWrapper, FilterButton, FilterList, FilterText, FilterListItem, Li
 import Icon from "../Icon/Icon";
 import { useGlobalContext } from './ContextWrapper';
 import { useTheme } from "styled-components";
-import { FilterUnionType } from '../interfaces/globalContextInt';
+import { FilterActiveType } from '../interfaces/globalContextInt';
 import { motion } from 'framer-motion';
 import { filterListVariants, filterItemVariants } from '../utilities/animationVariants';
 
@@ -18,7 +18,7 @@ export default function Filter() {
     // filter event handling
     function handleFilterButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
         const target = e.currentTarget;
-        const filterType = target.getAttribute('data-filtertype') as FilterUnionType;
+        const filterType = target.getAttribute('data-filtertype') as FilterActiveType;
 
         handleFilterChange(filterType);
     }
@@ -44,6 +44,7 @@ export default function Filter() {
             </FilterButton>
             <FilterList
                 as={motion.ul}
+                initial={false}
                 animate={isOpen ? 'visible' : 'hidden'}
                 variants={filterListVariants}
                 $flexArgs={{
@@ -58,7 +59,7 @@ export default function Filter() {
                     variants={filterItemVariants}
                 >
                     <ListItemButton
-                        $checked={filterStatus.draft}
+                        $checked={filterStatus === 'draft'}
                         data-filtertype='draft'
                         onClick={handleFilterButtonClick}    
                     >Draft</ListItemButton>
@@ -68,7 +69,7 @@ export default function Filter() {
                     variants={filterItemVariants}
                 >
                     <ListItemButton
-                        $checked={filterStatus.pending}
+                        $checked={filterStatus === 'pending'}
                         data-filtertype='pending'
                         onClick={handleFilterButtonClick}
                     >Pending</ListItemButton>
@@ -78,7 +79,7 @@ export default function Filter() {
                     variants={filterItemVariants}
                 >
                     <ListItemButton
-                        $checked={filterStatus.paid}
+                        $checked={filterStatus === 'paid'}
                         data-filtertype='paid'
                         onClick={handleFilterButtonClick}
                     >Paid</ListItemButton>

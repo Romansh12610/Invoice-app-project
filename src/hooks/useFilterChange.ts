@@ -1,39 +1,47 @@
-import { useState } from 'react';
-import { FilterUnionType } from '../interfaces/globalContextInt';
-import { FilterStatusType } from '../interfaces/globalContextInt';
+import { useState, useEffect } from 'react';
+import { FilterStatusType, FilterActiveType, InvoiceListSetterType } from '../interfaces/globalContextInt';
+import { useGlobalContext } from '../components/ContextWrapper';
 
 const useFilterChange = () => {
-    const [filterStatus, setFilterStatus] = useState({
-        all: true,
-        pending: false,
-        draft: false,
-        paid: false,
-    });
+
+    // global context imports
+    const context = useGlobalContext();
+    let setCurrentInvoiceList: InvoiceListSetterType;
+    
+    if (context !== null) {
+        setCurrentInvoiceList = context.setCurrentInvoiceList; // not working
+    };
+
+    // filter status types
+    const [filterStatus, setFilterStatus] = useState<FilterStatusType>('all');
 
     // event handler on checkbox
-    const handleFilterChange = (filterType: FilterUnionType) => {
-
-        setFilterStatus((prevStatus: FilterStatusType) => {
-            const newObject = {...prevStatus};
-            
-            for (const key of Object.keys(newObject) as (keyof FilterStatusType)[]) {
-                if (key === filterType) {
-                    newObject[key] = !prevStatus[filterType];
-                    continue;
+    const handleFilterChange = (filterType: FilterActiveType) => {
+        setFilterStatus(prevStatus => {
+            if (prevStatus === 'all') {
+                return filterType;
+            } 
+            else {
+                if (filterType === prevStatus) {
+                    return 'all';
                 }
-                newObject[key] = false;
+                else {
+                    return filterType;
+                }
             }
-
-            return newObject;
-        });
-
-        if (!filterStatus.all && !filterStatus.draft && !filterStatus.pending && !filterStatus.paid) {
-            setFilterStatus(prevStatus => ({
-                ...prevStatus,
-                all: true,
-            }));
-        }
+        })
     };
+
+    // effect runs each time 'filterStatus' changes
+    useEffect(() => {
+        console.log(setCurrentInvoiceList == null);
+        if (!setCurrentInvoiceList) return;
+
+        setCurrentInvoiceList(prevList => prevList.filter(invoice => {
+            return invoice.status === filterStatus;
+        }));
+
+    }, [filterStatus]);
 
     return [filterStatus, handleFilterChange] as const;
 }

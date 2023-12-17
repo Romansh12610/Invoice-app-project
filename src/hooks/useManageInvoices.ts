@@ -1,14 +1,17 @@
 import initialInvoices from '../data/data.json';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 
 const useManageInvoices = () => {
-    
+
+    // global context
+
+    // states
     const [currentInvoiceList, setCurrentInvoiceList] = useState(initialInvoices);
-    
     
     return {
         currentInvoiceList,
+        setCurrentInvoiceList
     }
 };
 
