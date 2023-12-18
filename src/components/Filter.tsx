@@ -1,27 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FilterWrapper, FilterButton, FilterList, FilterText, FilterListItem, ListItemButton } from '../styledComponents/FilterStyled';
 import Icon from "../Icon/Icon";
 import { useGlobalContext } from './ContextWrapper';
 import { useTheme } from "styled-components";
-import { FilterActiveType } from '../interfaces/globalContextInt';
+import { FilterActiveType } from '../interfaces/filterTypes';
 import { motion } from 'framer-motion';
-import { filterListVariants, filterItemVariants } from '../utilities/animationVariants';
+import { filterListVariants, filterItemVariants } from '../utilities/filterVariants';
 
 export default function Filter() {
 
-    const { orientation, filterStatus, handleFilterChange } = useGlobalContext();
+    const { orientation, filterStatus, setFilterStatus, dispatchInvoices } = useGlobalContext();
     const colorTheme = useTheme();
 
     // open / closed list
     const [isOpen, setIsOpen] = useState(false);
 
-    // filter event handling
+    // event handler on filterType change
     function handleFilterButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
         const target = e.currentTarget;
-        const filterType = target.getAttribute('data-filtertype') as FilterActiveType;
+        const currFilterStatus = target.getAttribute('data-filterstatus') as FilterActiveType;
 
-        handleFilterChange(filterType);
+        // set new filter type
+        setFilterStatus(prevFilterStatus => {
+            if (prevFilterStatus !== currFilterStatus) {
+                return currFilterStatus;
+            } else {
+                return 'all';
+            }
+        });
     }
+
+    useEffect(() => {
+        dispatchInvoices({
+            type: 'filter',
+            payload: {
+                filterStatus,
+            }
+        });
+    }, [filterStatus]);
 
     return (
         <FilterWrapper>
@@ -40,6 +56,10 @@ export default function Filter() {
                     name="arrow-down"
                     size={11}
                     color={colorTheme.general.purple}
+                    customStyle={{
+                        transform: isOpen ? 'rotate(180deg)' : '',
+                        transition: 'transform 250ms ease-in-out'
+                    }}
                 />
             </FilterButton>
             <FilterList
@@ -60,7 +80,7 @@ export default function Filter() {
                 >
                     <ListItemButton
                         $checked={filterStatus === 'draft'}
-                        data-filtertype='draft'
+                        data-filterstatus='draft'
                         onClick={handleFilterButtonClick}    
                     >Draft</ListItemButton>
                 </FilterListItem>
@@ -70,7 +90,7 @@ export default function Filter() {
                 >
                     <ListItemButton
                         $checked={filterStatus === 'pending'}
-                        data-filtertype='pending'
+                        data-filterstatus='pending'
                         onClick={handleFilterButtonClick}
                     >Pending</ListItemButton>
                 </FilterListItem>
@@ -80,7 +100,7 @@ export default function Filter() {
                 >
                     <ListItemButton
                         $checked={filterStatus === 'paid'}
-                        data-filtertype='paid'
+                        data-filterstatus='paid'
                         onClick={handleFilterButtonClick}
                     >Paid</ListItemButton>
                 </FilterListItem>

@@ -1,18 +1,29 @@
 import { InvoiceUl, InvoiceDate, InvoiceLink, InvoiceListItem, InvoiceName, InvoicePrice, InvoiceUid, SpanUid } from "../styledComponents/invoiceListStyled";
 import { StyledLabel } from "../shared/colorLabels";
 import { useGlobalContext } from "./ContextWrapper";
+// utility
 import capitalizeFirstLetter from "../utilities/capitalizeFirstLetter";
 import convertDateFromString from "../utilities/convertDate";
 import formatPrice from "../utilities/formatPrice";
+// animation
+import { AnimatePresence } from "framer-motion";
+import { invoiceListVariants, invoiceItemVariants } from "../utilities/invoiceListVariants";
+import { motion } from "framer-motion";
 
 
 const InvoiceList = () => {
     
-    const { currentInvoiceList } = useGlobalContext();
+    const { invoices } = useGlobalContext();
 
     // rendering invoices
-    const renderingList = currentInvoiceList.map(invoice => (
-        <InvoiceListItem key={invoice.id}>
+    const renderingList = invoices.map(invoice => (
+        <InvoiceListItem key={invoice.id}
+            layout
+            initial='initial'
+            animate='animate'
+            exit='exit'
+            variants={invoiceItemVariants}
+        >
             <InvoiceLink to={`/${invoice.id}`}>
                 <InvoiceUid
                     $size='small'
@@ -50,8 +61,16 @@ const InvoiceList = () => {
                 direction: 'column',
                 gap: '20'
             }}
+            as={motion.ul}
+            initial='initial'
+            animate='animate'
+            variants={
+                invoiceListVariants
+            }
         >
-            {renderingList}
+            <AnimatePresence mode="popLayout" initial={false}>
+                {renderingList}
+            </AnimatePresence>
         </InvoiceUl>
     )
 }
