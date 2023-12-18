@@ -7,7 +7,7 @@ export const StyledLabel = styled.div<{ $color: LabelColors, $gridArea: string, 
     color: ${({ theme, $color }) => (
         $color === 'green' ? theme.general.greenLight :
         $color === 'orange' ? theme.general.orangeLight :
-        theme.general.gray
+        theme.general.white
     )};
 
     background-color: ${({ theme, $color }) => (
@@ -40,7 +40,7 @@ export const StyledLabel = styled.div<{ $color: LabelColors, $gridArea: string, 
         background-color: ${({ theme, $color }) => (
             $color === 'green' ? theme.general.greenLight :
             $color === 'orange' ? theme.general.orangeLight :
-            theme.general.gray
+            theme.general.white
         )};
     }
 `

@@ -8,15 +8,16 @@ import ButtonDefault from "../shared/buttons";
 import { JustifyType } from "../shared/buttons";
 import { svgBackgroundMixin } from "../styledComponents/GlobalStyles";
 import plusIcon from '../assets/icon-plus.svg';
+import { motion } from "framer-motion";
 
 
-export const MainContainer = styled.main<{ $flexArgs: FlexMixinInterface }>`
+export const MainContainer = styled(motion.main)<{ $flexArgs: FlexMixinInterface }>`
     ${props => createFlexMixin(props.$flexArgs)};
     min-height: 100vh;
     margin-inline: 5svw;
 `;
 
-export const HeadingWrapper = styled.div<{$flexArgs: FlexMixinInterface}>`
+export const HeadingWrapper = styled(motion.div)<{$flexArgs: FlexMixinInterface}>`
     ${props => createFlexMixin(props.$flexArgs)};
     margin-block: ${rem(25)};
     width: 100%;

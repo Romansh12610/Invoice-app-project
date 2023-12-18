@@ -6,7 +6,7 @@ import { createFlexMixin } from "./GlobalStyles";
 import rem from "../utilities/pxIntoRem";
 import { motion } from 'framer-motion';
 import checkmark from '../assets/icon-check.svg';
-import { CustomHTMLButtonElement } from "../interfaces/globalContextInt";
+import { CustomHTMLButtonElement } from "../interfaces/filterTypes";
 
 export const FilterWrapper = styled.div`
     margin-left: auto;
@@ -25,6 +25,7 @@ export const FilterList = styled(motion.ul)<{ $flexArgs: FlexMixinInterface }>`
     width: clamp(${rem(80)}, 10vw, ${rem(150)});
     padding: ${rem(15)};
     border-radius: ${rem(10)};
+    z-index: 100;
 `;
 
 export const FilterListItem = styled(motion.li)`
