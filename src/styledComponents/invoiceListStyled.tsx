@@ -34,6 +34,13 @@ export const InvoiceLink = styled(Link)<LinkProps>`
                             'price . status';
     align-items: center;
     row-gap: ${rem(5)};
+
+    // hover doesn't working
+    border: ${rem(2)} solid transparent;
+    &::hover {
+        border: ${rem(2)} solid ${({theme}) => theme.general.purple};
+
+    }
 `;
 
 export const InvoiceUid = styled(CustomizableTextItem)`
