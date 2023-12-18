@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import useThemeToggle from '../hooks/useThemeToggle';
 import GlobalContextInt from '../interfaces/globalContextInt';
-import useFilterChange from '../hooks/useFilterChange';
+import useFilterStatus from '../hooks/useFilterChange';
 import useManageInvoices from '../hooks/useManageInvoices';
 
 const mobileWidthCondition = "(max-width: 768px)";
@@ -13,7 +13,7 @@ const AppContext = React.createContext<GlobalContextInt | null>(null);
 
 export default function ContextWrapper({ children }: { children: React.JSX.Element}) {
 
-	// defining and listening for device orientation
+	// device orientation
 	const [isMobile, setIsMobile] = useState(
 		window.matchMedia(mobileWidthCondition).matches
 	)
@@ -30,14 +30,14 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 			window.matchMedia(mobileWidthCondition)
 				.removeEventListener('change', checkCondition)
 		}
-	});
+	}, [isMobile]);
 
 	// take global values from hooks
     const [theme, toggleTheme] = useThemeToggle();
-	const [filterStatus, handleFilterChange] = useFilterChange();
+	const [filterStatus, setFilterStatus] = useFilterStatus();
 	const {
-		currentInvoiceList,
-		setCurrentInvoiceList
+		invoices,
+		dispatchInvoices,
 	} = useManageInvoices();
 
     return (
@@ -45,10 +45,10 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 			theme,
 			toggleTheme,
 			filterStatus,
-			handleFilterChange,
+			setFilterStatus,
 			orientation: isMobile ? "mobile" : "desktop",
-			currentInvoiceList,
-			setCurrentInvoiceList,
+			invoices,
+			dispatchInvoices,
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>

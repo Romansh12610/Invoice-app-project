@@ -2,6 +2,7 @@ import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrap
 import Filter from "./Filter";
 import { useGlobalContext } from "./ContextWrapper";
 import InvoiceList from "./InvoiceList";
+import { headerVariants } from "../utilities/mainContentVariants";
 
 
 export default function Main() {
@@ -9,15 +10,21 @@ export default function Main() {
     const { orientation } = useGlobalContext();
 
     return (
-        <MainContainer $flexArgs={{
-            direction: 'column',
-            alignItems: 'center',
-        }}>
+        <MainContainer 
+            $flexArgs={{
+                direction: 'column',
+                alignItems: 'center',
+            }}
+            whileInView='animate'
+        >
             <HeadingWrapper
                 $flexArgs={{
                     justify: 'space-between',
                     alignItems: 'center'
                 }}
+                initial='initial'
+                animate='animate'
+                variants={headerVariants}
             >
                 <TitleWrapper
                     $flexArgs={{
@@ -42,8 +49,8 @@ export default function Main() {
                 </NewInvoiceButton>
             </HeadingWrapper>
             
+            {/* list of invoices */}
             <InvoiceList />
-
         </MainContainer>
     )
 }
