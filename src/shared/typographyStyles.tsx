@@ -6,9 +6,10 @@ type WeightsType = '300' | '400' | '700';
 
 const fontMapping = {
     size: {
+        tiny: 14,
         small: 17,
         medium: 18,
-        large: 22,
+        large: 21,
     },
     weight: {
         thin: '300',
@@ -22,8 +23,8 @@ const fontMapping = {
     },
     lineHeight: {
         low: '0.8',
-        medium: '1,2',
-        high: '1.4',
+        medium: '1.4',
+        high: '1.8',
     }
 }
 
