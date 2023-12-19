@@ -1,4 +1,4 @@
-import { InvoiceUl, InvoiceDate, InvoiceLink, InvoiceListItem, InvoiceName, InvoicePrice, InvoiceUid, SpanUid } from "../styledComponents/invoiceListStyled";
+import { InvoiceUl, InvoiceDate, InvoiceLink, InvoiceListItem, InvoiceName, InvoicePrice, InvoiceUid, SpanUid } from "../styledComponents/InvoiceListStyled";
 import { StyledLabel } from "../shared/colorLabels";
 import { useGlobalContext } from "./ContextWrapper";
 // utility
@@ -56,22 +56,25 @@ const InvoiceList = () => {
     ));
 
     return (
-        <InvoiceUl
-            $flexArgs={{
-                direction: 'column',
-                gap: '20'
-            }}
-            as={motion.ul}
-            initial='initial'
-            animate='animate'
-            variants={
-                invoiceListVariants
-            }
-        >
-            <AnimatePresence mode="popLayout" initial={false}>
-                {renderingList}
-            </AnimatePresence>
-        </InvoiceUl>
+        <AnimatePresence>
+            <InvoiceUl
+                $flexArgs={{
+                    direction: 'column',
+                    gap: '20'
+                }}
+                as={motion.ul}
+                initial='initial'
+                animate='animate'
+                exit='exit'
+                variants={
+                    invoiceListVariants
+                }
+            >
+                <AnimatePresence mode="popLayout" initial={false}>
+                    {renderingList}
+                </AnimatePresence>
+            </InvoiceUl>
+        </AnimatePresence>
     )
 }
 

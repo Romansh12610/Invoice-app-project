@@ -3,6 +3,7 @@ import Filter from "./Filter";
 import { useGlobalContext } from "./ContextWrapper";
 import InvoiceList from "./InvoiceList";
 import { headerVariants } from "../utilities/mainContentVariants";
+import { AnimatePresence } from "framer-motion";
 
 
 export default function Main() {
@@ -10,47 +11,51 @@ export default function Main() {
     const { orientation } = useGlobalContext();
 
     return (
-        <MainContainer 
-            $flexArgs={{
-                direction: 'column',
-                alignItems: 'center',
-            }}
-            whileInView='animate'
-        >
-            <HeadingWrapper
+        <AnimatePresence>
+            <MainContainer 
                 $flexArgs={{
-                    justify: 'space-between',
-                    alignItems: 'center'
+                    direction: 'column',
+                    alignItems: 'center',
                 }}
-                initial='initial'
-                animate='animate'
-                variants={headerVariants}
+                whileInView='animate'
+                exit='exit'
             >
-                <TitleWrapper
+                <HeadingWrapper
                     $flexArgs={{
-                        direction: 'column'
+                        justify: 'space-between',
+                        alignItems: 'center'
                     }}
+                    initial='initial'
+                    animate='animate'
+                    exit='exit'
+                    variants={headerVariants}
                 >
-                    <HeadingTitle>Invoices</HeadingTitle>
-                    <HeadingSubtitle
-                        $size="medium"
-                        $weight="thin"
-                    >{orientation === 'desktop' && 'There are'} X total invoices</HeadingSubtitle>
-                </TitleWrapper>
-                <Filter />
-                <NewInvoiceButton $justify="flex-end">
-                    <NewInvoiceText
-                        $size="small"
-                        $weight="bold"
-                        $letterSpacing="medium"
+                    <TitleWrapper
+                        $flexArgs={{
+                            direction: 'column'
+                        }}
                     >
-                        New {orientation === 'desktop' && 'Invoice'}
-                    </NewInvoiceText>
-                </NewInvoiceButton>
-            </HeadingWrapper>
-            
-            {/* list of invoices */}
-            <InvoiceList />
-        </MainContainer>
+                        <HeadingTitle>Invoices</HeadingTitle>
+                        <HeadingSubtitle
+                            $size="medium"
+                            $weight="thin"
+                        >{orientation === 'desktop' && 'There are'} X total invoices</HeadingSubtitle>
+                    </TitleWrapper>
+                    <Filter />
+                    <NewInvoiceButton $justify="flex-end">
+                        <NewInvoiceText
+                            $size="small"
+                            $weight="bold"
+                            $letterSpacing="medium"
+                        >
+                            New {orientation === 'desktop' && 'Invoice'}
+                        </NewInvoiceText>
+                    </NewInvoiceButton>
+                </HeadingWrapper>
+                
+                {/* list of invoices */}
+                <InvoiceList />
+            </MainContainer>
+        </AnimatePresence>
     )
 }
