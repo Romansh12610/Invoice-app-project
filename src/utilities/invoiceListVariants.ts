@@ -14,7 +14,17 @@ export const invoiceListVariants: Variants = {
             stiffness: 100,
             bounce: 0.3,
             damping: 13,
-            delayChildren: 2
+        }
+    },
+    exit: {
+        opacity: [1, 0.3, 0],
+        y: [0, 250, 500],
+        transition: {
+            type: 'spring',
+            duration: 0.5,
+            stiffness: 100,
+            bounce: 0.3,
+            damping: 13,
         }
     }
 };

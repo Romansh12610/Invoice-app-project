@@ -6,6 +6,7 @@ export default interface ThemeInterface {
     filterCheck: string;
     invoiceBg: string;
     invoiceBgSecondary: string;
+    totalBlockBg: string;
     general: {
         iconColor: string;
         purple: string;
