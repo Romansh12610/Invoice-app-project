@@ -26,6 +26,8 @@ export const FilterList = styled(motion.ul)<{ $flexArgs: FlexMixinInterface }>`
     padding: ${rem(15)};
     border-radius: ${rem(10)};
     z-index: 100;
+    border: ${rem(4)} solid ${({theme}) => theme.textColor};
+    transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 `;
 
 export const FilterListItem = styled(motion.li)`

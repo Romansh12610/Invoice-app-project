@@ -1,9 +1,9 @@
 import { styled } from "styled-components";
 import rem from "../utilities/pxIntoRem";
 
-type LabelColors = 'green' | 'orange' | 'gray';
+export type LabelColorsType = 'green' | 'orange' | 'gray';
 
-export const StyledLabel = styled.div<{ $color: LabelColors, $gridArea: string, $justifySelf?: string }>`
+export const StyledLabel = styled.div<{ $color: LabelColorsType, $gridArea?: string, $justifySelf?: string }>`
     color: ${({ theme, $color }) => (
         $color === 'green' ? theme.general.greenLight :
         $color === 'orange' ? theme.general.orangeLight :
@@ -26,7 +26,7 @@ export const StyledLabel = styled.div<{ $color: LabelColors, $gridArea: string, 
     align-items: center;
     gap: ${rem(5)};
     border-radius: ${rem(8)};
-    grid-area: ${({$gridArea}) => $gridArea};
+    grid-area: ${({$gridArea}) => $gridArea ?? ''};
     position: relative;
     font-weight: bold;
 

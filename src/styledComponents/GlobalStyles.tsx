@@ -16,6 +16,7 @@ export const styleTheme: {
         filterCheck: '#e0e4fa',
         invoiceBg: '#fff',
         invoiceBgSecondary: '#e6e6e6',
+        totalBlockBg: '#373b53',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -38,8 +39,9 @@ export const styleTheme: {
         textColorSecondary: '#fff',
         filterListBg: '#3f4785',
         filterCheck: '#181d3a',
-        invoiceBg: '#212542',
-        invoiceBgSecondary: '#3f4785', 
+        invoiceBg: '#1f223b',
+        invoiceBgSecondary: '#2d3155',
+        totalBlockBg: '#0d0e17', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
