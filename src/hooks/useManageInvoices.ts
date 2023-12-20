@@ -1,7 +1,7 @@
 import initialInvoices from '../data/data.json';
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useState } from 'react';
 import InvoiceReducer from '../reducer/reducer';
-import { InvoiceListType } from '../interfaces/invoiceTypes';
+import { InvoiceListType, InitialInvoiceInterface, InitialItemsInterface, AddressInterface } from '../interfaces/invoiceTypes';
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage = () => {
@@ -12,22 +12,58 @@ const postInvoicesToLocalStorage = (invoices: InvoiceListType) => {
     localStorage.setItem('invoices', JSON.stringify(invoices));
 };
 
+// initial state containers
+const initialAddress: AddressInterface = {
+    street: '',
+    city: '',
+    postCode: '',
+    country: '',
+};
+
+const initialItems: InitialItemsInterface = {
+    name: '',
+    quantity: 0,
+    price: 0,
+    total: 0,
+};
+
+const initialInvoice: InitialInvoiceInterface = {
+    name: '',
+    email: '',
+    description: '',
+    userAddress: initialAddress,
+    clientAddress: initialAddress,
+    invoiceDate: new Date(),
+    paymentDue: '30',
+    items: [],
+    total: 0,
+};
+
 // initial state - to retrieve than filterType === 'all' 
-export const initialState = getInvoicesFromLocalStorage() && initialInvoices;
+export const initialState = {
+    invoices: getInvoicesFromLocalStorage() && initialInvoices,
+    isFormOpen: false,
+    isInvoiceEdited: false,
+    isModalOpen: false,
+};
 
 const useManageInvoices = () => {
 
     // reducer
-    const [invoices, dispatchInvoices] = (useReducer as any)(InvoiceReducer, initialState);
+    const [globalState, dispatchAction] = (useReducer as any)(InvoiceReducer, initialState);
+    const [invoice, setInvoice] = useState(initialInvoice);
+
 
     // everyTime state changes - reset in localStorage
     useEffect(() => {
-        postInvoicesToLocalStorage(invoices);
-    }, [invoices]);
+        postInvoicesToLocalStorage(globalState.invoices);
+    }, [globalState.invoices]);
     
     return {
-        invoices,
-        dispatchInvoices
+        globalState,
+        dispatchAction,
+        invoice,
+        setInvoice
     }
 };
 
