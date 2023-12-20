@@ -4,6 +4,14 @@ import { InvoiceListType, InvoiceListDispatchType } from "./invoiceTypes";
 // generic helper types
 type VoidFuncType = () => void;
 
+// global state interface
+export interface GlobalStateInterface {
+    invoices: InvoiceListType;
+    isFormOpen: boolean;
+    isInvoiceEdited: boolean;
+    isModalOpen: boolean;
+}
+
 
 // globalContext interface
 export default interface GlobalContextInt {
@@ -12,6 +20,6 @@ export default interface GlobalContextInt {
     filterStatus: FilterStatusType;
     setFilterStatus: FilterStatusSetterType;
     orientation: "mobile" | "desktop";
-    invoices: InvoiceListType;
-    dispatchInvoices: InvoiceListDispatchType;
+    globalState: GlobalStateInterface;
+    dispatchAction: InvoiceListDispatchType;
 }

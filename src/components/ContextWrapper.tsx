@@ -36,8 +36,8 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
     const [theme, toggleTheme] = useThemeToggle();
 	const [filterStatus, setFilterStatus] = useFilterStatus();
 	const {
-		invoices,
-		dispatchInvoices,
+		globalState,
+		dispatchAction,
 	} = useManageInvoices();
 
     return (
@@ -47,8 +47,8 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 			filterStatus,
 			setFilterStatus,
 			orientation: isMobile ? "mobile" : "desktop",
-			invoices,
-			dispatchInvoices,
+			globalState,
+			dispatchAction,
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>

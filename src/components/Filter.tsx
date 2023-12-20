@@ -9,7 +9,7 @@ import { filterListVariants, filterItemVariants } from '../utilities/filterVaria
 
 export default function Filter() {
 
-    const { orientation, filterStatus, setFilterStatus, dispatchInvoices } = useGlobalContext();
+    const { orientation, filterStatus, setFilterStatus, dispatchAction } = useGlobalContext();
     const colorTheme = useTheme();
 
     // open / closed list
@@ -31,7 +31,7 @@ export default function Filter() {
     }
 
     useEffect(() => {
-        dispatchInvoices({
+        dispatchAction({
             type: 'filter',
             payload: {
                 filterStatus,
