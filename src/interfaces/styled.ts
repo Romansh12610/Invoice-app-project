@@ -7,6 +7,8 @@ export default interface ThemeInterface {
     invoiceBg: string;
     invoiceBgSecondary: string;
     totalBlockBg: string;
+    editBtnBg: string;
+    editBtnColor: string;
     general: {
         iconColor: string;
         purple: string;
@@ -21,5 +23,7 @@ export default interface ThemeInterface {
         white: string;
         black: string;
         uidHash: string;
+        deleteBtnBg: string;
+        markBtnBg: string;
     }
 }

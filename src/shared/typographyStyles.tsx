@@ -6,7 +6,7 @@ type WeightsType = '300' | '400' | '700';
 
 const fontMapping = {
     size: {
-        tiny: 14,
+        tiny: 15,
         small: 17,
         medium: 18,
         large: 21,

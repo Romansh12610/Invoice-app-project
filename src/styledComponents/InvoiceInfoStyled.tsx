@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { createFlexMixin } from "./GlobalStyles";
 import FlexMixinInterface from "../interfaces/flexMixin";
 import { CustomizableTextItem } from "../shared/typographyStyles";
+import breakPointValues from "../utilities/breakpointMixins";
+import ButtonDefault from '../shared/buttons';
 
 export const MainSectionWrapper = styled.section`
     margin-top: ${rem(15)};
@@ -53,7 +55,6 @@ export const InfoSection = styled.article<{ $flexArgs: FlexMixinInterface }>`
 export const InfoWrapperPart = styled.div`
     background-color: inherit;
     display: grid;
-    // mobile - 2 cols
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, auto);
     grid-template-areas: 
@@ -65,6 +66,16 @@ export const InfoWrapperPart = styled.div`
     ;
     gap: ${rem(25)};
     margin-bottom: ${rem(35)};
+
+    @media (min-width: ${breakPointValues.up.small}) {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, auto);
+        grid-template-areas: 
+                'uid . addressFrom'
+                'date addressTo sentTo'
+                'paymentDue addressTo .'
+        ;
+    }
 `;
 
 // uid block 
@@ -87,6 +98,11 @@ export const DescriptionText = styled(CustomizableTextItem)`
 // address block
 export const AddressFromWrapper = styled.div`
     grid-area: addressFrom;
+
+    @media (min-width: ${breakPointValues.up.small}) {
+        justify-self: end;
+        text-align: right;
+    }
 `;
 
 export const StreetTextFrom = styled(CustomizableTextItem)`
@@ -158,6 +174,7 @@ export const ItemsWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
 `;
 
 export const ItemSingleWrapper = styled.div`
+    width: 100%;
     display: grid;
     grid-template-columns: auto 1fr auto;
     grid-auto-flow: row;
@@ -168,6 +185,7 @@ export const ItemSingleWrapper = styled.div`
     ;
     justify-content: start;
     align-items: center;
+    row-gap: ${rem(12.5)};
 `;
 
 export const ItemTitleText = styled(CustomizableTextItem)`
@@ -180,13 +198,16 @@ export const ItemPriceCountText = styled(CustomizableTextItem)`
     grid-area: quantity;
 `;
 
-export const ItemTotalPriceText = styled(CustomizableTextItem)`
+export const ItemPriceText = styled(CustomizableTextItem)`
     color: ${props => props.theme.textColor};
     grid-area: price;
+    justify-self: end;
+    text-align: right;
 `;
 
 // total block
 export const TotalWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
+    ${props => createFlexMixin(props.$flexArgs)};
     background-color: ${props => props.theme.totalBlockBg};
     width: 95%;
     border-bottom-left-radius: ${rem(10)};
@@ -196,6 +217,7 @@ export const TotalWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
 
 export const TotalText = styled(CustomizableTextItem)`
     color: ${props => props.theme.general.white};
+    padding-left: ${rem(25)};
 `;
 
 export const TotalPrice = styled.p`
@@ -203,3 +225,37 @@ export const TotalPrice = styled.p`
     font-weight: bold;
     color: ${props => props.theme.general.white};
 `;
+
+
+// footer (only mobile)
+export const FooterWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
+    ${props => createFlexMixin(props.$flexArgs)}
+    background-color: ${props => props.theme.invoiceBg};
+    margin-top: ${rem(40)};
+    padding-block: ${rem(15)};
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+`;
+
+export const EditBtn = styled(ButtonDefault)`
+    background-color: ${props => props.theme.editBtnBg};
+    color: ${props => props.theme.editBtnColor};
+    
+    @media (min-width: ${breakPointValues.up.medium}) {
+        margin-left: auto;
+    }
+`;
+
+
+export const DeleteBtn = styled(ButtonDefault)`
+    background-color: ${props => props.theme.general.deleteBtnBg};
+    color: #fff;
+`;
+
+
+export const MarkBtn = styled(ButtonDefault)`
+    background-color: ${props => props.theme.general.markBtnBg};
+    color: #fff;
+`

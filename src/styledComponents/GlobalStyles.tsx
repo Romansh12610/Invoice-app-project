@@ -17,6 +17,8 @@ export const styleTheme: {
         invoiceBg: '#fff',
         invoiceBgSecondary: '#e6e6e6',
         totalBlockBg: '#373b53',
+        editBtnBg: '#6573e0',
+        editBtnColor: '#dddddd',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -31,6 +33,8 @@ export const styleTheme: {
             white: '#fff',
             black: '#000',
             uidHash: '#8283c0',
+            deleteBtnBg: 'hsl(0,80%,63%)',
+            markBtnBg: '#7b5cfa',
         }
     },
     dark: {
@@ -41,7 +45,9 @@ export const styleTheme: {
         filterCheck: '#181d3a',
         invoiceBg: '#1f223b',
         invoiceBgSecondary: '#2d3155',
-        totalBlockBg: '#0d0e17', 
+        totalBlockBg: '#0d0e17',
+        editBtnBg: '#303b8d',
+        editBtnColor: '#e0e4fb', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -56,6 +62,8 @@ export const styleTheme: {
             white: '#fff',
             black: '#000',
             uidHash: '#8283c0',
+            deleteBtnBg: 'hsl(0,80%,63%)',
+            markBtnBg: '#7b5cfa',
         }
     }
 };
@@ -114,6 +122,5 @@ export const svgBackgroundMixin = (svgUrl: string, pos: 'right' | 'left' | 'cent
     background-size: ${bgContain};
     border-radius: ${rounded ? '50%' : ''};
 `;
-
 
 export default GlobalStyles;
