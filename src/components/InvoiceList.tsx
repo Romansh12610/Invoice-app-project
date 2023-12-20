@@ -13,7 +13,8 @@ import { motion } from "framer-motion";
 
 const InvoiceList = () => {
     
-    const { invoices } = useGlobalContext();
+    const { globalState } = useGlobalContext();
+    const { invoices } = globalState;
 
     // rendering invoices
     const renderingList = invoices.map(invoice => (
@@ -34,7 +35,7 @@ const InvoiceList = () => {
                 <InvoiceDate
                     $size='small'
                     $weight='thin'
-                >{convertDateFromString(invoice.paymentDue)}</InvoiceDate>
+                >{convertDateFromString(invoice.paymentDue, true)}</InvoiceDate>
                 <InvoiceName
                     $size='small'
                     $weight='thin'
