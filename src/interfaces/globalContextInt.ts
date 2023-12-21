@@ -1,5 +1,5 @@
 import { FilterStatusType, FilterStatusSetterType } from "./filterTypes";
-import { InvoiceListType, InvoiceListDispatchType } from "./invoiceTypes";
+import { InvoiceListType, InvoiceListDispatchType, InitialInvoiceInterface, setNewInvoiceType } from "./invoiceTypes";
 
 // generic helper types
 type VoidFuncType = () => void;
@@ -22,4 +22,6 @@ export default interface GlobalContextInt {
     orientation: "mobile" | "desktop";
     globalState: GlobalStateInterface;
     dispatchAction: InvoiceListDispatchType;
+    newInvoice: InitialInvoiceInterface,
+    setNewInvoice: setNewInvoiceType,
 }

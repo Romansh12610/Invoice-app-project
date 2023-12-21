@@ -1,36 +1,19 @@
 import GlobalStyles, { styleTheme } from '../styledComponents/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import useThemeToggle from '../hooks/useThemeToggle';
 import GlobalContextInt from '../interfaces/globalContextInt';
 import useFilterStatus from '../hooks/useFilterChange';
 import useManageInvoices from '../hooks/useManageInvoices';
-
-const mobileWidthCondition = "(max-width: 768px)";
+import useDeviceOrientation from '../hooks/useDeviceOrientation';
 
 const AppContext = React.createContext<GlobalContextInt | null>(null);
 
-export default function ContextWrapper({ children }: { children: React.JSX.Element}) {
+export default function ContextWrapper({ children }: { children: React.ReactNode }) {
 
 	// device orientation
-	const [isMobile, setIsMobile] = useState(
-		window.matchMedia(mobileWidthCondition).matches
-	)
-	
-	useEffect(() => {
-		function checkCondition() {
-			setIsMobile(window.matchMedia(mobileWidthCondition).matches);
-		}
-
-		window.matchMedia(mobileWidthCondition)
-			.addEventListener('change', checkCondition);
-
-		return () => {
-			window.matchMedia(mobileWidthCondition)
-				.removeEventListener('change', checkCondition)
-		}
-	}, [isMobile]);
+	const [isMobile] = useDeviceOrientation();
 
 	// take global values from hooks
     const [theme, toggleTheme] = useThemeToggle();
@@ -38,6 +21,8 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 	const {
 		globalState,
 		dispatchAction,
+		newInvoice,
+		setNewInvoice,
 	} = useManageInvoices();
 
     return (
@@ -49,6 +34,8 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 			orientation: isMobile ? "mobile" : "desktop",
 			globalState,
 			dispatchAction,
+			newInvoice,
+			setNewInvoice,
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>
@@ -57,10 +44,9 @@ export default function ContextWrapper({ children }: { children: React.JSX.Eleme
 				</BrowserRouter>
 			</ThemeProvider>
 		</AppContext.Provider>
-        
-    )
+    );
 }
 
 export const useGlobalContext = () => {
 	return React.useContext(AppContext) as GlobalContextInt;
-}
+};
