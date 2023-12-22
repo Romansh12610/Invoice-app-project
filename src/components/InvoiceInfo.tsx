@@ -1,15 +1,14 @@
 // styled components
-import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, GoBackLinkWrapper, GoBackLinkText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, ItemSingleWrapper, ItemTitleText, ItemPriceCountText, ItemPriceText, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../styledComponents/InvoiceInfoStyled';
+import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, ItemSingleWrapper, ItemTitleText, ItemPriceCountText, ItemPriceText, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../styledComponents/InvoiceInfoStyled';
 // helper components & types
 import { StyledLabel } from '../shared/colorLabels';
 import { useParams } from 'react-router-dom';
 import { useGlobalContext } from './ContextWrapper';
 import { LabelColorsType } from '../shared/colorLabels';
+import GoBackLink from '../shared/goBackLink';
 // utility functions
 import convertDateFromString from '../utilities/convertDate';
 import formatPrice from '../utilities/formatPrice';
-import Icon from '../Icon/Icon';
-import { useTheme } from 'styled-components';
 import buttonVariants from '../utilities/buttonVariants';
 
 
@@ -18,7 +17,6 @@ export default function InvoiceView() {
     const URLparams = useParams();
     const { globalState, orientation } = useGlobalContext();
     const { invoices } = globalState;
-    const colorTheme = useTheme();
 
     const currentInvoice = invoices.find(i => i.id === URLparams.invoiceId);
     const { status, id, description, clientEmail, clientName, items, total } = currentInvoice;
@@ -51,14 +49,7 @@ export default function InvoiceView() {
     return (
         <>
             <MainSectionWrapper>
-                <GoBackLinkWrapper to='/'>
-                    <Icon 
-                        name='arrow-left'
-                        size={11}
-                        color={colorTheme.general.purple}
-                    />
-                    <GoBackLinkText>Go back</GoBackLinkText>
-                </GoBackLinkWrapper>
+                <GoBackLink to='/' />
                 <StatusBarWrapper $flexArgs={{
                     justify: orientation === 'mobile' ? 'space-between'
                         : 'flex-start',

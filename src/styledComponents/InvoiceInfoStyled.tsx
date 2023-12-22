@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import rem from "../utilities/pxIntoRem";
-import { Link } from "react-router-dom";
 import { createFlexMixin } from "./GlobalStyles";
 import FlexMixinInterface from "../interfaces/flexMixin";
 import { CustomizableTextItem } from "../shared/typographyStyles";
@@ -12,27 +11,6 @@ export const MainSectionWrapper = styled.section`
     min-height: 100vh;
     width: 90svw;
     margin-inline: auto;
-`;
-
-export const GoBackLinkWrapper = styled(Link)`
-    font-size: ${rem(16)};
-    font-weight: bold;
-    color: ${({theme}) => theme.textColor};
-    display: block;
-    width: max-content;
-    margin-block: ${rem(20)};
-    border: 2px solid transparent;
-    border-radius: ${rem(15)};
-    padding: 0.5rem;
-    transition: border-color 250ms ease-in-out;
-
-    &:hover {
-        border: 2px solid ${({theme}) => theme.general.purple};
-    }
-`;
-
-export const GoBackLinkText = styled.span`
-    padding-left: ${rem(10)};
 `;
 
 export const StatusBarWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
