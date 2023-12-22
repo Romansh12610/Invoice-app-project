@@ -12,7 +12,6 @@ export interface GlobalStateInterface {
     isModalOpen: boolean;
 }
 
-
 // globalContext interface
 export default interface GlobalContextInt {
     theme: "light" | "dark";
