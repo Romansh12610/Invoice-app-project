@@ -19,6 +19,7 @@ export const styleTheme: {
         totalBlockBg: '#373b53',
         editBtnBg: '#6573e0',
         editBtnColor: '#dddddd',
+        formBg: '#e6e6e6',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -47,7 +48,8 @@ export const styleTheme: {
         invoiceBgSecondary: '#2d3155',
         totalBlockBg: '#0d0e17',
         editBtnBg: '#303b8d',
-        editBtnColor: '#e0e4fb', 
+        editBtnColor: '#e0e4fb',
+        formBg: '#131622', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -76,10 +78,22 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
 
     a {
         text-decoration: none;
-    }
+    };
 
     button {
         border: none;
+    };
+
+    fieldset {
+        border: none;
+    };
+
+    input:focus {
+        outline: none;
+    };
+
+    fieldset {
+        min-width: 0;
     }
 
     body {

@@ -8,7 +8,7 @@ export type InvoiceStatusType = 'draft' | 'pending' | 'paid';
 
 export type InvoiceListDispatchType = React.Dispatch<{
     type: string;
-    payload: {
+    payload?: {
         [ind: string]: string;
     }
 }>;
@@ -38,3 +38,5 @@ export interface InitialInvoiceInterface {
     items: Array<InitialItemsInterface>;
     total: number;
 }
+
+export type setNewInvoiceType = React.Dispatch<React.SetStateAction<InitialInvoiceInterface>>; 

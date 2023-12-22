@@ -13,8 +13,10 @@ type FocusTrapUpType = (e: KeyboardEvent, keySet: keySetType) => void;
 
 // functions
 export const closeModalIfOutsideClick: closeModalType = (e, modalRef, closeCallback) => {
-    const { currentTarget } = e;
-    if (currentTarget !== modalRef.current) {
+    e.stopPropagation();
+
+    const { target } = e;
+    if (target !== modalRef.current && !modalRef.current.contains(target as Node)) {
        closeCallback();
     } 
     else {
@@ -43,8 +45,6 @@ export const focusTrapKeyDown: FocusTrapDownType = (e, modalRef, closeCallback, 
         lastItem.focus();
         lastItem.scrollIntoView({
             behavior: 'smooth',
-            block: 'nearest',
-            inline: 'center'
         });
     }
 
@@ -53,8 +53,6 @@ export const focusTrapKeyDown: FocusTrapDownType = (e, modalRef, closeCallback, 
         firstItem.scrollIntoView(
             {
                 behavior: 'smooth',
-                block: 'start',
-                inline: 'center'
             }
         )
     }

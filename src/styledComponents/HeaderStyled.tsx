@@ -11,6 +11,7 @@ export const StyledHeader = styled.header`
     justify-content: space-between;
     align-items: center;
     height: clamp(${rem(70)}, 10.5vw, ${rem(80)});
+    z-index: 100;
 `;
 
 export const LogoLink = styled(Link)`

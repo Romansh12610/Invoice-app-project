@@ -1,6 +1,6 @@
 export default interface ReducerActions {
-    type: 'add' | 'filter' | 'delete';
-    payload: {
+    type: 'create' | 'filter' | 'delete' | 'openForm' | 'closeForm';
+    payload?: {
         [ind: string]: string;
     }
 };

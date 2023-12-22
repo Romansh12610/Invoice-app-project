@@ -9,6 +9,7 @@ export default interface ThemeInterface {
     totalBlockBg: string;
     editBtnBg: string;
     editBtnColor: string;
+    formBg: string;
     general: {
         iconColor: string;
         purple: string;

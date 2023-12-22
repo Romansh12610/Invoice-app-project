@@ -2,6 +2,7 @@ import { styled, useTheme } from "styled-components";
 import { Link } from "react-router-dom";
 import rem from "../utilities/pxIntoRem";
 import Icon from "../Icon/Icon";
+import { useGlobalContext } from "../components/ContextWrapper";
 
 interface goBackLinkInterface {
     to: string;
@@ -31,9 +32,17 @@ export const GoBackLinkText = styled.span`
 const GoBackLink = (props: goBackLinkInterface) => {
 
     const colorTheme = useTheme();
+    const { globalState, dispatchAction } = useGlobalContext();
+    const { isFormOpen } = globalState;
 
     return (
-        <GoBackLinkWrapper to={props.to}>
+        <GoBackLinkWrapper to={props.to}
+            onClick={() => {
+                if (isFormOpen) {
+                    dispatchAction({ type: 'closeForm' });
+                } 
+            }}
+        >
             <Icon 
                 name='arrow-left'
                 size={11}
