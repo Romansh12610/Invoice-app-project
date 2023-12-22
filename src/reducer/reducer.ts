@@ -5,6 +5,8 @@ import { initialState } from '../hooks/useManageInvoices';
 export default function InvoiceReducer(state: GlobalStateInterface, action: ReducerActions) {
 
     switch (action.type) {
+
+        // filter invoices
         case "filter": {
             const { filterStatus } = action.payload;
 
@@ -13,11 +15,31 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             }
 
             // always filter initial state
-            const newState = initialState.invoices.filter(invoice => {
-                return invoice.status === filterStatus;
-            });
+           const filteredInvoices = initialState.invoices.filter(i => i.status === filterStatus);
+
+           const newState = {
+                ...initialState,
+                invoices: filteredInvoices
+           };
 
             return newState;
+        }
+
+        // open and close form
+        case 'openForm': {
+
+            return {
+                ...state,
+                isFormOpen: true,
+            }
+        }
+
+        case 'closeForm': {
+
+            return {
+                ...state, 
+                isFormOpen: false,
+            }
         }
     }
 }

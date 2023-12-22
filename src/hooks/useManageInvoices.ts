@@ -2,6 +2,7 @@ import initialInvoices from '../data/data.json';
 import { useReducer, useEffect, useState } from 'react';
 import InvoiceReducer from '../reducer/reducer';
 import { InvoiceListType, InitialInvoiceInterface, InitialItemsInterface, AddressInterface } from '../interfaces/invoiceTypes';
+import { GlobalStateInterface } from '../interfaces/globalContextInt';
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage = () => {
@@ -40,8 +41,8 @@ const initialInvoice: InitialInvoiceInterface = {
 };
 
 // initial state - to retrieve than filterType === 'all' 
-export const initialState = {
-    invoices: getInvoicesFromLocalStorage() && initialInvoices,
+export const initialState: GlobalStateInterface = {
+    invoices: getInvoicesFromLocalStorage() || initialInvoices,
     isFormOpen: false,
     isInvoiceEdited: false,
     isModalOpen: false,
@@ -51,8 +52,7 @@ const useManageInvoices = () => {
 
     // reducer
     const [globalState, dispatchAction] = (useReducer as any)(InvoiceReducer, initialState);
-    const [invoice, setInvoice] = useState(initialInvoice);
-
+    const [newInvoice, setNewInvoice] = useState(initialInvoice);
 
     // everyTime state changes - reset in localStorage
     useEffect(() => {
@@ -62,8 +62,8 @@ const useManageInvoices = () => {
     return {
         globalState,
         dispatchAction,
-        invoice,
-        setInvoice
+        newInvoice,
+        setNewInvoice,
     }
 };
 

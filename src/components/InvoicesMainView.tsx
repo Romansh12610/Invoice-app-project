@@ -8,7 +8,16 @@ import { AnimatePresence } from "framer-motion";
 
 export default function Main() {
 
-    const { orientation } = useGlobalContext();
+    const { orientation, dispatchAction } = useGlobalContext();
+
+    // handler to open form
+    const handleFormOpen = (e: React.MouseEvent) => {
+        e.stopPropagation();
+
+        dispatchAction({
+            type: 'openForm',
+        });
+    };
 
     return (
         <AnimatePresence>
@@ -42,7 +51,10 @@ export default function Main() {
                         >{orientation === 'desktop' && 'There are'} X total invoices</HeadingSubtitle>
                     </TitleWrapper>
                     <Filter />
-                    <NewInvoiceButton $justify="flex-end">
+                    <NewInvoiceButton 
+                        $justify="flex-end"
+                        onClick={handleFormOpen}
+                    >
                         <NewInvoiceText
                             $size="small"
                             $weight="bold"
