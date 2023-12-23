@@ -28,15 +28,16 @@ export interface InitialItemsInterface {
 }
 
 export interface InitialInvoiceInterface {
-    name: string;
-    email: string;
-    userAddress: AddressInterface;
+    clientName: string;
+    clientEmail: string;
+    senderAddress: AddressInterface;
     clientAddress: AddressInterface;
-    invoiceDate: Date; 
+    createdAt: Date; 
     paymentDue: string;
     description: string;
     items: Array<InitialItemsInterface>;
     total: number;
+    paymentTerms: string;
 }
 
 export type setNewInvoiceType = React.Dispatch<React.SetStateAction<InitialInvoiceInterface>>; 
