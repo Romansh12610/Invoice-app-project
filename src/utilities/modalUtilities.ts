@@ -7,17 +7,17 @@ type closeModalType = (e: MouseEvent, modalRef: React.RefObject<HTMLElement>, cl
 
 export type keySetType = Set<'Tab' | 'Shift'>; 
 
-type FocusTrapDownType = (e: KeyboardEvent, modalRef: React.RefObject<HTMLFormElement | HTMLDivElement>, closeCallback: closeCallbackType, keySet: keySetType) => void;
+type FocusTrapDownType = (e: KeyboardEvent, backDropRef: React.RefObject<HTMLDivElement>, closeCallback: closeCallbackType, keySet: keySetType) => void;
 
 type FocusTrapUpType = (e: KeyboardEvent, keySet: keySetType) => void;
 
 // functions
-export const closeModalIfOutsideClick: closeModalType = (e, modalRef, closeCallback) => {
+export const closeModalIfOutsideClick: closeModalType = (e, backDropRef, closeCallback) => {
     e.stopPropagation();
 
     const { target } = e;
-    if (target !== modalRef.current && !modalRef.current.contains(target as Node)) {
-       closeCallback();
+    if (target === backDropRef.current) {
+        closeCallback();
     } 
     else {
         return;

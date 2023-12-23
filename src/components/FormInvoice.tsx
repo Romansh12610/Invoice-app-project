@@ -1,4 +1,4 @@
-import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet } from "../styledComponents/FormInvoiceStyled";
+import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper } from "../styledComponents/FormInvoiceStyled";
 import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
@@ -20,7 +20,6 @@ const FormController = () => {
     useEffect(() => {
         // prevent scroll when modal is active
         document.body.style.overflow = 'hidden';
-        console.log('is form open: ', isFormOpen);
 
         // focus trap
         const keySet: keySetType = new Set();
@@ -36,7 +35,7 @@ const FormController = () => {
         document.addEventListener('keyup', onKeyUp);
 
         // if click outside --> close modal
-        const handleOutsideClick = (e: MouseEvent) => closeModalIfOutsideClick(e, modalRef, closeFormCallback);
+        const handleOutsideClick = (e: MouseEvent) => closeModalIfOutsideClick(e, backdropRef, closeFormCallback);
         document.addEventListener('click', handleOutsideClick);
 
         return () => {
@@ -65,61 +64,65 @@ const FormController = () => {
                     {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
                 </Title>
                 <Form>
-                    <FieldSet $name='user-address'>
+                    <FieldSet $name='userAddress'>
                         <Legend>Bill from</Legend>
                         <InputLabelWrapper 
-                            gridArea="street"
                             labelText="StreetAddress"
+                            inputName="street"
                         />
-                        <InputLabelWrapper 
-                            gridArea="city"
-                            labelText="City"
-                        />
-                        <InputLabelWrapper 
-                            gridArea="postCode"
-                            labelText="Post Code"
-                        />
-                        <InputLabelWrapper 
-                            gridArea="country"
-                            labelText="Country"
-                        />
+                        <FlexWrapper>
+                            <InputLabelWrapper 
+                                labelText="City"
+                                inputName="city"
+                            />
+                            <InputLabelWrapper 
+                                labelText="Post Code"
+                                inputName="postCode"
+                            />
+                            <InputLabelWrapper 
+                                labelText="Country"
+                                inputName="country"
+                            />
+                        </FlexWrapper>
                     </FieldSet>
-                    <FieldSet $name="client-address">
+                    <FieldSet $name="clientAddress">
                         <Legend>Bill to</Legend>
                         <InputLabelWrapper 
-                            gridArea="name"
                             labelText="Client's Name"
+                            inputName="clientName"
                         />
                         <InputLabelWrapper 
-                            gridArea="email"
                             labelText="Client's email"
+                            inputName="clientEmail"
                         />
                         <InputLabelWrapper 
-                            gridArea="street"
                             labelText="Street Address"
+                            inputName="street"
                         />
-                        <InputLabelWrapper 
-                            gridArea="city"
-                            labelText="City"
-                        />
-                        <InputLabelWrapper 
-                            gridArea="postCode"
-                            labelText="Post Code"
-                        />
-                        <InputLabelWrapper 
-                            gridArea="country"
-                            labelText="Country"
-                        />
+                        <FlexWrapper>
+                            <InputLabelWrapper 
+                                labelText="City"
+                                inputName="city"
+                            />
+                            <InputLabelWrapper 
+                                labelText="Post Code"
+                                inputName="postCode"
+                            />
+                            <InputLabelWrapper 
+                                labelText="Country"
+                                inputName="country"
+                            />
+                        </FlexWrapper>
                     </FieldSet>
-                    <FieldSet $name='date-description'>
+                    <FieldSet $name='dateDescription'>
                         <InputLabelWrapper 
-                            gridArea="date"
                             labelText="Invoice Date"
+                            inputName="date"
                         />
                        // select + datePicker here //
                         <InputLabelWrapper 
-                            gridArea="description"
                             labelText="Project Description"
+                            inputName="description"
                         />
                     </FieldSet>
                     <ItemsFieldSet>
@@ -137,17 +140,25 @@ const FormController = () => {
 export default FormController;
 
 interface InputLabelWrapperProps {
-    gridArea: string;
     labelText: string;
+    inputName: string;
 }
 
 const InputLabelWrapper = (props: InputLabelWrapperProps) => {
     return (
-        <StyledInputLabelWrapper $gridArea={props.gridArea}>
+        <StyledInputLabelWrapper>
             <Label>{props.labelText}</Label>
             <Input 
-
+                name={props.inputName}
             />
         </StyledInputLabelWrapper>
     )
-}
+};
+
+const FlexWrapper = (props: { children: React.ReactNode }) => {
+    return (
+        <StyledFlexWrapper>
+            {props.children}
+        </StyledFlexWrapper>
+    )
+};
