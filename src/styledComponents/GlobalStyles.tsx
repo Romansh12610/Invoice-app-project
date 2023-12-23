@@ -9,7 +9,7 @@ export const styleTheme: {
     dark: ThemeInterface,
 } = {
     light: {
-        bgColor: '#e6e6e6',
+        bgColor: '#eeeeee',
         textColor: '#0d0e17',
         textColorSecondary: '#888eaf',
         filterListBg: '#fff', 
@@ -19,7 +19,8 @@ export const styleTheme: {
         totalBlockBg: '#373b53',
         editBtnBg: '#6573e0',
         editBtnColor: '#dddddd',
-        formBg: '#e6e6e6',
+        formBg: '#ffffff',
+        inputBorder: '#d0d5ff',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -49,7 +50,8 @@ export const styleTheme: {
         totalBlockBg: '#0d0e17',
         editBtnBg: '#303b8d',
         editBtnColor: '#e0e4fb',
-        formBg: '#131622', 
+        formBg: '#131622',
+        inputBorder: '#838bc2', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -101,6 +103,7 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
         font-family: 'League Spartan', sans-serif;
         background-color: ${ ({ $isDark }) => $isDark ? styleTheme.dark.bgColor : styleTheme.light.bgColor};
         color: ${ ({ $isDark }) => $isDark ? styleTheme.dark.textColor : styleTheme.light.textColor};
+        overflow-x: hidden;
 
         transition: all 300ms ease-in;
     }
