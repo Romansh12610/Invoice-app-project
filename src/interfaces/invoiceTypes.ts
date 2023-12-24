@@ -20,7 +20,7 @@ export interface AddressInterface {
     country: string;
 }
 
-export interface InitialItemsInterface {
+export interface InitialItemInterface {
     name: string;
     quantity: number;
     price: number;
@@ -35,9 +35,13 @@ export interface InitialInvoiceInterface {
     createdAt: Date; 
     paymentDue: string;
     description: string;
-    items: Array<InitialItemsInterface>;
+    items: Array<InitialItemInterface>;
     total: number;
     paymentTerms: string;
 }
 
 export type setNewInvoiceType = React.Dispatch<React.SetStateAction<InitialInvoiceInterface>>; 
+
+export type setAddressType = React.Dispatch<React.SetStateAction<AddressInterface>>;
+
+export type setItemsType = React.Dispatch<React.SetStateAction<InitialInvoiceInterface['items']>>;

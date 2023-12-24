@@ -46,12 +46,14 @@ export const CustomInput = forwardRef(({ isDisabled, value, onClick, color }: Cu
 
 const DatePicker = () => {
 
-    const { globalState, newInvoice } = useGlobalContext();
+    const { globalState, newInvoice, handleInvoiceChange } = useGlobalContext();
 
     return (
         <ReactDatePicker 
-            selected={new Date(newInvoice.invoiceDate)}
-            onChange={(date) => }
+            selected={new Date(newInvoice.createdAt)}
+            onChange={(date) => handleInvoiceChange(null, 'date', date)}
+            minDate={newInvoice.createdAt}
+            customInput={<CustomInput isDisabled={ globalState.isInvoiceEdited } />}
         />
     )
 }

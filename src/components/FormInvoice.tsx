@@ -5,6 +5,7 @@ import {createPortal} from 'react-dom';
 import GoBackLink from "../shared/goBackLink";
 import { useEffect, useRef } from 'react';
 import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
+import { HandleInvoiceChangeType } from "../hooks/useManageInvoices";
 
 
 const FormController = () => {
@@ -14,7 +15,7 @@ const FormController = () => {
     const backdropRef = useRef(null);
 
     const URLparams = useParams();
-    const { globalState, dispatchAction } = useGlobalContext();
+    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, items, handleInvoiceChange } = useGlobalContext();
     const { isInvoiceEdited, isFormOpen } = globalState;
 
     useEffect(() => {
@@ -69,19 +70,27 @@ const FormController = () => {
                         <InputLabelWrapper 
                             labelText="StreetAddress"
                             inputName="street"
+                            value={senderAddress.street}
+                            onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                         />
                         <FlexWrapper>
                             <InputLabelWrapper 
                                 labelText="City"
                                 inputName="city"
+                                value={senderAddress.city}
+                                onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Post Code"
                                 inputName="postCode"
+                                value={senderAddress.postCode}
+                                onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Country"
                                 inputName="country"
+                                value={senderAddress.country}
+                                onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                             />
                         </FlexWrapper>
                     </FieldSet>
@@ -90,39 +99,50 @@ const FormController = () => {
                         <InputLabelWrapper 
                             labelText="Client's Name"
                             inputName="clientName"
+                            value={newInvoice.clientName}
+                            onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
                         />
                         <InputLabelWrapper 
                             labelText="Client's email"
                             inputName="clientEmail"
+                            value={newInvoice.clientEmail}
+                            onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
                         />
                         <InputLabelWrapper 
                             labelText="Street Address"
                             inputName="street"
+                            value={clientAddress.street}
+                            onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                         />
                         <FlexWrapper>
                             <InputLabelWrapper 
                                 labelText="City"
                                 inputName="city"
+                                value={clientAddress.city}
+                                onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Post Code"
                                 inputName="postCode"
+                                value={clientAddress.postCode}
+                                onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Country"
                                 inputName="country"
+                                value={clientAddress.country}
+                                onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                             />
                         </FlexWrapper>
                     </FieldSet>
                     <FieldSet $name='dateDescription'>
-                        <InputLabelWrapper 
-                            labelText="Invoice Date"
-                            inputName="date"
-                        />
+                        
                        // select + datePicker here //
                         <InputLabelWrapper 
                             labelText="Project Description"
                             inputName="description"
+                            value={newInvoice.description}
+                            onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
                         />
                     </FieldSet>
                     <ItemsFieldSet>
@@ -142,6 +162,8 @@ export default FormController;
 interface InputLabelWrapperProps {
     labelText: string;
     inputName: string;
+    value: string;
+    onChange: HandleInvoiceChangeType;
 }
 
 const InputLabelWrapper = (props: InputLabelWrapperProps) => {
@@ -150,6 +172,8 @@ const InputLabelWrapper = (props: InputLabelWrapperProps) => {
             <Label>{props.labelText}</Label>
             <Input 
                 name={props.inputName}
+                value={props.value}
+                onChange={props.onChange}
             />
         </StyledInputLabelWrapper>
     )

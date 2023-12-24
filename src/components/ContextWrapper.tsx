@@ -22,7 +22,10 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 		globalState,
 		dispatchAction,
 		newInvoice,
-		setNewInvoice,
+		senderAddress,
+		clientAddress,
+		items,
+		handleInvoiceChange,
 	} = useManageInvoices();
 
     return (
@@ -35,7 +38,10 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 			globalState,
 			dispatchAction,
 			newInvoice,
-			setNewInvoice,
+			senderAddress,
+			clientAddress,
+			items,
+			handleInvoiceChange,
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>
