@@ -1,11 +1,11 @@
-import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper } from "../styledComponents/FormInvoiceStyled";
+import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, Select } from "../styledComponents/FormInvoiceStyled";
 import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
 import GoBackLink from "../shared/goBackLink";
 import { useEffect, useRef } from 'react';
 import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
-import { HandleInvoiceChangeType } from "../hooks/useManageInvoices";
+import { ChangeEventInputType, ChangeEventSelectType } from "../hooks/useManageInvoices";
 
 
 const FormController = () => {
@@ -163,7 +163,12 @@ interface InputLabelWrapperProps {
     labelText: string;
     inputName: string;
     value: string;
-    onChange: HandleInvoiceChangeType;
+    onChange: (e: ChangeEventInputType) => void;
+}
+
+interface SelectLabelWrapperProps {
+    labelText: string;
+    onChange: (e: ChangeEventSelectType) => void;
 }
 
 const InputLabelWrapper = (props: InputLabelWrapperProps) => {
@@ -178,6 +183,21 @@ const InputLabelWrapper = (props: InputLabelWrapperProps) => {
         </StyledInputLabelWrapper>
     )
 };
+
+const SelectLabelWrapper = (props: SelectLabelWrapperProps) => {
+    return (
+        <StyledInputLabelWrapper>
+            <Label>{props.labelText}</Label>
+            <Select>
+                // style option
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+                <option value=''></option>
+            </Select>
+        </StyledInputLabelWrapper>
+    )
+}
 
 const FlexWrapper = (props: { children: React.ReactNode }) => {
     return (
