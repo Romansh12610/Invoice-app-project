@@ -21,6 +21,7 @@ export const styleTheme: {
         editBtnColor: '#dddddd',
         formBg: '#ffffff',
         inputBorder: '#d0d5ff',
+        selectOptionBg: '#b2bbfa',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -51,7 +52,8 @@ export const styleTheme: {
         editBtnBg: '#303b8d',
         editBtnColor: '#e0e4fb',
         formBg: '#131622',
-        inputBorder: '#838bc2', 
+        inputBorder: '#838bc2',
+        selectOptionBg: '#4d57a3', 
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',

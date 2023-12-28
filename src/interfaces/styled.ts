@@ -11,6 +11,7 @@ export default interface ThemeInterface {
     editBtnColor: string;
     formBg: string;
     inputBorder: string;
+    selectOptionBg: string;
     general: {
         iconColor: string;
         purple: string;
