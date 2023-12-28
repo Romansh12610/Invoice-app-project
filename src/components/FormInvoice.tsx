@@ -1,12 +1,13 @@
-import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, Select } from "../styledComponents/FormInvoiceStyled";
+import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper } from "../styledComponents/FormInvoiceStyled";
+import DatePicker from "../styledComponents/DatePicker";
 import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
 import GoBackLink from "../shared/goBackLink";
 import { useEffect, useRef } from 'react';
 import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
-import { ChangeEventInputType, ChangeEventSelectType } from "../hooks/useManageInvoices";
-
+import { ChangeEventInputType } from "../hooks/useManageInvoices";
+import SelectLabel from "./Select";
 
 const FormController = () => {
 
@@ -136,8 +137,13 @@ const FormController = () => {
                         </FlexWrapper>
                     </FieldSet>
                     <FieldSet $name='dateDescription'>
-                        
-                       // select + datePicker here //
+                        <FlexWrapper>
+                            <InputLabelWrapper 
+                                labelText="Invoice Date"
+                                date
+                            />
+                            <SelectLabel labelText="Payment Terms"/>
+                        </FlexWrapper>
                         <InputLabelWrapper 
                             labelText="Project Description"
                             inputName="description"
@@ -147,7 +153,7 @@ const FormController = () => {
                     </FieldSet>
                     <ItemsFieldSet>
                         <Legend>Item List</Legend>
-
+    
                     </ItemsFieldSet>
                 </Form>
             </MainWrapper>
@@ -159,45 +165,33 @@ const FormController = () => {
 
 export default FormController;
 
+// types for helper components
 interface InputLabelWrapperProps {
     labelText: string;
-    inputName: string;
-    value: string;
-    onChange: (e: ChangeEventInputType) => void;
+    inputName?: string;
+    value?: string;
+    onChange?: (e: ChangeEventInputType) => void;
+    date?: true;
 }
 
-interface SelectLabelWrapperProps {
-    labelText: string;
-    onChange: (e: ChangeEventSelectType) => void;
-}
 
+// helper components
 const InputLabelWrapper = (props: InputLabelWrapperProps) => {
     return (
-        <StyledInputLabelWrapper>
+        <StyledInputLabelWrapper
+            $minWidth={props.date ? 270 : 140}
+        >
             <Label>{props.labelText}</Label>
-            <Input 
+            {props.date ? (
+                <DatePicker />
+            ) : (<Input 
                 name={props.inputName}
                 value={props.value}
                 onChange={props.onChange}
-            />
+            />)}
         </StyledInputLabelWrapper>
     )
 };
-
-const SelectLabelWrapper = (props: SelectLabelWrapperProps) => {
-    return (
-        <StyledInputLabelWrapper>
-            <Label>{props.labelText}</Label>
-            <Select>
-                // style option
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-                <option value=''></option>
-            </Select>
-        </StyledInputLabelWrapper>
-    )
-}
 
 const FlexWrapper = (props: { children: React.ReactNode }) => {
     return (
