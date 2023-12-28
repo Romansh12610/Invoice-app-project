@@ -3,7 +3,7 @@ import { StyledLabel } from "../shared/colorLabels";
 import { useGlobalContext } from "./ContextWrapper";
 // utility
 import capitalizeFirstLetter from "../utilities/capitalizeFirstLetter";
-import convertDateFromString from "../utilities/convertDate";
+import convertDateOutput from "../utilities/convertDateOutput";
 import formatPrice from "../utilities/formatPrice";
 // animation
 import { AnimatePresence } from "framer-motion";
@@ -35,7 +35,7 @@ const InvoiceList = () => {
                 <InvoiceDate
                     $size='small'
                     $weight='thin'
-                >{convertDateFromString(invoice.paymentDue, true)}</InvoiceDate>
+                >{convertDateOutput(invoice.paymentDue, true)}</InvoiceDate>
                 <InvoiceName
                     $size='small'
                     $weight='thin'

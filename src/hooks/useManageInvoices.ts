@@ -9,7 +9,11 @@ type RangeOfNames = 'clientName' | 'clientEmail' | 'street' | 'postCode' | 'coun
 
 type TypesOfEvents = 'newInvoice' | 'senderAddress' | 'clientAddress' | 'date' | 'items';
 
-export type HandleInvoiceChangeType = (e: React.ChangeEvent<HTMLInputElement & { name: RangeOfNames } | HTMLSelectElement & { name: RangeOfNames}> | null, type: TypesOfEvents, date?: Date) => void;
+export type ChangeEventInputType = React.ChangeEvent<HTMLInputElement & { name: RangeOfNames }>;
+
+export type ChangeEventSelectType = React.MouseEvent<HTMLButtonElement>;
+
+export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSelectType | false, type: TypesOfEvents, date?: Date) => void;
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage = () => {
@@ -82,10 +86,16 @@ const useManageInvoices = () => {
 
     // function to change new invoice (or edited)
     const handleInvoiceChange: HandleInvoiceChangeType = (e, type, date) => {
-        const { name, value }: {
-            name: RangeOfNames;
-            value: string;
-        } = e.currentTarget;
+        // setting date instantly:
+        if (e === false) {
+            setNewInvoice(i => ({
+                ...i,
+                createdAt: date
+            }));
+            return;
+        }
+
+        const { name, value } = e.currentTarget;
 
         // if paymentTerms --> update paymentDue
         switch (type) {
@@ -111,13 +121,6 @@ const useManageInvoices = () => {
                     [name]: value
                 }));
                 break;
-            }
-
-            case null: {
-                setNewInvoice(i => ({
-                    ...i,
-                    createdAt: 
-                }))
             }
         }
     }
