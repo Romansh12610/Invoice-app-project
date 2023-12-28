@@ -7,7 +7,7 @@ import { useGlobalContext } from './ContextWrapper';
 import { LabelColorsType } from '../shared/colorLabels';
 import GoBackLink from '../shared/goBackLink';
 // utility functions
-import convertDateFromString from '../utilities/convertDate';
+import convertDateFromString from '../utilities/convertDateOutput';
 import formatPrice from '../utilities/formatPrice';
 import buttonVariants from '../utilities/buttonVariants';
 
