@@ -21,7 +21,9 @@ export const styleTheme: {
         editBtnColor: '#dddddd',
         formBg: '#ffffff',
         inputBorder: '#d0d5ff',
-        selectOptionBg: '#b2bbfa',
+        selectOptionBg: '#c7cdfa',
+        selectOptBorder: '#000000',
+        selectOptHover: '',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -53,7 +55,9 @@ export const styleTheme: {
         editBtnColor: '#e0e4fb',
         formBg: '#131622',
         inputBorder: '#838bc2',
-        selectOptionBg: '#4d57a3', 
+        selectOptionBg: '#292f5a',
+        selectOptBorder: '#fff', 
+        selectOptHover: '#3d4abd',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -75,7 +79,7 @@ export const styleTheme: {
 };
 
 const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
-    h1, h2, h3, p {
+    *, *::before, *::after {
         margin: 0;
         padding: 0;
     };
@@ -98,7 +102,7 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
 
     fieldset {
         min-width: 0;
-    }
+    };
 
     body {
         min-height: 100vh;

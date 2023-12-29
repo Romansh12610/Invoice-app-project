@@ -12,6 +12,8 @@ export default interface ThemeInterface {
     formBg: string;
     inputBorder: string;
     selectOptionBg: string;
+    selectOptBorder: string;
+    selectOptHover: string;
     general: {
         iconColor: string;
         purple: string;
