@@ -1,13 +1,16 @@
-import { Select, SelectText, SelectOptionList, SelectOption, SelectOptionButton, Label, StyledInputLabelWrapper, StyledSelectWrapper } from '../styledComponents/FormInvoiceStyled';
+import { Select, SelectText, SelectOptionList, SelectOption, SelectOptionButton, Label, StyledInputLabelWrapper, StyledSelectWrapper, SelectOptionText } from '../styledComponents/FormInvoiceStyled';
 import { useGlobalContext } from './ContextWrapper';
 import Icon from '../Icon/Icon';
 import { useTheme } from 'styled-components';
-import React, { useState, useEffect, useRef } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { SelectItemVariants, SelectListVariants } from '../utilities/selectVariants';
 
 // types
+interface SelectWrapperProps {
+    children: React.ReactNode;
+}
+
 interface SelectLabelProps {
     labelText: string;
 } 
@@ -31,29 +34,33 @@ const SelectLabel = (props: SelectLabelProps) => {
     const colorTheme = useTheme();
 
     // list ref to handle outside clicks
-    const listRef = useRef<HTMLUListElement | null>(null);
-    const openBtnRef = useRef<HTMLButtonElement | null>(null);
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     // if click outside & isOpen => close
     useEffect(() => {
         const handleClickOutside: handleClickOutsideType = (e) => {
-            const target = e.target as HTMLElement;
-            if (isOpen && listRef.current && !listRef.current.contains(target) && !listRef.current.contains(openBtnRef.current)) {
+            const target = e.target as HTMLElement;          
+            if (dropdownRef.current && !dropdownRef.current.contains(target)) {
                 setIsOpen(false);
             }
         };
 
-        document.addEventListener('click', handleClickOutside);
+        document.addEventListener('click', handleClickOutside, true);
 
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('click', handleClickOutside, true);
         }
     }, []);
 
     // handle open list click
     const handleOpenListClick: handleOpenType = (e) => {
         e.preventDefault();
-        setIsOpen(prevOpen => !prevOpen);
+        if (!isOpen) {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
+            e.currentTarget.blur();
+        }
     };
 
     // handle selectOption click
@@ -66,12 +73,9 @@ const SelectLabel = (props: SelectLabelProps) => {
     return (
         <StyledInputLabelWrapper $minWidth={270}>
             <Label>{props.labelText}</Label>
-            <SelectWrapper>
+            <SelectWrapper ref={dropdownRef}>
                 <Select
-                    ref={openBtnRef}
-                    as={motion.button}
                     onClick={handleOpenListClick}
-                    animate={isOpen ? 'open' : 'closed'}
                     aria-label='Select payment terms'
                     aria-expanded={isOpen}
                     aria-controls='select-list'
@@ -87,39 +91,32 @@ const SelectLabel = (props: SelectLabelProps) => {
                         }}
                     />
                 </Select>
-                <AnimatePresence>
-                    {isOpen && (
-                        <SelectOptionList
-                            ref={listRef}
-                            as={motion.ul}
-                            id='select-list'
-                            initial={false}
-                            exit='closed'
-                            animate='open'
-                            variants={SelectListVariants}
-                        >
-                            <Option 
-                                paymentTerms='1' 
-                                handleClick={(e) => handleSelectOptionClick(e)}
-                                $top 
-                            />
-                            <Option 
-                                paymentTerms='7' 
-                                handleClick={(e) => handleSelectOptionClick(e)} 
-                            />
-                            <Option 
-                                paymentTerms='14' 
-                                handleClick={(e) => handleSelectOptionClick(e)} 
-                            />
-                            <Option 
-                                paymentTerms='30' 
-                                handleClick={(e) => handleSelectOptionClick(e)} 
-                                $bottom
-                            />
-                        </SelectOptionList>
-                    )}
-                
-                </AnimatePresence>
+                <SelectOptionList
+                    as={motion.ul}
+                    id='select-list'
+                    initial={false}
+                    animate={isOpen ? 'open' : 'closed'}
+                    variants={SelectListVariants}
+                >
+                    <Option 
+                        paymentTerms='1' 
+                        handleClick={(e) => handleSelectOptionClick(e)}
+                        $top 
+                    />
+                    <Option 
+                        paymentTerms='7' 
+                        handleClick={(e) => handleSelectOptionClick(e)} 
+                    />
+                    <Option 
+                        paymentTerms='14' 
+                        handleClick={(e) => handleSelectOptionClick(e)} 
+                    />
+                    <Option 
+                        paymentTerms='30' 
+                        handleClick={(e) => handleSelectOptionClick(e)} 
+                        $bottom
+                    />
+                </SelectOptionList>
             </SelectWrapper>
         </StyledInputLabelWrapper>
     )
@@ -132,9 +129,6 @@ const Option = (props: OptionProps) => {
         <SelectOption
             $top={props.$top ? true : false}
             $bottom={props.$bottom ? true : false}
-            initial={false}
-            animate='open'
-            exit='closed'
             variants={SelectItemVariants}
         >
             <SelectOptionButton
@@ -144,16 +138,20 @@ const Option = (props: OptionProps) => {
                 value={props.paymentTerms}
                 onClick={props.handleClick}
             >
-                Net {props.paymentTerms} days
+                <SelectOptionText>
+                    Net {props.paymentTerms} days
+                </SelectOptionText>
             </SelectOptionButton>
         </SelectOption>
     )
 };
 
-const SelectWrapper = ({ children }: { children: React.ReactNode}) => {
+const SelectWrapper = forwardRef<HTMLDivElement, SelectWrapperProps>(({ children }, ref) => {
     return (
-        <StyledSelectWrapper>{children}</StyledSelectWrapper>
+        <StyledSelectWrapper
+            ref={ref}
+        >{children}</StyledSelectWrapper>
     )
-}
+});
 
 export default SelectLabel;
