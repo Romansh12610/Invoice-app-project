@@ -1,4 +1,4 @@
-import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper } from "../styledComponents/FormInvoiceStyled";
+import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, TopWrapper } from "../styledComponents/FormInvoiceStyled";
 import DatePicker from "../styledComponents/DatePicker";
 import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
@@ -9,8 +9,8 @@ import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick 
 import { ChangeEventInputType } from "../hooks/useManageInvoices";
 import SelectLabel from "./Select";
 
-const FormController = () => {
 
+const FormController = () => {
     // refs for Backdrop and Form
     const modalRef = useRef(null);
     const backdropRef = useRef(null);
@@ -61,15 +61,18 @@ const FormController = () => {
                 role="dialog"
                 ref={modalRef}
             >
-                <GoBackLink to="/" />
-                <Title>
-                    {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
-                </Title>
+                <TopWrapper>
+                    <GoBackLink to="/" />
+                    <Title>
+                        {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
+                    </Title>
+                </TopWrapper>
                 <Form>
-                    <FieldSet $name='userAddress'>
+                    <FieldSet>
                         <Legend>Bill from</Legend>
                         <InputLabelWrapper 
-                            labelText="StreetAddress"
+                            labelText="Street Address"
+                            htmlForID="sender-street"
                             inputName="street"
                             value={senderAddress.street}
                             onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
@@ -78,40 +81,46 @@ const FormController = () => {
                             <InputLabelWrapper 
                                 labelText="City"
                                 inputName="city"
+                                htmlForID="sender-city"
                                 value={senderAddress.city}
                                 onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Post Code"
                                 inputName="postCode"
+                                htmlForID="sender-postcode"
                                 value={senderAddress.postCode}
                                 onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Country"
                                 inputName="country"
+                                htmlForID="sender-country"
                                 value={senderAddress.country}
                                 onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                             />
                         </FlexWrapper>
                     </FieldSet>
-                    <FieldSet $name="clientAddress">
+                    <FieldSet>
                         <Legend>Bill to</Legend>
                         <InputLabelWrapper 
                             labelText="Client's Name"
                             inputName="clientName"
+                            htmlForID="client-name"
                             value={newInvoice.clientName}
                             onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
                         />
                         <InputLabelWrapper 
                             labelText="Client's email"
                             inputName="clientEmail"
+                            htmlForID="client-email"
                             value={newInvoice.clientEmail}
                             onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
                         />
                         <InputLabelWrapper 
                             labelText="Street Address"
                             inputName="street"
+                            htmlForID="client-street"
                             value={clientAddress.street}
                             onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                         />
@@ -119,41 +128,49 @@ const FormController = () => {
                             <InputLabelWrapper 
                                 labelText="City"
                                 inputName="city"
+                                htmlForID="client-city"
                                 value={clientAddress.city}
                                 onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Post Code"
                                 inputName="postCode"
+                                htmlForID="client-postcode"
                                 value={clientAddress.postCode}
                                 onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                             />
                             <InputLabelWrapper 
                                 labelText="Country"
                                 inputName="country"
+                                htmlForID="client-country"
                                 value={clientAddress.country}
                                 onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                             />
                         </FlexWrapper>
                     </FieldSet>
-                    <FieldSet $name='dateDescription'>
+                    <FieldSet>
                         <FlexWrapper>
                             <InputLabelWrapper 
                                 labelText="Invoice Date"
                                 date
                             />
-                            <SelectLabel labelText="Payment Terms"/>
+                            <SelectLabel 
+                                labelText="Payment Terms" 
+                            />
                         </FlexWrapper>
                         <InputLabelWrapper 
                             labelText="Project Description"
                             inputName="description"
+                            htmlForID="description"
                             value={newInvoice.description}
                             onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
                         />
                     </FieldSet>
                     <ItemsFieldSet>
-                        <Legend>Item List</Legend>
-    
+                        <Legend $items>Item List</Legend>
+                        <FieldSet>
+                            {/* items */}
+                        </FieldSet>
                     </ItemsFieldSet>
                 </Form>
             </MainWrapper>
@@ -168,23 +185,28 @@ export default FormController;
 // types for helper components
 interface InputLabelWrapperProps {
     labelText: string;
+    htmlForID?: string;
     inputName?: string;
     value?: string;
     onChange?: (e: ChangeEventInputType) => void;
     date?: true;
+    quantity?: true;
+    price?: true;
 }
 
-
 // helper components
-const InputLabelWrapper = (props: InputLabelWrapperProps) => {
+export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
     return (
         <StyledInputLabelWrapper
-            $minWidth={props.date ? 270 : 140}
+            $minWidth={props.date ? 270 : props.quantity ? 60 : props.price ? 100 : 140}
         >
-            <Label>{props.labelText}</Label>
+            <Label
+                htmlFor={props.htmlForID}
+            >{props.labelText}</Label>
             {props.date ? (
                 <DatePicker />
-            ) : (<Input 
+            ) : (<Input
+                id={props.htmlForID} 
                 name={props.inputName}
                 value={props.value}
                 onChange={props.onChange}
@@ -193,7 +215,7 @@ const InputLabelWrapper = (props: InputLabelWrapperProps) => {
     )
 };
 
-const FlexWrapper = (props: { children: React.ReactNode }) => {
+export const FlexWrapper = (props: { children: React.ReactNode }) => {
     return (
         <StyledFlexWrapper>
             {props.children}
