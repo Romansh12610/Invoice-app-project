@@ -1,4 +1,4 @@
-import { styled, useTheme } from "styled-components";
+import { styled, useTheme, css } from "styled-components";
 import { Link } from "react-router-dom";
 import rem from "../utilities/pxIntoRem";
 import Icon from "../Icon/Icon";
@@ -8,24 +8,29 @@ interface goBackLinkInterface {
     to: string;
 }
 
+const linkHoverState = css`
+    border: ${rem(2)} solid ${({theme}) => theme.backLinkHover};
+    box-shadow: 0 0 ${rem(3)} ${rem(3)} ${({theme}) => theme.backLinkHover};
+`;
+
 export const GoBackLinkWrapper = styled(Link)`
-    font-size: ${rem(16)};
-    font-weight: 500;
-    color: ${({theme}) => theme.textColor};
     display: block;
     width: max-content;
     margin-block: ${rem(20)};
     border: 2px solid transparent;
     border-radius: ${rem(15)};
     padding: 0.5rem;
-    transition: border-color 250ms ease-in-out;
+    transition: border-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
 
     &:hover {
-        border: 2px solid ${({theme}) => theme.general.purple};
+        ${linkHoverState};
     }
 `;
 
 export const GoBackLinkText = styled.span`
+    font-size: ${rem(18)};
+    font-weight: 500;
+    color: ${({theme}) => theme.textColor};
     padding-left: ${rem(10)};
 `;
 

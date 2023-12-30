@@ -14,6 +14,11 @@ export default interface ThemeInterface {
     selectOptionBg: string;
     selectOptBorder: string;
     selectOptHover: string;
+    selectOptBoxShadow?: string;
+    selectItemListText: string;
+    selectTopWrapperBg: string;
+    backLinkHover: string;
+    deleteBtnBg: string;
     general: {
         iconColor: string;
         purple: string;
