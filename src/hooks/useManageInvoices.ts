@@ -5,15 +5,15 @@ import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, Address
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
 
 // helper types
-type RangeOfNames = 'clientName' | 'clientEmail' | 'street' | 'postCode' | 'country' | 'city' | 'description';
+type RangeOfNames = 'clientName' | 'clientEmail' | 'street' | 'postCode' | 'country' | 'city' | 'description' | 'itemName' | 'quantity' | 'price';
 
-type TypesOfEvents = 'newInvoice' | 'senderAddress' | 'clientAddress' | 'date' | 'items';
+type TypesOfEvents = 'newInvoice' | 'senderAddress' | 'clientAddress' | 'addItem' | 'removeItem' | 'changeItem';
 
 export type ChangeEventInputType = React.ChangeEvent<HTMLInputElement & { name: RangeOfNames }>;
 
 export type ChangeEventSelectType = React.MouseEvent<HTMLButtonElement>;
 
-export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSelectType | false, type: TypesOfEvents, date?: Date) => void;
+export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSelectType | false, type: TypesOfEvents, date?: Date, index?: number) => void;
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage = () => {
@@ -85,7 +85,7 @@ const useManageInvoices = () => {
     }, [globalState.invoices]);
 
     // function to change new invoice (or edited)
-    const handleInvoiceChange: HandleInvoiceChangeType = (e, type, date) => {
+    const handleInvoiceChange: HandleInvoiceChangeType = (e, type, date, index) => {
         // setting date instantly:
         if (e === false) {
             setNewInvoice(i => ({
@@ -121,6 +121,19 @@ const useManageInvoices = () => {
                     [name]: value
                 }));
                 break;
+            }
+
+            case 'addItem': {
+                setItems(prevItems => [...prevItems, { ...initialItem }]);
+                break;
+            }
+
+            case 'changeItem': {
+
+            }
+
+            case 'removeItem': {
+
             }
         }
     }
