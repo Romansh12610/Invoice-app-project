@@ -21,9 +21,14 @@ export const styleTheme: {
         editBtnColor: '#dddddd',
         formBg: '#ffffff',
         inputBorder: '#d0d5ff',
-        selectOptionBg: '#c7cdfa',
+        selectOptionBg: '#ffffff',
         selectOptBorder: '#000000',
-        selectOptHover: '',
+        selectOptHover: '#ffffff',
+        selectOptBoxShadow: '#c4c4c4',
+        selectItemListText: '#a0a0a0',
+        selectTopWrapperBg: '#dbdada',
+        backLinkHover: '#000',
+        deleteBtnBg: '#6573e0',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -57,7 +62,11 @@ export const styleTheme: {
         inputBorder: '#838bc2',
         selectOptionBg: '#292f5a',
         selectOptBorder: '#fff', 
-        selectOptHover: '#3d4abd',
+        selectOptHover: '#16148d',
+        selectItemListText: '#c9c9c9',
+        selectTopWrapperBg: '#504ed47a',
+        backLinkHover: '#7b5cfa',
+        deleteBtnBg: '#838bc2',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -90,6 +99,7 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
 
     button {
         border: none;
+        cursor: pointer;
     };
 
     fieldset {

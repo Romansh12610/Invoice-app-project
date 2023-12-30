@@ -43,7 +43,7 @@ export const filterItemVariants: Variants = {
             },
             y: {
                 duration: 0.3,
-                stiffness: 200
+                stiffness: 150
             }
         }
     }

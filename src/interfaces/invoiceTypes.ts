@@ -32,12 +32,12 @@ export interface InitialInvoiceInterface {
     clientEmail: string;
     senderAddress: AddressInterface;
     clientAddress: AddressInterface;
-    createdAt: Date; 
+    createdAt: Date | string; 
     paymentDue: string;
     description: string;
     items: Array<InitialItemInterface>;
     total: number;
-    paymentTerms: string;
+    paymentTerms: '1' | '7' | '14' | '30';
 }
 
 export type setNewInvoiceType = React.Dispatch<React.SetStateAction<InitialInvoiceInterface>>; 
