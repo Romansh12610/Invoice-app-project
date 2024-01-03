@@ -8,6 +8,7 @@ import { useEffect, useRef } from 'react';
 import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
 import { ChangeEventInputType } from "../hooks/useManageInvoices";
 import SelectLabel from "./Select";
+import Items from "./items";
 
 
 const FormController = () => {
@@ -16,7 +17,7 @@ const FormController = () => {
     const backdropRef = useRef(null);
 
     const URLparams = useParams();
-    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, items, handleInvoiceChange } = useGlobalContext();
+    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange } = useGlobalContext();
     const { isInvoiceEdited, isFormOpen } = globalState;
 
     useEffect(() => {
@@ -168,9 +169,9 @@ const FormController = () => {
                     </FieldSet>
                     <ItemsFieldSet>
                         <Legend $items>Item List</Legend>
-                        <FieldSet>
-                            {/* items */}
-                        </FieldSet>
+                        <StyledFlexWrapper $col>
+                            <Items />
+                        </StyledFlexWrapper>
                     </ItemsFieldSet>
                 </Form>
             </MainWrapper>
@@ -187,8 +188,9 @@ interface InputLabelWrapperProps {
     labelText: string;
     htmlForID?: string;
     inputName?: string;
-    value?: string;
+    value?: string | number;
     onChange?: (e: ChangeEventInputType) => void;
+    onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     date?: true;
     quantity?: true;
     price?: true;
@@ -210,6 +212,7 @@ export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
                 name={props.inputName}
                 value={props.value}
                 onChange={props.onChange}
+                onKeyPress={(props.quantity || props.price) && props.onKeyPress}
             />)}
         </StyledInputLabelWrapper>
     )

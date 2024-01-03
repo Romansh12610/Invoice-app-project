@@ -11,48 +11,66 @@ interface ItemsButtonProps {
 }
 
 interface ItemProps {
-    index: number,
+    key: number;
+    index: number;
     values: {
         name: string;
-        quantity: string;
-        price: string;
-        total: string;
+        quantity: number;
+        price: number;
+        total: number;
     };
     handleNameChange: (e: ChangeEventInputType) => void; 
-    handleQuantityeChange: (e: ChangeEventInputType) => void; 
-    handlePriceChange: (e: ChangeEventInputType) => void; 
+    handleQuantityChange: (e: ChangeEventInputType) => void; 
+    handlePriceChange: (e: ChangeEventInputType) => void;
+    handleRemoveItem: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 interface ItemWrapperProps {
-    key: number;
     children: React.ReactNode;
 }
 
 interface TotalLabelWrapperProps {
     $minWidth: number;
-    value: string;
+    value: number;
 }
-
 
 // main component  
 const Items = () => {
 
-    const { items } = useGlobalContext();
+    const { items, handleInvoiceChange } = useGlobalContext();
 
     const renderItems = items.map((item, index) => (
         <Item 
+            key={index}
             index={index}
             values={{
-                // to cont
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                total: item.total
             }}
+            handleNameChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
+            handlePriceChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
+            handleQuantityChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
+            handleRemoveItem={(e) => handleInvoiceChange(e, 'removeItem', null, index)}
         />
-    ))
+    ));
+
+    // render
+    return (
+        <>
+            {renderItems}
+            <ItemsButton 
+                handleClick={(e) => handleInvoiceChange(e, 'addItem')}
+            />
+        </>
+    )
 }
 
 // helper components
 const ItemFlexWrapper = (props: ItemWrapperProps) => {
     return (
-        <StyledFlexWrapper $col key={props.key}>
+        <StyledFlexWrapper $col>
             {props.children}
         </StyledFlexWrapper>
     )
@@ -83,12 +101,19 @@ const Item = (props: ItemProps) => {
 
     const colorTheme = useTheme();
 
+    // prevent nonNumber value adding
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!/\d/.test(e.key)) {
+            e.preventDefault();
+        } 
+    }; 
+
     return (
-        <ItemFlexWrapper key={props.index}>
+        <ItemFlexWrapper>
             <InputLabelWrapper 
                 labelText="Item Name"
                 htmlForID={`item-name${props.index}`}
-                inputName="itemName"
+                inputName="name"
                 value={props.values.name}
                 onChange={props.handleNameChange}
             />
@@ -98,7 +123,8 @@ const Item = (props: ItemProps) => {
                     inputName="quantity"
                     htmlForID={`item-quantity${props.index}`}
                     value={props.values.quantity}
-                    onChange={props.handleQuantityeChange}
+                    onChange={props.handleQuantityChange}
+                    onKeyPress={handleKeyDown}
                     quantity
                 />
                 <InputLabelWrapper 
@@ -107,13 +133,16 @@ const Item = (props: ItemProps) => {
                     htmlForID={`item-price${props.index}`}
                     value={props.values.price}
                     onChange={props.handlePriceChange}
+                    onKeyPress={handleKeyDown}
                     price
                 />
                 <TotalLabelWrapper 
                     value={props.values.total}
-                    $minWidth={100}
+                    $minWidth={50}
                 />
-                <RemoveButton>
+                <RemoveButton
+                    onClick={props.handleRemoveItem}
+                >
                     <Icon 
                         name='delete'
                         size={16}

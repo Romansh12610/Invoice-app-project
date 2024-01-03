@@ -13,7 +13,7 @@ export type ChangeEventInputType = React.ChangeEvent<HTMLInputElement & { name: 
 
 export type ChangeEventSelectType = React.MouseEvent<HTMLButtonElement>;
 
-export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSelectType | false, type: TypesOfEvents, date?: Date, index?: number) => void;
+export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSelectType | false, type: TypesOfEvents, date?: Date | null, index?: number) => void;
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage = () => {
@@ -94,6 +94,8 @@ const useManageInvoices = () => {
             }));
             return;
         }
+        
+        e.preventDefault();
 
         const { name, value } = e.currentTarget;
 
@@ -129,11 +131,31 @@ const useManageInvoices = () => {
             }
 
             case 'changeItem': {
+                const newItems = items.map((item, ind) => {
+                    if (ind === index) {
+                        const newItem = {...item, [name]: value};
+                        return newItem;
+                    } else {
+                        return item;
+                    }
+                });
 
+                newItems[index].total = newItems[index].price * newItems[index].quantity;
+
+                setItems(newItems);
+                break;
             }
 
             case 'removeItem': {
-
+                const newItems = items.filter((item, ind) => {
+                    if (ind === index) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+                setItems(newItems);
+                break;
             }
         }
     }
