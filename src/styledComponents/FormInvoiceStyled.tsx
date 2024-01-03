@@ -219,12 +219,25 @@ export const ItemsAddButton = styled.button`
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
+    border-radius: ${rem(15)};
+    background-color: ${({theme}) => theme.addBtnBg};
+    flex: 1 1 auto;
+    height: ${rem(50)};
+    transition: all 300ms ease-in-out;
 
     & > p {
         color: ${({theme}) => theme.textColor};
         font-weight: bold;
         font-size: ${rem(18)};
         letter-spacing: 0.5px;
+    }
+
+    &:hover {
+        background-color: ${({theme}) => theme.addBtnHover};
+    }
+
+    &:active {
+        transform: scale(0.9);
     }
 `;
 
@@ -239,6 +252,11 @@ export const TotalValue = styled.p`
 
 export const RemoveButton = styled.button`
     height: ${rem(25)};
+    background-color: inherit;
+    align-self: center;
+    padding-top: ${rem(15)};
+    flex: 1 1 auto;
+    min-width: ${rem(50)};
 `;
 
 // wrappers
@@ -260,6 +278,8 @@ export const StyledSelectWrapper = styled.div`
 export const StyledFlexWrapper = styled.div<{ $col?: boolean }>`
     display: flex;
     flex-flow: ${(props) => props.$col ? 'column nowrap' : 'row wrap'};
-    align-items: center;
+    align-items: ${(props) => props.$col ? 'stretch' : 'start'};
+    justify-content: center;
     gap: ${rem(15)};
+    flex: 1 1 auto;
 `;

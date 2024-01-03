@@ -19,6 +19,8 @@ export default interface ThemeInterface {
     selectTopWrapperBg: string;
     backLinkHover: string;
     deleteBtnBg: string;
+    addBtnBg: string;
+    addBtnHover: string;
     general: {
         iconColor: string;
         purple: string;

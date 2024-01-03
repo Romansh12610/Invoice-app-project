@@ -29,6 +29,8 @@ export const styleTheme: {
         selectTopWrapperBg: '#dbdada',
         backLinkHover: '#000',
         deleteBtnBg: '#6573e0',
+        addBtnBg: '#e0e4fa',
+        addBtnHover: '#c7d0ff',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -67,6 +69,8 @@ export const styleTheme: {
         selectTopWrapperBg: '#504ed47a',
         backLinkHover: '#7b5cfa',
         deleteBtnBg: '#838bc2',
+        addBtnBg: '#504ed47a',
+        addBtnHover: '#16148d',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
