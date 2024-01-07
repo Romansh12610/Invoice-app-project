@@ -21,6 +21,8 @@ export default interface ThemeInterface {
     deleteBtnBg: string;
     addBtnBg: string;
     addBtnHover: string;
+    discardBtn: string;
+    discardBtnHover: string;
     general: {
         iconColor: string;
         purple: string;
@@ -37,5 +39,9 @@ export default interface ThemeInterface {
         uidHash: string;
         deleteBtnBg: string;
         markBtnBg: string;
+        saveDraftBtn: string;
+        saveDraftBtnHover: string;
+        saveSendBtn: string,
+        saveSendBtnHover: string,
     }
 }

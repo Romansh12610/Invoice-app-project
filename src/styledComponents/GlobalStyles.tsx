@@ -31,6 +31,8 @@ export const styleTheme: {
         deleteBtnBg: '#6573e0',
         addBtnBg: '#e0e4fa',
         addBtnHover: '#c7d0ff',
+        discardBtn: '#e0e4fa',
+        discardBtnHover: '#cccfe4',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -47,6 +49,10 @@ export const styleTheme: {
             uidHash: '#8283c0',
             deleteBtnBg: 'hsl(0,80%,63%)',
             markBtnBg: '#7b5cfa',
+            saveDraftBtn: '#6b328b',
+            saveDraftBtnHover: '#9c48cc',
+            saveSendBtn: '#460096',
+            saveSendBtnHover: '#7700ff',
         }
     },
     dark: {
@@ -71,6 +77,8 @@ export const styleTheme: {
         deleteBtnBg: '#838bc2',
         addBtnBg: '#504ed47a',
         addBtnHover: '#16148d',
+        discardBtn: '#1f234d',
+        discardBtnHover: '#313a7c',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -87,6 +95,10 @@ export const styleTheme: {
             uidHash: '#8283c0',
             deleteBtnBg: 'hsl(0,80%,63%)',
             markBtnBg: '#7b5cfa',
+            saveDraftBtn: '#6b328b',
+            saveDraftBtnHover: '#9c48cc',
+            saveSendBtn: '#460096',
+            saveSendBtnHover: '#7700ff',
         }
     }
 };
@@ -158,6 +170,10 @@ export const svgBackgroundMixin = (svgUrl: string, pos: 'right' | 'left' | 'cent
     background-repeat: no-repeat;
     background-size: ${bgContain};
     border-radius: ${rounded ? '50%' : ''};
+`;
+
+export const transitionMixin = css`
+    transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 `;
 
 export default GlobalStyles;
