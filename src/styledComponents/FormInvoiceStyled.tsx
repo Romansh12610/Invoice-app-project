@@ -112,7 +112,7 @@ export const Form = styled.form`
     overflow-y: scroll;
     display: flex;
     flex-flow: nowrap column;
-    height: 80%;
+    height: 70%;
     margin-top: calc(12vh - 5px);
 `;
 
@@ -248,6 +248,8 @@ export const TotalValue = styled.p`
     letter-spacing: ${rem(1)};
     padding: ${rem(15)};
     height: ${rem(25)};
+    border: ${rem(2)} solid ${({theme}) => theme.inputBorder};
+    border-radius: ${rem(5)};
 `;
 
 export const RemoveButton = styled.button`
@@ -255,7 +257,7 @@ export const RemoveButton = styled.button`
     background-color: inherit;
     align-self: center;
     padding-top: ${rem(15)};
-    flex: 1 1 auto;
+    flex: 0.5 1 auto;
     min-width: ${rem(50)};
 `;
 
@@ -282,4 +284,10 @@ export const StyledFlexWrapper = styled.div<{ $col?: boolean }>`
     justify-content: center;
     gap: ${rem(15)};
     flex: 1 1 auto;
+`;
+
+
+// error styled
+export const StyledError = styled.span`
+    color: ${({theme}) => theme.general.error};
 `;

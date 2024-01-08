@@ -114,6 +114,8 @@ const Item = (props: ItemProps) => {
                 labelText="Item Name"
                 htmlForID={`item-name${props.index}`}
                 inputName="name"
+                inputType="text"
+                required
                 value={props.values.name}
                 onChange={props.handleNameChange}
             />
@@ -121,6 +123,7 @@ const Item = (props: ItemProps) => {
                 <InputLabelWrapper 
                     labelText="Qty."
                     inputName="quantity"
+                    required
                     htmlForID={`item-quantity${props.index}`}
                     value={props.values.quantity}
                     onChange={props.handleQuantityChange}
@@ -130,6 +133,7 @@ const Item = (props: ItemProps) => {
                 <InputLabelWrapper 
                     labelText="Price"
                     inputName="price"
+                    required
                     htmlForID={`item-price${props.index}`}
                     value={props.values.price}
                     onChange={props.handlePriceChange}
