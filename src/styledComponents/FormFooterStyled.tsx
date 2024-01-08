@@ -10,6 +10,11 @@ export const FooterWrapper = styled.div`
     flex-flow: row nowrap;
     align-items: center;
     justify-content: space-around;
+    
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 `;
 
 export const DiscardBtn = styled(ButtonDefault)`
