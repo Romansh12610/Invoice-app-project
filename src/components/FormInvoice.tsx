@@ -7,12 +7,13 @@ import {createPortal} from 'react-dom';
 import GoBackLink from "../shared/goBackLink";
 import { useEffect, useRef, useState } from 'react';
 import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
-import { ChangeEventInputType } from "../hooks/useManageInvoices";
+import { ActionTypes, ChangeEventInputType } from "../hooks/useManageInvoices";
 import SelectLabel from "./Select";
-import Items from "./items";
+import Items from "./Items";
 
 
 const FormController = () => {
+
     // local state for form error
     const [shouldShowError, setShouldShowError] = useState(false);
 
@@ -22,7 +23,7 @@ const FormController = () => {
 
     const URLparams = useParams();
     // global state
-    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange } = useGlobalContext();
+    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange, submitInvoiceForm } = useGlobalContext();
     const { isInvoiceEdited } = globalState;
 
     useEffect(() => {
@@ -54,6 +55,24 @@ const FormController = () => {
             document.removeEventListener('click', handleOutsideClick);
         }
     }, []);
+
+    // form submit handler
+    type SubmitForm = (e: React.FormEvent<HTMLFormElement> & { submitter: { name: ActionTypes }}) => void;
+
+    const handleSubmitForm: SubmitForm = (e) => {
+        console.log('submit');
+
+        e.preventDefault();
+        const typeOfAction: ActionTypes = e.submitter.name;
+
+        console.log('type of action: ' + typeOfAction);
+        
+        if ((typeOfAction === 'add' || typeOfAction === 'save') && shouldShowError == false) {
+            setShouldShowError(true);
+        };
+
+        return submitInvoiceForm(e, typeOfAction);
+    };
     
     const controller = (
         <>
@@ -73,7 +92,7 @@ const FormController = () => {
                         {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
                     </Title>
                 </TopWrapper>
-                <Form>
+                <Form id='invoice-form' onSubmit={handleSubmitForm}>
                     <FieldSet>
                         <Legend>Bill from</Legend>
                         <InputLabelWrapper
@@ -211,8 +230,8 @@ const FormController = () => {
                             <Items />
                         </StyledFlexWrapper>
                     </ItemsFieldSet>
+                    <FormFooter />
                 </Form>
-                <FormFooter />
             </MainWrapper>
         </>
     );
@@ -258,6 +277,8 @@ export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
 
     // additional check cause not all inputs should show err
     const shouldShow: boolean = (props.required && reason !== null) ? true : false; 
+
+    console.log('should show? :' + shouldShow);
 
     return (
         <StyledInputLabelWrapper

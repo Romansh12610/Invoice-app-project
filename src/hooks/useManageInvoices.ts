@@ -3,6 +3,7 @@ import React, { useReducer, useEffect, useState } from 'react';
 import InvoiceReducer from '../reducer/reducer';
 import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType } from '../interfaces/invoiceTypes';
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
+import validateForm from '../utilities/formValidation';
 
 // helper types
 type RangeOfNames = 'clientName' | 'clientEmail' | 'street' | 'postCode' | 'country' | 'city' | 'description' | 'itemName' | 'quantity' | 'price';
@@ -14,6 +15,11 @@ export type ChangeEventInputType = React.ChangeEvent<HTMLInputElement & { name: 
 export type ChangeEventSelectType = React.MouseEvent<HTMLButtonElement>;
 
 export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSelectType | false, type: TypesOfEvents, date?: Date | null, index?: number) => void;
+
+// form submission types
+export type ActionTypes = 'discard' | 'save' | 'add' | 'draft';
+
+export type SubmitInvoiceForm = (e: React.FormEvent<HTMLFormElement>, type: ActionTypes) => void;
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage = () => {
@@ -158,7 +164,46 @@ const useManageInvoices = () => {
                 break;
             }
         }
-    }
+    };
+
+
+    // function to submit form
+    // type also choosen from state (isInvoiceEdited)
+    const submitInvoiceForm: SubmitInvoiceForm = (e, type) => {
+        e.preventDefault();
+
+        const { currentTarget } = e; 
+
+        if (type === 'add' && validateForm(currentTarget)) {
+            dispatchAction({
+                type: 'addInvoice',
+                payload: newInvoice,
+            });
+            restoreToInitial();
+        }
+        else if (type === 'save' && validateForm(currentTarget)) {
+            dispatchAction({
+                type: 'saveChanges',
+                // payload maybe differ
+            })
+        }
+
+        else if (type === 'discard' && validateForm(currentTarget)) {
+            dispatchAction({
+                type: 'discardInvoiceChanges'
+            });
+            restoreToInitial();
+        }
+    };
+
+    // restore to initial helper
+    const restoreToInitial = () => {
+        setNewInvoice(initialInvoice);
+        setClientAddress(initialAddress);
+        setSenderAddress(initialAddress);
+        setItems([]);
+    };
+
     
     return {
         globalState,
@@ -167,7 +212,8 @@ const useManageInvoices = () => {
         senderAddress,
         clientAddress,
         items,
-        handleInvoiceChange
+        handleInvoiceChange,
+        submitInvoiceForm
     }
 };
 

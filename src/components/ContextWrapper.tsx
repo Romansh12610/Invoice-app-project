@@ -15,7 +15,7 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 	// device orientation
 	const [isMobile] = useDeviceOrientation();
 
-	// take global values from hooks
+	// take global state values from hooks
     const [theme, toggleTheme] = useThemeToggle();
 	const [filterStatus, setFilterStatus] = useFilterStatus();
 	const {
@@ -26,6 +26,7 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 		clientAddress,
 		items,
 		handleInvoiceChange,
+		submitInvoiceForm,
 	} = useManageInvoices();
 
     return (
@@ -42,6 +43,7 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 			clientAddress,
 			items,
 			handleInvoiceChange,
+			submitInvoiceForm
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>
