@@ -1,13 +1,13 @@
-import { MainWrapper, Form, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, TopWrapper, StyledError } from "../styledComponents/FormInvoiceStyled";
+import { MainWrapper, StyledForm, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, TopWrapper, StyledError } from "../styledComponents/FormInvoiceStyled";
 import FormFooter from "./FormFooter";
 import DatePicker from "../styledComponents/DatePicker";
 import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
 import GoBackLink from "../shared/goBackLink";
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
-import { ActionTypes, ChangeEventInputType } from "../hooks/useManageInvoices";
+import { ChangeEventInputType } from "../hooks/useManageInvoices";
 import SelectLabel from "./Select";
 import Items from "./Items";
 
@@ -20,6 +20,7 @@ const FormController = () => {
     // refs
     const modalRef = useRef(null);
     const backdropRef = useRef(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const URLparams = useParams();
     // global state
@@ -55,24 +56,6 @@ const FormController = () => {
             document.removeEventListener('click', handleOutsideClick);
         }
     }, []);
-
-    // form submit handler
-    type SubmitForm = (e: React.FormEvent<HTMLFormElement> & { submitter: { name: ActionTypes }}) => void;
-
-    const handleSubmitForm: SubmitForm = (e) => {
-        console.log('submit');
-
-        e.preventDefault();
-        const typeOfAction: ActionTypes = e.submitter.name;
-
-        console.log('type of action: ' + typeOfAction);
-        
-        if ((typeOfAction === 'add' || typeOfAction === 'save') && shouldShowError == false) {
-            setShouldShowError(true);
-        };
-
-        return submitInvoiceForm(e, typeOfAction);
-    };
     
     const controller = (
         <>
@@ -92,7 +75,7 @@ const FormController = () => {
                         {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
                     </Title>
                 </TopWrapper>
-                <Form id='invoice-form' onSubmit={handleSubmitForm}>
+                <Form id='invoice-form' ref={formRef}>
                     <FieldSet>
                         <Legend>Bill from</Legend>
                         <InputLabelWrapper
@@ -230,7 +213,11 @@ const FormController = () => {
                             <Items />
                         </StyledFlexWrapper>
                     </ItemsFieldSet>
-                    <FormFooter />
+                    <FormFooter 
+                        formRef={formRef}
+                        submitInvoiceForm={submitInvoiceForm}
+                        setShouldShowError={setShouldShowError}
+                    />
                 </Form>
             </MainWrapper>
         </>
@@ -328,3 +315,20 @@ export const Error = (props: ErrorProps) => {
         <StyledError>{text}</StyledError>
     )
 };
+
+// form component
+interface FormProps {
+    children: React.ReactNode;
+    id: string;
+}
+
+type FormRef = React.RefObject<HTMLFormElement>;
+
+const Form = forwardRef((props: FormProps, ref: FormRef) => {
+    
+    return (
+        <StyledForm ref={ref} id={props.id}>
+            {props.children}
+        </StyledForm>
+    )
+});
