@@ -141,15 +141,17 @@ export const Label = styled.label`
     letter-spacing: ${rem(0.5)};
     font-weight: 500;
     color: ${({theme}) => theme.textColorSecondary};
+    // for error correct displaying
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 `;
 
-export const Input = styled.input<{ $total?: true }>`
+export const Input = styled.input<{ $total?: true, $showError?: boolean }>`
     ${defaultInput};
     background-color: ${({$total, theme}) => $total ? 'inherit' : theme.invoiceBg};
 
-    &:invalid {
-        border-color: ${({theme}) => theme.general.error};
-    }
+    border-color: ${({$showError, theme}) => $showError ? theme.general.error : theme.inputBorder};
 `;
 
 
@@ -293,4 +295,5 @@ export const StyledFlexWrapper = styled.div<{ $col?: boolean }>`
 // error styled
 export const StyledError = styled.span`
     color: ${({theme}) => theme.general.error};
+    font-size: ${rem(14)};
 `;
