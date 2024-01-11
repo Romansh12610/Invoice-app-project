@@ -53,6 +53,7 @@ export const styleTheme: {
             saveDraftBtnHover: '#9c48cc',
             saveSendBtn: '#460096',
             saveSendBtnHover: '#7700ff',
+            error: 'hsl(0,80%,63%)',
         }
     },
     dark: {
@@ -99,6 +100,7 @@ export const styleTheme: {
             saveDraftBtnHover: '#9c48cc',
             saveSendBtn: '#460096',
             saveSendBtnHover: '#7700ff',
+            error: 'hsl(0,80%,63%)',
         }
     }
 };

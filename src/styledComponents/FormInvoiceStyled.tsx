@@ -107,7 +107,7 @@ export const Title = styled.h2`
     transition: color 300ms ease-in-out;
 `;
 
-export const Form = styled.form`
+export const StyledForm = styled.form`
     ${customScrollBar};
     overflow-y: scroll;
     display: flex;
@@ -146,6 +146,10 @@ export const Label = styled.label`
 export const Input = styled.input<{ $total?: true }>`
     ${defaultInput};
     background-color: ${({$total, theme}) => $total ? 'inherit' : theme.invoiceBg};
+
+    &:invalid {
+        border-color: ${({theme}) => theme.general.error};
+    }
 `;
 
 
@@ -285,7 +289,6 @@ export const StyledFlexWrapper = styled.div<{ $col?: boolean }>`
     gap: ${rem(15)};
     flex: 1 1 auto;
 `;
-
 
 // error styled
 export const StyledError = styled.span`

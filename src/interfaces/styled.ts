@@ -43,5 +43,6 @@ export default interface ThemeInterface {
         saveDraftBtnHover: string;
         saveSendBtn: string,
         saveSendBtnHover: string,
+        error: string;
     }
 }
