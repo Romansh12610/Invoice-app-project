@@ -1,6 +1,6 @@
 import { FilterStatusType, FilterStatusSetterType } from "./filterTypes";
 import { InvoiceListType, InvoiceListDispatchType, InitialInvoiceInterface, AddressInterface } from "./invoiceTypes";
-import { HandleInvoiceChangeType } from "../hooks/useManageInvoices";
+import { HandleInvoiceChangeType, SubmitInvoiceForm } from "../hooks/useManageInvoices";
 
 // generic helper types
 type VoidFuncType = () => void;
@@ -27,4 +27,5 @@ export default interface GlobalContextInt {
     clientAddress: AddressInterface;
     items: InitialInvoiceInterface['items'];
     handleInvoiceChange: HandleInvoiceChangeType;
+    submitInvoiceForm: SubmitInvoiceForm;
 }

@@ -1,7 +1,7 @@
 import initialInvoices from '../data/data.json';
 import React, { useReducer, useEffect, useState } from 'react';
 import InvoiceReducer from '../reducer/reducer';
-import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType } from '../interfaces/invoiceTypes';
+import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType, InitialErrorInterface, BoolAddressInterface } from '../interfaces/invoiceTypes';
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
 import validateForm from '../utilities/formValidation';
 
@@ -19,7 +19,7 @@ export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSele
 // form submission types
 export type ActionTypes = 'discard' | 'save' | 'add' | 'draft';
 
-export type SubmitInvoiceForm = (e: React.FormEvent<HTMLFormElement>, type: ActionTypes) => void;
+export type SubmitInvoiceForm = (e: React.MouseEvent<HTMLButtonElement & { name: ActionTypes }>, formRef: React.RefObject<HTMLFormElement>, setShouldShowError: React.Dispatch<React.SetStateAction<boolean>>) => void;
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage = () => {
@@ -38,6 +38,13 @@ const initialAddress: AddressInterface = {
     country: '',
 };
 
+const initBoolAddress: BoolAddressInterface = {
+    street: false,
+    city: false,
+    postCode: false,
+    country: false,
+};
+
 const initialItem: InitialItemInterface = {
     name: '',
     quantity: 0,
@@ -47,7 +54,7 @@ const initialItem: InitialItemInterface = {
 
 const initialInvoice: InitialInvoiceInterface = {
     createdAt: new Date(),
-    paymentDue: ``,
+    paymentDue: '',
     description: '',
     paymentTerms: '30',
     clientName: '',
@@ -58,12 +65,22 @@ const initialInvoice: InitialInvoiceInterface = {
     total: 0,
 };
 
+const initialErrors: InitialErrorInterface = {
+    description: false,
+    clientName: false,
+    clientEmail: false,
+    senderAddress: initBoolAddress,
+    clientAddress: initBoolAddress,
+    items: [],
+};
+
 // initial state - to retrieve than filterType === 'all' 
 export const initialState: GlobalStateInterface = {
     invoices: getInvoicesFromLocalStorage() || initialInvoices,
     isFormOpen: false,
     isInvoiceEdited: false,
     isModalOpen: false,
+    errors: initialErrors,
 };
 
 const useManageInvoices = () => {
@@ -169,30 +186,31 @@ const useManageInvoices = () => {
 
     // function to submit form
     // type also choosen from state (isInvoiceEdited)
-    const submitInvoiceForm: SubmitInvoiceForm = (e, type) => {
-        e.preventDefault();
+    const submitInvoiceForm: SubmitInvoiceForm = (e, formRef, setShouldShowError) => {
 
-        const { currentTarget } = e; 
+        const { name } = e.currentTarget;
 
-        if (type === 'add' && validateForm(currentTarget)) {
-            dispatchAction({
-                type: 'addInvoice',
-                payload: newInvoice,
-            });
-            restoreToInitial();
-        }
-        else if (type === 'save' && validateForm(currentTarget)) {
-            dispatchAction({
-                type: 'saveChanges',
-                // payload maybe differ
-            })
-        }
-
-        else if (type === 'discard' && validateForm(currentTarget)) {
-            dispatchAction({
-                type: 'discardInvoiceChanges'
-            });
-            restoreToInitial();
+        switch(name) {
+            case 'discard': {
+                dispatchAction({
+                    type: 'discardChanges',
+                });
+                restoreToInitial();
+                break;
+            }
+            case 'draft': {
+                dispatchAction({
+                    type: 'addDraft',
+                    payload: newInvoice,
+                });
+                restoreToInitial();
+                break;
+            }
+            case 'add': {
+                if (validateForm(formRef) == false) {
+                    setShouldShowError(true);
+                }
+            }
         }
     };
 

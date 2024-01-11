@@ -13,11 +13,20 @@ export type InvoiceListDispatchType = React.Dispatch<{
     }
 }>;
 
+// helper int for items
 export interface AddressInterface {
     street: string;
     city: string;
     postCode: string;
     country: string;
+}
+
+// helper int for errors
+export interface BoolAddressInterface {
+    street: boolean;
+    city: boolean;
+    postCode: boolean;
+    country: boolean;
 }
 
 export interface InitialItemInterface {
@@ -27,6 +36,7 @@ export interface InitialItemInterface {
     total: number;
 }
 
+// items int
 export interface InitialInvoiceInterface {
     clientName: string;
     clientEmail: string;
@@ -38,6 +48,16 @@ export interface InitialInvoiceInterface {
     items: Array<InitialItemInterface>;
     total: number;
     paymentTerms: '1' | '7' | '14' | '30';
+}
+
+// errors int
+export interface InitialErrorInterface {
+    clientName: boolean;
+    clientEmail: boolean;
+    senderAddress: BoolAddressInterface;
+    clientAddress: BoolAddressInterface;
+    description: boolean;
+    items: { name: boolean }[];
 }
 
 export type setNewInvoiceType = React.Dispatch<React.SetStateAction<InitialInvoiceInterface>>; 
