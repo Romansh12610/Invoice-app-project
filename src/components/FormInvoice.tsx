@@ -265,8 +265,6 @@ export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
     // additional check cause not all inputs should show err
     const shouldShow: boolean = (props.required && reason !== null) ? true : false; 
 
-    console.log('should show? :' + shouldShow);
-
     return (
         <StyledInputLabelWrapper
             $minWidth={props.date ? 270 : props.quantity ? 60 : props.price ? 100 : 140}
@@ -275,6 +273,7 @@ export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
                 htmlFor={props.htmlForID}
             >
                 {props.labelText}
+                {' '}
                 {shouldShow && <Error reason={reason} />}
             </Label>
             {props.date ? (
@@ -287,6 +286,7 @@ export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
                 value={props.value}
                 onChange={props.onChange}
                 onKeyPress={(props.quantity || props.price) && props.onKeyPress}
+                $showError={shouldShow}
             />)}
         </StyledInputLabelWrapper>
     )
@@ -309,7 +309,7 @@ interface ErrorProps {
 
 export const Error = (props: ErrorProps) => {
 
-    const text = props.reason === 'valueMissing' ? "field can't be empty" : 'incorrect format of input';
+    const text = props.reason === 'valueMissing' ? "can't be empty" : 'incorrect format';
 
     return (
         <StyledError>{text}</StyledError>
