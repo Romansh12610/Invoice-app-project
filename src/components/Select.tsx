@@ -2,9 +2,10 @@ import { Select, SelectText, SelectOptionList, SelectOption, SelectOptionButton,
 import { useGlobalContext } from './ContextWrapper';
 import Icon from '../Icon/Icon';
 import { useTheme } from 'styled-components';
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import React, { useRef, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { SelectItemVariants, SelectListVariants } from '../utilities/selectVariants';
+import useCloseIfClickOutside from '../hooks/useCloseIfClickOutside';
 
 // types
 interface SelectWrapperProps {
@@ -24,33 +25,17 @@ interface OptionProps {
 
 type handleOpenType = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
-type handleClickOutsideType = (e: MouseEvent) => void;
-
 // component code
 const SelectLabel = (props: SelectLabelProps) => {
 
-    const [isOpen, setIsOpen] = useState(false);
     const { newInvoice, handleInvoiceChange } = useGlobalContext();
     const colorTheme = useTheme();
-
+    
     // list ref to handle outside clicks
     const dropdownRef = useRef<HTMLDivElement | null>(null);
-
-    // if click outside & isOpen => close
-    useEffect(() => {
-        const handleClickOutside: handleClickOutsideType = (e) => {
-            const target = e.target as HTMLElement;          
-            if (dropdownRef.current && !dropdownRef.current.contains(target)) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener('click', handleClickOutside, true);
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside, true);
-        }
-    }, []);
+    
+    // custom hook usage for click outside handling
+    const [isOpen, setIsOpen] = useCloseIfClickOutside(false, dropdownRef);
 
     // handle open list click
     const handleOpenListClick: handleOpenType = (e) => {
