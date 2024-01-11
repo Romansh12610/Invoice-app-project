@@ -17,7 +17,7 @@ interface SelectLabelProps {
 
 interface OptionProps {
     handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    paymentTerms: '1' | '7' | '14' | '30';
+    paymentTerms: 1 | 7 | 14 | 30;
     $top?: boolean;
     $bottom?: boolean;
 }
@@ -99,20 +99,20 @@ const SelectLabel = (props: SelectLabelProps) => {
                     variants={SelectListVariants}
                 >
                     <Option 
-                        paymentTerms='1' 
+                        paymentTerms={1} 
                         handleClick={(e) => handleSelectOptionClick(e)}
                         $top 
                     />
                     <Option 
-                        paymentTerms='7' 
+                        paymentTerms={7}
                         handleClick={(e) => handleSelectOptionClick(e)} 
                     />
                     <Option 
-                        paymentTerms='14' 
+                        paymentTerms={14} 
                         handleClick={(e) => handleSelectOptionClick(e)} 
                     />
                     <Option 
-                        paymentTerms='30' 
+                        paymentTerms={30} 
                         handleClick={(e) => handleSelectOptionClick(e)} 
                         $bottom
                     />

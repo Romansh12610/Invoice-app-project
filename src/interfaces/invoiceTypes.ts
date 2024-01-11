@@ -21,14 +21,6 @@ export interface AddressInterface {
     country: string;
 }
 
-// helper int for errors
-export interface BoolAddressInterface {
-    street: boolean;
-    city: boolean;
-    postCode: boolean;
-    country: boolean;
-}
-
 export interface InitialItemInterface {
     name: string;
     quantity: number;
@@ -47,17 +39,7 @@ export interface InitialInvoiceInterface {
     description: string;
     items: Array<InitialItemInterface>;
     total: number;
-    paymentTerms: '1' | '7' | '14' | '30';
-}
-
-// errors int
-export interface InitialErrorInterface {
-    clientName: boolean;
-    clientEmail: boolean;
-    senderAddress: BoolAddressInterface;
-    clientAddress: BoolAddressInterface;
-    description: boolean;
-    items: { name: boolean }[];
+    paymentTerms: 1 | 7 | 14 | 30;
 }
 
 export type setNewInvoiceType = React.Dispatch<React.SetStateAction<InitialInvoiceInterface>>; 
