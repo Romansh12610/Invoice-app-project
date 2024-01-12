@@ -1,14 +1,15 @@
 import initialInvoices from '../data/data.json';
 import React, { useReducer, useEffect, useState } from 'react';
 import InvoiceReducer from '../reducer/reducer';
-import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType, InitialErrorInterface, BoolAddressInterface } from '../interfaces/invoiceTypes';
+import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType } from '../interfaces/invoiceTypes';
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
 import validateForm from '../utilities/formValidation';
+import getPaymentDueDate from '../utilities/getPaymentDueDate';
 
 // helper types
 type RangeOfNames = 'clientName' | 'clientEmail' | 'street' | 'postCode' | 'country' | 'city' | 'description' | 'itemName' | 'quantity' | 'price';
 
-type TypesOfEvents = 'newInvoice' | 'senderAddress' | 'clientAddress' | 'addItem' | 'removeItem' | 'changeItem';
+type TypesOfEvents = 'newInvoice' | 'senderAddress' | 'clientAddress' | 'addItem' | 'removeItem' | 'changeItem' | 'date';
 
 export type ChangeEventInputType = React.ChangeEvent<HTMLInputElement & { name: RangeOfNames }>;
 
@@ -38,13 +39,6 @@ const initialAddress: AddressInterface = {
     country: '',
 };
 
-const initBoolAddress: BoolAddressInterface = {
-    street: false,
-    city: false,
-    postCode: false,
-    country: false,
-};
-
 const initialItem: InitialItemInterface = {
     name: '',
     quantity: 0,
@@ -56,7 +50,7 @@ const initialInvoice: InitialInvoiceInterface = {
     createdAt: new Date(),
     paymentDue: '',
     description: '',
-    paymentTerms: '30',
+    paymentTerms: 30,
     clientName: '',
     clientEmail: '',
     senderAddress: initialAddress,
@@ -65,22 +59,12 @@ const initialInvoice: InitialInvoiceInterface = {
     total: 0,
 };
 
-const initialErrors: InitialErrorInterface = {
-    description: false,
-    clientName: false,
-    clientEmail: false,
-    senderAddress: initBoolAddress,
-    clientAddress: initBoolAddress,
-    items: [],
-};
-
 // initial state - to retrieve than filterType === 'all' 
 export const initialState: GlobalStateInterface = {
     invoices: getInvoicesFromLocalStorage() || initialInvoices,
     isFormOpen: false,
     isInvoiceEdited: false,
     isModalOpen: false,
-    errors: initialErrors,
 };
 
 const useManageInvoices = () => {
@@ -106,6 +90,17 @@ const useManageInvoices = () => {
     useEffect(() => {
         postInvoicesToLocalStorage(globalState.invoices);
     }, [globalState.invoices]);
+
+    //effect for paymentDue
+    useEffect(() => {
+        const dueDate = getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms);
+
+        setNewInvoice(i => ({
+            ...i,
+            paymentDue: dueDate
+        }));
+
+    }, [newInvoice.paymentTerms, newInvoice.createdAt]);
 
     // function to change new invoice (or edited)
     const handleInvoiceChange: HandleInvoiceChangeType = (e, type, date, index) => {

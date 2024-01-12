@@ -26,7 +26,7 @@ interface CustomInputProps {
     onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onFocus?: (e: React.FocusEvent<HTMLButtonElement>) => void;
     onBlur?: (e: React.FocusEvent<HTMLButtonElement>) => void;
-    onChange?: (e: React.ChangeEvent<HTMLButtonElement>, date: Date | null) => void;
+    onChange?: any;
     ref?: React.RefObject<HTMLInputElement>;
 }
 
@@ -42,7 +42,7 @@ export const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(({ isD
             value={convertDateOutput(value)}
             onFocus={onFocus}
             onBlur={onBlur}
-            onChange={(e) => onChange(e, new Date())}
+            onChange={onChange}
             ref={ref}
             readOnly
         />
