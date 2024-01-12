@@ -56,7 +56,7 @@ export const focusTrapKeyDown: FocusTrapDownType = (e, modalRef, closeCallback, 
             }
         )
     }
-}
+};
 
 export const focusTrapKeyUp: FocusTrapUpType = (e, keySet) => {
     if (e.key !== 'Tab' && e.key !== 'Shift') {
@@ -64,4 +64,4 @@ export const focusTrapKeyUp: FocusTrapUpType = (e, keySet) => {
     } else {
         keySet.delete(e.key);
     }
-}
+};
