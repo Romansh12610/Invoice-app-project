@@ -210,7 +210,7 @@ const FormController = () => {
                     <ItemsFieldSet>
                         <Legend $items>Item List</Legend>
                         <StyledFlexWrapper $col>
-                            <Items />
+                            <Items shouldShowError={shouldShowError} />
                         </StyledFlexWrapper>
                     </ItemsFieldSet>
                     <FormFooter 
@@ -267,7 +267,7 @@ export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
 
     return (
         <StyledInputLabelWrapper
-            $minWidth={props.date ? 270 : props.quantity ? 60 : props.price ? 100 : 140}
+            $minWidth={props.date ? 270 : props.quantity ? 60 : props.price ? 100 : 172}
         >
             <Label
                 htmlFor={props.htmlForID}
