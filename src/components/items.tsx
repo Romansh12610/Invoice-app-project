@@ -6,6 +6,10 @@ import Icon from "../Icon/Icon";
 import { useGlobalContext } from "./ContextWrapper";
 
 // types
+interface ItemsProps {
+    shouldShowError: boolean;
+}
+
 interface ItemsButtonProps {
     handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
@@ -23,6 +27,8 @@ interface ItemProps {
     handleQuantityChange: (e: ChangeEventInputType) => void; 
     handlePriceChange: (e: ChangeEventInputType) => void;
     handleRemoveItem: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    // error logic
+    shouldShowError: boolean;
 }
 
 interface ItemWrapperProps {
@@ -35,7 +41,7 @@ interface TotalLabelWrapperProps {
 }
 
 // main component  
-const Items = () => {
+const Items = (props: ItemsProps) => {
 
     const { items, handleInvoiceChange } = useGlobalContext();
 
@@ -53,6 +59,7 @@ const Items = () => {
             handlePriceChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
             handleQuantityChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
             handleRemoveItem={(e) => handleInvoiceChange(e, 'removeItem', null, index)}
+            shouldShowError={props.shouldShowError}
         />
     ));
 
@@ -118,6 +125,7 @@ const Item = (props: ItemProps) => {
                 required
                 value={props.values.name}
                 onChange={props.handleNameChange}
+                shouldShowError={props.shouldShowError}
             />
             <FlexWrapper>
                 <InputLabelWrapper 
