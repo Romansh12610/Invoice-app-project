@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FilterWrapper, FilterButton, FilterList, FilterText, FilterListItem, ListItemButton } from '../styledComponents/FilterStyled';
 import Icon from "../Icon/Icon";
 import { useGlobalContext } from './ContextWrapper';
@@ -6,14 +6,23 @@ import { useTheme } from "styled-components";
 import { FilterActiveType } from '../interfaces/filterTypes';
 import { motion } from 'framer-motion';
 import { filterListVariants, filterItemVariants } from '../utilities/filterVariants';
+import useCloseIfClickOutside from '../hooks/useCloseIfClickOutside';
 
 export default function Filter() {
 
     const { orientation, filterStatus, setFilterStatus, dispatchAction } = useGlobalContext();
     const colorTheme = useTheme();
 
-    // open / closed list
-    const [isOpen, setIsOpen] = useState(false);
+    function handleListOpenClick() {
+        setIsOpen(currOpen => {
+            if (currOpen === true) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+    }
 
     // event handler on filterType change
     function handleFilterButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
@@ -39,6 +48,13 @@ export default function Filter() {
         });
     }, [filterStatus]);
 
+    // open / closed list logic
+    const listRef = useRef<HTMLUListElement | null>(null);
+    const btnRef = useRef<HTMLButtonElement | null>(null);
+
+    // ref mb null
+    const [isOpen, setIsOpen] = useCloseIfClickOutside([listRef, btnRef]);
+
     return (
         <FilterWrapper>
             <FilterButton
@@ -46,7 +62,8 @@ export default function Filter() {
                     direction: "row",
                     alignItems: "center"
                 }}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleListOpenClick}
+                ref={btnRef}
             >
                 <FilterText
                     $size="medium"
@@ -63,6 +80,7 @@ export default function Filter() {
                 />
             </FilterButton>
             <FilterList
+                ref={listRef}
                 as={motion.ul}
                 initial={false}
                 animate={isOpen ? 'visible' : 'hidden'}

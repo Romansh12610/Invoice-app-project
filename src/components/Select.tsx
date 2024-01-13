@@ -35,7 +35,7 @@ const SelectLabel = (props: SelectLabelProps) => {
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     
     // custom hook usage for click outside handling
-    const [isOpen, setIsOpen] = useCloseIfClickOutside(false, dropdownRef);
+    const [isOpen, setIsOpen] = useCloseIfClickOutside([dropdownRef]);
 
     // handle open list click
     const handleOpenListClick: handleOpenType = (e) => {

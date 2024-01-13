@@ -1,29 +1,44 @@
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect, useCallback, SetStateAction } from 'react';
 
-type ClickOutsideHook = (initState: boolean, elRef: React.RefObject<HTMLElement>) => [isOpen: boolean, setIsOpen: React.Dispatch<SetStateAction<boolean>>];
+type ClickOutsideHook = (elRefs: React.RefObject<HTMLElement | null>[]) => [isOpen: boolean, setIsOpen: React.Dispatch<SetStateAction<boolean>>];
 
 type handleClickOutsideType = (e: MouseEvent) => void;
 
-const useCloseIfClickOutside: ClickOutsideHook = (initState, elRef) => {
+const useCloseIfClickOutside: ClickOutsideHook = (elRefs) => {
 
-    const el = elRef.current;
-    const [isOpen, setIsOpen] = useState(initState);
+    const [isOpen, setIsOpen] = useState(false);
+    // DOM elems
+    let elems = elRefs.map(ref => ref.current);
+    let noNullElems = elems.filter(el => el !== null);
+
+    // event handler
+    const handleClickOutside: handleClickOutsideType = useCallback((e) => {
+        const target = e.target as HTMLElement;
+        
+        for (const el of noNullElems) {
+            if (el.contains(target)) {
+                return;
+            }
+        }
+
+        // run close callback
+        setIsOpen(currOpen => {
+            if (currOpen === true) {
+                return false;
+            } 
+        });
+    }, [noNullElems]);
 
     useEffect(() => {
-        const handleClickOutside: handleClickOutsideType = (e) => {
-            const target = e.target as HTMLElement;          
-            if (el && !el.contains(target)) {
-                setIsOpen(false);
+        if (noNullElems.length > 0) {
+
+            document.addEventListener('click', handleClickOutside, true);
+    
+            return () => {
+                document.removeEventListener('click', handleClickOutside, true);
             }
-        };
-
-        document.addEventListener('click', handleClickOutside, true);
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside, true);
         }
-    }, []);
-
+    }, [handleClickOutside]);
 
     return [isOpen, setIsOpen]; 
 };
