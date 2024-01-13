@@ -41,5 +41,35 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                 isFormOpen: false,
             }
         }
+
+        // invoice changes
+        case 'discardChanges': {
+            return {
+                ...state,
+                isFormOpen: false,
+                isInvoiceEdited: false,
+                isModalOpen: false,
+            }
+        }
+
+        case 'addDraft': {
+            const { newInvoice } = action.payload;
+
+            return {
+                ...state,
+                invoices: [...state.invoices, newInvoice],
+                isFormOpen: false, 
+            }
+        }
+
+        case 'addInvoice': {
+            const { newInvoice } = action.payload;
+
+            return {
+                ...state,
+                invoices: [...state.invoices, newInvoice],
+                isFormOpen: false,
+            }
+        }
     }
 }
