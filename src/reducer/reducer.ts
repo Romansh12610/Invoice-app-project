@@ -1,6 +1,9 @@
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
 import ReducerActions from '../interfaces/reducerTypes';
 import { initialState } from '../hooks/useManageInvoices';
+import { InitialInvoiceInterface } from '../interfaces/invoiceTypes';
+import { FilterStatusType } from '../interfaces/filterTypes';
+import generateUniqueID from '../utilities/generateID';
 
 export default function InvoiceReducer(state: GlobalStateInterface, action: ReducerActions) {
 
@@ -8,7 +11,7 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
 
         // filter invoices
         case "filter": {
-            const { filterStatus } = action.payload;
+            const filterStatus = action.payload as FilterStatusType;
 
             if (filterStatus === 'all') {
                 return initialState;
@@ -53,22 +56,32 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         }
 
         case 'addDraft': {
-            const { newInvoice } = action.payload;
-
-            return {
-                ...state,
-                invoices: [...state.invoices, newInvoice],
-                isFormOpen: false, 
-            }
-        }
-
-        case 'addInvoice': {
-            const { newInvoice } = action.payload;
+            let newInvoice = action.payload as InitialInvoiceInterface;
+            newInvoice = {
+                ...newInvoice,
+                id: generateUniqueID(state.invoices)
+            };
 
             return {
                 ...state,
                 invoices: [...state.invoices, newInvoice],
                 isFormOpen: false,
+                isModalOpen: false, 
+            }
+        }
+
+        case 'addInvoice': {
+            let newInvoice = action.payload as InitialInvoiceInterface;
+            newInvoice = {
+                ...newInvoice,
+                id: generateUniqueID(state.invoices)
+            };
+
+            return {
+                ...state,
+                invoices: [...state.invoices, newInvoice],
+                isFormOpen: false,
+                isModalOpen: false,
             }
         }
     }

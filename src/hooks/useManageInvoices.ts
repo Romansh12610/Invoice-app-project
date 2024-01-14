@@ -3,8 +3,10 @@ import React, { useReducer, useEffect, useState } from 'react';
 import InvoiceReducer from '../reducer/reducer';
 import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType } from '../interfaces/invoiceTypes';
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
+// util functions
 import validateForm from '../utilities/formValidation';
 import getPaymentDueDate from '../utilities/getPaymentDueDate';
+import sumTotal from '../utilities/sumTotal';
 
 // helper types
 type RangeOfNames = 'clientName' | 'clientEmail' | 'street' | 'postCode' | 'country' | 'city' | 'description' | 'itemName' | 'quantity' | 'price';
@@ -47,6 +49,8 @@ const initialItem: InitialItemInterface = {
 };
 
 const initialInvoice: InitialInvoiceInterface = {
+    id: '',
+    status: 'pending',
     createdAt: new Date(),
     paymentDue: '',
     description: '',
@@ -70,7 +74,7 @@ export const initialState: GlobalStateInterface = {
 const useManageInvoices = () => {
 
     // reducer
-    const [globalState, dispatchAction] = (useReducer as any)(InvoiceReducer, initialState);
+    const [globalState, dispatchAction] = useReducer(InvoiceReducer, initialState);
     const [newInvoice, setNewInvoice] = useState(initialInvoice);
     const [senderAddress, setSenderAddress] = useState(initialAddress);
     const [clientAddress, setClientAddress] = useState(initialAddress);
@@ -88,7 +92,7 @@ const useManageInvoices = () => {
 
     // every time state changes - reset in localStorage
     useEffect(() => {
-        postInvoicesToLocalStorage(globalState.invoices);
+        postInvoicesToLocalStorage(globalState.invoices as InvoiceListType);
     }, [globalState.invoices]);
 
     //effect for paymentDue
@@ -166,7 +170,7 @@ const useManageInvoices = () => {
 
             case 'removeItem': {
                 const newItems = items.filter((item, ind) => {
-                    if (ind === index) {
+                    if (ind === index && item) {
                         return false;
                     } else {
                         return true;
@@ -196,7 +200,11 @@ const useManageInvoices = () => {
             case 'draft': {
                 dispatchAction({
                     type: 'addDraft',
-                    payload: newInvoice,
+                    payload: {
+                        ...newInvoice,
+                        status: 'draft',
+                        total: sumTotal(newInvoice.items),
+                    },
                 });
                 restoreToInitial();
                 break;
@@ -204,6 +212,19 @@ const useManageInvoices = () => {
             case 'add': {
                 if (validateForm(formRef) == false) {
                     setShouldShowError(true);
+                    return;
+                } 
+                else {
+                    dispatchAction({
+                        type: 'addInvoice',
+                        payload: {
+                            ...newInvoice,
+                            status: 'pending',
+                            total: sumTotal(newInvoice.items),
+                        },
+                    });
+                    restoreToInitial();
+                    break;
                 }
             }
         }

@@ -1,8 +1,7 @@
 import React from "react";
-import Invoices from '../data/data.json';
 
 //invoice types
-export type InvoiceListType = typeof Invoices;
+export type InvoiceListType = InitialInvoiceInterface[];
 
 export type InvoiceStatusType = 'draft' | 'pending' | 'paid';
 
@@ -30,6 +29,8 @@ export interface InitialItemInterface {
 
 // items int
 export interface InitialInvoiceInterface {
+    id: string;
+    status: 'pending' | 'draft' | 'paid';
     clientName: string;
     clientEmail: string;
     senderAddress: AddressInterface;

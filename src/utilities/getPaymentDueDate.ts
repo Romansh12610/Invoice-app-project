@@ -8,7 +8,7 @@ const getPaymentDueDate: getPaymentDue = (createdAt, paymentTerms) => {
     // timestamp counting
     let timeStamp = createdAt.getTime(); 
     const msTerms = paymentTerms * 3600 * 24 * 1000;
-    timeStamp = timeStamp + msTerms;
+    timeStamp += msTerms;
 
     // creating new date from timestamp
     const dueDate = new Date(timeStamp);
@@ -21,8 +21,6 @@ const getPaymentDueDate: getPaymentDue = (createdAt, paymentTerms) => {
     if (month < 10) month = `0${month}`;
 
     const formattedDate = `${dueDate.getFullYear()}-${month}-${day}`;
-
-    console.log(formattedDate);
 
     return formattedDate;
 };
