@@ -1,17 +1,18 @@
 // styled components
-import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, ItemSingleWrapper, ItemTitleText, ItemPriceCountText, ItemPriceText, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../styledComponents/InvoiceInfoStyled';
+import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../styledComponents/InvoiceInfoStyled';
 // helper components & types
 import { StyledLabel } from '../shared/colorLabels';
 import { useParams } from 'react-router-dom';
 import { useGlobalContext } from './ContextWrapper';
 import { LabelColorsType } from '../shared/colorLabels';
 import GoBackLink from '../shared/goBackLink';
+import InfoListItem from './InvoiceInfoListItem';
 // utility functions
 import convertDateFromString from '../utilities/convertDateOutput';
 import formatPrice from '../utilities/formatPrice';
 import buttonVariants from '../utilities/buttonVariants';
-
 import { useMemo } from 'react';
+import { InitialItemInterface } from '../interfaces/invoiceTypes';
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
@@ -19,43 +20,33 @@ export default function InvoiceView() {
     const { globalState, orientation } = useGlobalContext();
     const { invoices } = globalState;
 
+    // retrieve invoice that gets opened
     const currentInvoice = useMemo(() => {
-        return invoices.find(invoice => invoice.id === URLparams.id);
-    }, [invoices]);
+        return invoices.find(invoice => invoice.id === URLparams.invoiceId);
+    }, [invoices, URLparams.invoiceId]);
+
+    // retrieve properties of that invoice
     const { status, id, description, clientEmail, clientName, items, total } = currentInvoice;
+
     const invoiceColor: LabelColorsType = status === 'draft' ? 'gray'
         : status === 'pending' ? 'orange' 
         : 'green'; 
     const { street, city, postCode, country } = currentInvoice.senderAddress;
+
+
     // use memo
     const createdAtDate = useMemo(() => convertDateFromString(currentInvoice.createdAt), [currentInvoice.createdAt]);
     const paymentDueDate = useMemo(() => convertDateFromString(currentInvoice.paymentDue), [currentInvoice.paymentDue]);
+    const totalPrice = useMemo(() => {
+        return formatPrice(total);
+    }, [total]);
+
+
+    // button event listeners
     
     
     // render items
-    const itemsToRender = items.map((item, ind) => {
-        const formattedPrice = useMemo(() => formatPrice(item.price), [item.price]);
-        const formattedTotal = useMemo(() => formatPrice(item.total), [item.total]);
-
-        return (
-            <ItemSingleWrapper key={ind}>
-                <ItemTitleText
-                    $size='small'
-                    $weight='medium'
-                >{item.name}</ItemTitleText>
-                <ItemPriceCountText
-                    $size='small'
-                    $weight='medium'
-                >{item.quantity} &times; &pound; {formattedPrice}</ItemPriceCountText>
-                <ItemPriceText
-                    $size='medium'
-                    $weight='bold'
-                >
-                    &pound; {formattedTotal}
-                </ItemPriceText>
-            </ItemSingleWrapper>
-        )
-    });
+    const itemsToRender = items.map((item: InitialItemInterface, ind) => <InfoListItem key={ind} item={item} />);
 
     // rendering code
     return (
@@ -198,6 +189,7 @@ export default function InvoiceView() {
                             gap: '15'
                         }}
                     >
+                        {/* Render Items */}
                         {itemsToRender}
                     </ItemsWrapper>
                     <TotalWrapper
@@ -210,7 +202,7 @@ export default function InvoiceView() {
                             $size='small'
                             $weight='thin'
                         >Amount Due</TotalText>
-                        <TotalPrice>&pound; {formatPrice(total)}</TotalPrice>
+                        <TotalPrice>&pound; {totalPrice}</TotalPrice>
                     </TotalWrapper>
                 </InfoSection>
             </MainSectionWrapper>
