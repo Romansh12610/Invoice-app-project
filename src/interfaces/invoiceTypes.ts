@@ -1,16 +1,12 @@
 import React from "react";
+import ReducerActions from "./reducerTypes";
 
 //invoice types
 export type InvoiceListType = InitialInvoiceInterface[];
 
 export type InvoiceStatusType = 'draft' | 'pending' | 'paid';
 
-export type InvoiceListDispatchType = React.Dispatch<{
-    type: string;
-    payload?: {
-        [ind: string]: string;
-    }
-}>;
+export type InvoiceListDispatchType = React.Dispatch<ReducerActions>;
 
 // helper int for items
 export interface AddressInterface {
@@ -38,7 +34,7 @@ export interface InitialInvoiceInterface {
     createdAt: Date | string; 
     paymentDue: string;
     description: string;
-    items: Array<InitialItemInterface>;
+    items: Array<InitialItemInterface> | [];
     total: number;
     paymentTerms: 1 | 7 | 14 | 30;
 }
