@@ -15,6 +15,12 @@ export const FooterWrapper = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
+
+    @media (min-width: 768px) {
+        right: 40svw;
+        right: 40vw;
+        width: auto;
+    }
 `;
 
 export const DiscardBtn = styled(ButtonDefault)`
