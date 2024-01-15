@@ -2,7 +2,9 @@ import React from 'react';
 
 // filter types
 export type FilterActiveType = 'paid' | 'pending' | 'draft';
+
 export type FilterStatusType = 'all' | FilterActiveType;
+
 export type FilterStatusSetterType = React.Dispatch<React.SetStateAction<FilterStatusType>>;
 
 export interface CustomHTMLButtonElement extends React.ComponentPropsWithoutRef<"button"> {

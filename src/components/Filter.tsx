@@ -42,9 +42,7 @@ export default function Filter() {
     useEffect(() => {
         dispatchAction({
             type: 'filter',
-            payload: {
-                filterStatus,
-            }
+            payload: filterStatus,
         });
     }, [filterStatus]);
 
@@ -54,6 +52,14 @@ export default function Filter() {
 
     // ref mb null
     const [isOpen, setIsOpen] = useCloseIfClickOutside([listRef, btnRef]);
+
+    const { isFormOpen } = useGlobalContext().globalState;
+    // if from open => filter tap closed
+    useEffect(() => {
+        if (isOpen && isFormOpen) {
+            setIsOpen(false);
+        }
+    }, [isFormOpen]);
 
     return (
         <FilterWrapper>
