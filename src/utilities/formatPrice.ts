@@ -1,7 +1,10 @@
-const formatPrice = (price: number): string => {
+const formatPrice = (price: number | string): string => {
     if (Number.isNaN(price)) throw new Error('expected number price to format');
+    
+    if (typeof price === 'string') price = Number(price);
 
-    let formattedPrice: string | string[] = price.toFixed(2); 
+    let formattedPrice: string | string[] = price.toFixed(2);
+
     let indexOfDot = formattedPrice.indexOf('.');
 
     if (indexOfDot <= 3) {

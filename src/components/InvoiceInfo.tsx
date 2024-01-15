@@ -11,6 +11,7 @@ import convertDateFromString from '../utilities/convertDateOutput';
 import formatPrice from '../utilities/formatPrice';
 import buttonVariants from '../utilities/buttonVariants';
 
+import { useMemo } from 'react';
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
@@ -18,32 +19,43 @@ export default function InvoiceView() {
     const { globalState, orientation } = useGlobalContext();
     const { invoices } = globalState;
 
-    const currentInvoice = invoices.find(i => i.id === URLparams.invoiceId);
+    const currentInvoice = useMemo(() => {
+        return invoices.find(invoice => invoice.id === URLparams.id);
+    }, [invoices]);
     const { status, id, description, clientEmail, clientName, items, total } = currentInvoice;
     const invoiceColor: LabelColorsType = status === 'draft' ? 'gray'
         : status === 'pending' ? 'orange' 
         : 'green'; 
     const { street, city, postCode, country } = currentInvoice.senderAddress;
-    const createdAtDate = convertDateFromString(currentInvoice.createdAt);
-    const paymentDueDate = convertDateFromString(currentInvoice.paymentDue);
-    const itemsToRender = items.map((item, ind) => (
-        <ItemSingleWrapper key={ind}>
-            <ItemTitleText
-                $size='small'
-                $weight='medium'
-            >{item.name}</ItemTitleText>
-            <ItemPriceCountText
-                $size='small'
-                $weight='medium'
-            >{item.quantity} &times; &pound; {formatPrice(item.price)}</ItemPriceCountText>
-            <ItemPriceText
-                $size='medium'
-                $weight='bold'
-            >
-                &pound; {formatPrice(item.total)}
-            </ItemPriceText>
-        </ItemSingleWrapper>
-    ))
+    // use memo
+    const createdAtDate = useMemo(() => convertDateFromString(currentInvoice.createdAt), [currentInvoice.createdAt]);
+    const paymentDueDate = useMemo(() => convertDateFromString(currentInvoice.paymentDue), [currentInvoice.paymentDue]);
+    
+    
+    // render items
+    const itemsToRender = items.map((item, ind) => {
+        const formattedPrice = useMemo(() => formatPrice(item.price), [item.price]);
+        const formattedTotal = useMemo(() => formatPrice(item.total), [item.total]);
+
+        return (
+            <ItemSingleWrapper key={ind}>
+                <ItemTitleText
+                    $size='small'
+                    $weight='medium'
+                >{item.name}</ItemTitleText>
+                <ItemPriceCountText
+                    $size='small'
+                    $weight='medium'
+                >{item.quantity} &times; &pound; {formattedPrice}</ItemPriceCountText>
+                <ItemPriceText
+                    $size='medium'
+                    $weight='bold'
+                >
+                    &pound; {formattedTotal}
+                </ItemPriceText>
+            </ItemSingleWrapper>
+        )
+    });
 
     // rendering code
     return (
