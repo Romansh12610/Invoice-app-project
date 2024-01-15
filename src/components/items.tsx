@@ -4,6 +4,7 @@ import { InputLabelWrapper, FlexWrapper } from "./FormInvoice";
 import { useTheme } from "styled-components";
 import Icon from "../Icon/Icon";
 import { useGlobalContext } from "./ContextWrapper";
+import { InitialItemInterface } from "../interfaces/invoiceTypes";
 
 // types
 interface ItemsProps {
@@ -45,23 +46,31 @@ const Items = (props: ItemsProps) => {
 
     const { items, handleInvoiceChange } = useGlobalContext();
 
-    const renderItems = items.map((item, index) => (
-        <Item 
-            key={index}
-            index={index}
-            values={{
-                name: item.name,
-                quantity: item.quantity,
-                price: item.price,
-                total: item.total
-            }}
-            handleNameChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
-            handlePriceChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
-            handleQuantityChange={(e) => handleInvoiceChange(e, 'changeItem', null, index)}
-            handleRemoveItem={(e) => handleInvoiceChange(e, 'removeItem', null, index)}
-            shouldShowError={props.shouldShowError}
-        />
-    ));
+    const renderItems = items.map((item: InitialItemInterface, index) => {
+
+        const handleNameChange: ItemProps['handleNameChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+        const handlePriceChange: ItemProps['handlePriceChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+        const handleQuantityChange: ItemProps['handleQuantityChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+        const handleRemoveItem: ItemProps['handleRemoveItem'] = (e) => handleInvoiceChange(e, 'removeItem', null, index);
+
+        return (
+            <Item 
+                key={index}
+                index={index}
+                values={{
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: item.price,
+                    total: item.total
+                }}
+                handleNameChange={handleNameChange}
+                handlePriceChange={handlePriceChange}
+                handleQuantityChange={handleQuantityChange}
+                handleRemoveItem={handleRemoveItem}
+                shouldShowError={props.shouldShowError}
+            />
+        )
+    });
 
     // render
     return (
@@ -72,7 +81,7 @@ const Items = (props: ItemsProps) => {
             />
         </>
     )
-}
+};
 
 // helper components
 const ItemFlexWrapper = (props: ItemWrapperProps) => {
