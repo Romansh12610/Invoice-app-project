@@ -327,7 +327,7 @@ type FormRef = React.RefObject<HTMLFormElement>;
 const Form = forwardRef((props: FormProps, ref: FormRef) => {
     
     return (
-        <StyledForm ref={ref} id={props.id}>
+        <StyledForm ref={ref} id={props.id} noValidate>
             {props.children}
         </StyledForm>
     )
