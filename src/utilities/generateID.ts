@@ -3,7 +3,7 @@ import { InitialInvoiceInterface } from "../interfaces/invoiceTypes";
 const generateID = () => {
     const idTemplate = ['X', 'X', 0, 0, 0, 0];
     const alphabetLength = 26;
-    const alphUpperCased = new Array(alphabetLength).map((_, ind) => String.fromCharCode(ind + 65));
+    const alphUpperCased = new Array(alphabetLength).fill('').map((_, ind) => String.fromCharCode(ind + 65));
 
     const uid = idTemplate.map((_, ind) => {
         if (ind < 2) {
