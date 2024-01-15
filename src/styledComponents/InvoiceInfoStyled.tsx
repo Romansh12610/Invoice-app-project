@@ -8,7 +8,7 @@ import ButtonDefault from '../shared/buttons';
 
 export const MainSectionWrapper = styled.section`
     margin-top: ${rem(15)};
-    min-height: 100vh;
+    min-height: 80vh;
     width: 90svw;
     margin-inline: auto;
 `;
@@ -28,6 +28,7 @@ export const InfoSection = styled.article<{ $flexArgs: FlexMixinInterface }>`
     transition: backround-color 300ms ease-in-out;
     padding: clamp(${rem(24)}, 4svw, ${rem(48)});
     border-radius: ${rem(10)};
+    margin-bottom: 0;
 `;
 
 export const InfoWrapperPart = styled.div`
@@ -209,12 +210,9 @@ export const TotalPrice = styled.p`
 export const FooterWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
     ${props => createFlexMixin(props.$flexArgs)}
     background-color: ${props => props.theme.invoiceBg};
-    margin-top: ${rem(40)};
     padding-block: ${rem(15)};
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    height: ${rem(80)};
+    margin-top: ${rem(20)};
 `;
 
 export const EditBtn = styled(ButtonDefault)`
