@@ -1,15 +1,10 @@
-import { InvoiceUl, InvoiceDate, InvoiceLink, InvoiceListItem, InvoiceName, InvoicePrice, InvoiceUid, SpanUid } from "../styledComponents/InvoiceListStyled";
-import { StyledLabel } from "../shared/colorLabels";
+import { InvoiceUl } from "../styledComponents/InvoiceListStyled";
 import { useGlobalContext } from "./ContextWrapper";
-// utility
-import capitalizeFirstLetter from "../utilities/capitalizeFirstLetter";
-import convertDateOutput from "../utilities/convertDateOutput";
-import formatPrice from "../utilities/formatPrice";
 // animation
 import { AnimatePresence } from "framer-motion";
-import { invoiceListVariants, invoiceItemVariants } from "../utilities/invoiceListVariants";
-import { motion } from "framer-motion";
-
+import { invoiceListVariants } from "../utilities/invoiceListVariants";
+// components
+import ListItem from "./InvoiceListItem";
 
 const InvoiceList = () => {
     
@@ -17,44 +12,7 @@ const InvoiceList = () => {
     const { invoices } = globalState;
 
     // rendering invoices
-    const renderingList = invoices.map(invoice => (
-        <InvoiceListItem key={invoice.id}
-            layout
-            initial='initial'
-            animate='animate'
-            exit='exit'
-            variants={invoiceItemVariants}
-        >
-            <InvoiceLink to={`/${invoice.id}`}>
-                <InvoiceUid
-                    $size='small'
-                    $weight='bold'
-                    $letterSpacing='thin'
-                    $lineHeight='medium'
-                ><SpanUid>#</SpanUid>{invoice.id}</InvoiceUid>
-                <InvoiceDate
-                    $size='small'
-                    $weight='thin'
-                >{convertDateOutput(invoice.paymentDue, true)}</InvoiceDate>
-                <InvoiceName
-                    $size='small'
-                    $weight='thin'
-                >{invoice.clientName}</InvoiceName>
-                <InvoicePrice
-                    $size='large'
-                    $weight='bold'
-                    $letterSpacing='thin'
-                    $lineHeight='high'
-                >&#163; {formatPrice(invoice.total)}</InvoicePrice>
-                <StyledLabel
-                    $gridArea="status"
-                    $justifySelf="end"
-                    $color={invoice.status === 'paid' ? 'green' :
-                            invoice.status === 'pending' ? 'orange' : 'gray'}       
-                >{capitalizeFirstLetter(invoice.status)}</StyledLabel>
-            </InvoiceLink>
-        </InvoiceListItem>
-    ));
+    const renderingList = invoices.map(invoice => <ListItem invoice={invoice} key={invoice.id} />);
 
     return (
         <AnimatePresence>
@@ -63,7 +21,6 @@ const InvoiceList = () => {
                     direction: 'column',
                     gap: '20'
                 }}
-                as={motion.ul}
                 initial='initial'
                 animate='animate'
                 exit='exit'
@@ -71,7 +28,7 @@ const InvoiceList = () => {
                     invoiceListVariants
                 }
             >
-                <AnimatePresence mode="popLayout" initial={false}>
+                <AnimatePresence mode='sync' initial={false}>
                     {renderingList}
                 </AnimatePresence>
             </InvoiceUl>
