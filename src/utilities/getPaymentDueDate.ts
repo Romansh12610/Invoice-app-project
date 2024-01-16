@@ -4,7 +4,6 @@ const getPaymentDueDate: getPaymentDue = (createdAt, paymentTerms) => {
     if (typeof createdAt === 'string') {
         createdAt = new Date(createdAt);
     }
-
     // timestamp counting
     let timeStamp = createdAt.getTime(); 
     const msTerms = paymentTerms * 3600 * 24 * 1000;
