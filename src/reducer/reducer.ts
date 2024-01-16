@@ -56,7 +56,11 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         }
 
         case 'addDraft': {
+            console.log('reducer: payload is: ', action.payload);
             let newInvoice = action.payload as InitialInvoiceInterface;
+            //log
+            console.log('draft payload:', newInvoice);
+
             newInvoice = {
                 ...newInvoice,
                 id: generateUniqueID(state.invoices)
@@ -71,7 +75,13 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         }
 
         case 'addInvoice': {
+            console.log('reducer: payload is: ', action.payload);
+
             let newInvoice = action.payload as InitialInvoiceInterface;
+
+            //log
+            console.log('invoice payload:', newInvoice);
+
             newInvoice = {
                 ...newInvoice,
                 id: generateUniqueID(state.invoices)
@@ -82,6 +92,51 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                 invoices: [...state.invoices, newInvoice],
                 isFormOpen: false,
                 isModalOpen: false,
+            }
+        }
+
+        // modal
+        case 'closeModal': {
+            return {
+                ...state,
+                isModalOpen: false,
+            }
+        }
+
+        case 'deleteInvoice': {
+            const invoiceId = action.payload as string;
+
+            const newInvoices = state.invoices.filter(inv => {
+                return inv.id !== invoiceId;
+            });
+
+            return {
+                ...state,
+                invoices: newInvoices,
+            };
+        }
+
+        case 'changeStatus': {
+            const invoiceId = action.payload as string;
+            const invoiceToChange = state.invoices.find(inv => inv.id === invoiceId);
+            const changedInvoice: InitialInvoiceInterface = {
+                ...invoiceToChange,
+                status: 'paid',
+            };
+
+            const newInvoices = state.invoices.map(inv => {
+                if (inv.id !== invoiceId) {
+                    return inv;
+                }
+                // our case 
+                else {
+                    return changedInvoice;
+                }
+            });
+            
+            return {
+                ...state,
+                invoices: newInvoices,
             }
         }
     }
