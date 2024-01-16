@@ -1,5 +1,8 @@
 import { StyledWrapper, TitleText, ParText, BtnWrapper, CancelBtn, ActionBtn } from "../styledComponents/ModalStyled";
 import { useGlobalContext } from "./ContextWrapper";
+import { createPortal } from "react-dom";
+import buttonVariants from "../utilities/buttonVariants";
+
 
 interface ModalProps {
     mod: 'DELETE' | 'CHANGE_STATUS' | 'SAVE_CHANGES';
@@ -37,20 +40,32 @@ const Modal = ({ mod, id }: ModalProps) => {
         });
     };
 
-    return (
+    const modal = (
         <StyledWrapper>
             <TitleText>Confirm {headText}</TitleText>
             <ParText>{message}</ParText>
             <BtnWrapper>
                 <CancelBtn
+                    whileHover='hover'
+                    whileTap='tap'
+                    variants={buttonVariants}
+
                     onClick={handleCancelBtnClick}
                 >Cancel</CancelBtn>
                 <ActionBtn
+                    whileHover='hover'
+                    whileTap='tap'
+                    variants={buttonVariants}
+
                     onClick={handleActiveBtnClick}
+                    $type={mod}
                 >{actionBtnText}</ActionBtn>
             </BtnWrapper>
         </StyledWrapper>
-    )
+    );
+
+
+    return createPortal(modal, document.body);
 };
 
 export default Modal;
