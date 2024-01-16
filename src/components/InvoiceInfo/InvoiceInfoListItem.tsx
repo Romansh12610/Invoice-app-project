@@ -1,10 +1,10 @@
 import { memo, useMemo } from 'react';
 // types
-import { InitialItemInterface } from '../interfaces/invoiceTypes';
+import { InitialItemInterface } from '../../interfaces/invoiceTypes';
 // styles comps
-import { ItemSingleWrapper, ItemTitleText, ItemPriceCountText, ItemPriceText } from '../styledComponents/InvoiceInfoStyled';
+import { ItemSingleWrapper, ItemTitleText, ItemPriceCountText, ItemPriceText } from '../../styledComponents/InvoiceInfoStyled';
 // util functins
-import formatPrice from '../utilities/formatPrice';
+import formatPrice from '../../utilities/formatPrice';
 
 
 interface InfoListItemProps {

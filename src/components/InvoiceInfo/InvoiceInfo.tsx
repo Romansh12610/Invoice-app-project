@@ -1,19 +1,19 @@
 // styled components
-import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../styledComponents/InvoiceInfoStyled';
+import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../../styledComponents/InvoiceInfoStyled';
 // helper components & types
-import { StyledLabel } from '../shared/colorLabels';
+import { StyledLabel } from '../../shared/colorLabels';
 import { Link, useParams } from 'react-router-dom';
-import { useGlobalContext } from './ContextWrapper';
-import { LabelColorsType } from '../shared/colorLabels';
-import GoBackLink from '../shared/goBackLink';
+import { useGlobalContext } from '../ContextWrapper';
+import { LabelColorsType } from '../../shared/colorLabels';
+import GoBackLink from '../../shared/goBackLink';
 import InfoListItem from './InvoiceInfoListItem';
 // utility functions
-import convertDateFromString from '../utilities/convertDateOutput';
-import formatPrice from '../utilities/formatPrice';
-import buttonVariants from '../utilities/buttonVariants';
+import convertDateFromString from '../../utilities/convertDateOutput';
+import formatPrice from '../../utilities/formatPrice';
+import buttonVariants from '../../utilities/buttonVariants';
 import { useEffect, useMemo, useState } from 'react';
-import { InitialItemInterface } from '../interfaces/invoiceTypes';
-import Modal from './Modal';
+import { InitialItemInterface } from '../../interfaces/invoiceTypes';
+import Modal from '../Modal';
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
