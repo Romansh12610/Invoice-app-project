@@ -11,14 +11,15 @@ import InfoListItem from './InvoiceInfoListItem';
 import convertDateFromString from '../utilities/convertDateOutput';
 import formatPrice from '../utilities/formatPrice';
 import buttonVariants from '../utilities/buttonVariants';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { InitialItemInterface } from '../interfaces/invoiceTypes';
+import Modal from './Modal';
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
     const URLparams = useParams();
-    const { globalState, orientation } = useGlobalContext();
-    const { invoices } = globalState;
+    const { globalState, orientation, dispatchAction } = useGlobalContext();
+    const { invoices, isModalOpen } = globalState;
 
     // retrieve invoice that gets opened
     const currentInvoice = useMemo(() => {
@@ -42,8 +43,32 @@ export default function InvoiceView() {
     }, [total]);
 
 
-    // button event listeners
+    // button event listeners and state + effect
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isChangeStatusOpen, setIsChangeStatusOpen] = useState(false);
     
+    const handleDeleteBtnClick = () => {
+        setIsDeleteOpen(true);
+        dispatchAction({
+            type: 'openModal'
+        });
+    };
+
+    const handleChangeStatusBtnClick = () => {
+        setIsChangeStatusOpen(true);
+        dispatchAction({
+            type: 'openModal'
+        });
+    };
+
+    useEffect(() => {
+        if (!isModalOpen && isDeleteOpen) {
+            setIsDeleteOpen(false);
+        }
+        else if (!isModalOpen && isChangeStatusOpen) {
+            setIsChangeStatusOpen(false);
+        }
+    }, [isModalOpen]);
     
     // render items
     const itemsToRender = items.map((item: InitialItemInterface, ind) => <InfoListItem key={ind} item={item} />);
@@ -75,12 +100,16 @@ export default function InvoiceView() {
                                 whileHover='hover'
                                 whileTap='tap'
                                 variants={buttonVariants}
+                                $needShift={status === 'paid'}
+                                onClick={handleDeleteBtnClick}
                             >Delete</DeleteBtn>
                             {status === 'pending' && 
                             <MarkBtn 
                                 whileHover='hover'
                                 whileTap='tap'
                                 variants={buttonVariants}
+
+                                onClick={handleChangeStatusBtnClick}
                             >Mark as Paid</MarkBtn>}
                         </>     
                     }
@@ -223,13 +252,18 @@ export default function InvoiceView() {
                     whileHover='hover'
                     whileTap='tap'
                     variants={buttonVariants}
+                    onClick={handleDeleteBtnClick}
                 >Delete</DeleteBtn>
                 {status === 'pending' && <MarkBtn 
                     whileHover='hover'
                     whileTap='tap'
                     variants={buttonVariants}
+                    onClick={handleChangeStatusBtnClick}
                 >Mark as Paid</MarkBtn>}
             </FooterWrapper>}
+            {/* Modal open */}
+            {isDeleteOpen && <Modal mod='DELETE' id={URLparams.invoiceId} />}
+            {isChangeStatusOpen && <Modal mod='CHANGE_STATUS' id={URLparams.invoiceId} />}
         </>
     )
-}
+};

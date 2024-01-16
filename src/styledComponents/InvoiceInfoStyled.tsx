@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 import rem from "../utilities/pxIntoRem";
 import { createFlexMixin } from "./GlobalStyles";
 import FlexMixinInterface from "../interfaces/flexMixin";
@@ -216,22 +216,42 @@ export const FooterWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
 `;
 
 export const EditBtn = styled(ButtonDefault)`
-    background-color: ${props => props.theme.editBtnBg};
-    color: ${props => props.theme.editBtnColor};
+    background-color: ${props => props.theme.general.editBtnBg};
+    color: ${props => props.theme.general.white};
     
+    &:hover {
+        background-color: ${props => props.theme.general.editBtnHover};
+    };
+
     @media (min-width: ${breakPointValues.up.medium}) {
         margin-left: auto;
     }
 `;
 
+// mixin for shift
+const shiftMixin = css`
+    @media (min-width: ${breakPointValues.up.medium}) {
+        margin-left: auto;
+    };
+`;
 
-export const DeleteBtn = styled(ButtonDefault)`
+export const DeleteBtn = styled(ButtonDefault)<{ $needShift: boolean }>`
     background-color: ${props => props.theme.general.deleteBtnBg};
     color: #fff;
+
+    &:hover {
+        background-color: ${props => props.theme.general.deleteBtnHover};
+    };
+
+    ${props => props.$needShift && shiftMixin};
 `;
 
 
 export const MarkBtn = styled(ButtonDefault)`
     background-color: ${props => props.theme.general.markBtnBg};
     color: #fff;
+
+    &:hover {
+        background-color: ${props => props.theme.general.markBtnHover};
+    };
 `
