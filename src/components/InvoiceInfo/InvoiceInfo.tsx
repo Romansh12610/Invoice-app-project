@@ -2,7 +2,7 @@
 import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../../styledComponents/InvoiceInfoStyled';
 // helper components & types
 import { StyledLabel } from '../../shared/colorLabels';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useGlobalContext } from '../ContextWrapper';
 import { LabelColorsType } from '../../shared/colorLabels';
 import GoBackLink from '../../shared/goBackLink';
@@ -14,6 +14,7 @@ import buttonVariants from '../../utilities/buttonVariants';
 import { useEffect, useMemo, useState } from 'react';
 import { InitialItemInterface } from '../../interfaces/invoiceTypes';
 import Modal from '../Modal';
+import ConfirmDeletion from './ConfirmDeletion';
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
@@ -24,10 +25,7 @@ export default function InvoiceView() {
     // case where it is deleted
     if (isInvoiceDeleted) {
         return (
-            <div>
-                <h3>Invoice successfully deleted!</h3>
-                <Link to='/'>Ok</Link>
-            </div>
+            <ConfirmDeletion />
         )
     };
 
