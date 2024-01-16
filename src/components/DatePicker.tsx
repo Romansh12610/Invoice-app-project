@@ -1,11 +1,11 @@
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
-import { defaultInput } from './FormInvoiceStyled';
+import { defaultInput } from '../styledComponents/FormInvoiceStyled';
 import Icon from '../Icon/Icon';
 import convertDateOutput from '../utilities/convertDateOutput';
 import React, { forwardRef, useMemo } from 'react';
-import { useGlobalContext } from '../components/ContextWrapper';
+import { useGlobalContext } from './ContextWrapper';
 import { useTheme } from 'styled-components';
 import rem from '../utilities/pxIntoRem';
 
