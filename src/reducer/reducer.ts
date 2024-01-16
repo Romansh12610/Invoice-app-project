@@ -34,7 +34,8 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             return {
                 ...state,
                 isFormOpen: true,
-            }
+                isBackdropOpen: true,
+            };
         }
 
         case 'closeForm': {
@@ -42,6 +43,7 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             return {
                 ...state, 
                 isFormOpen: false,
+                isBackdropOpen: false,
             }
         }
 
@@ -52,6 +54,7 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                 isFormOpen: false,
                 isInvoiceEdited: false,
                 isModalOpen: false,
+                isBackdropOpen: false,
             }
         }
 
@@ -97,14 +100,32 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
 
         // modal
         case 'closeModal': {
+
+            const isNoNeedToClose = state.isFormOpen;
+
             return {
                 ...state,
                 isModalOpen: false,
-            }
+                isBackdropOpen: isNoNeedToClose ? true : false
+            };
         }
 
+        case 'openModal': {
+
+            return {
+                ...state,
+                isModalOpen: true,
+                isBackdropOpen: true,
+            };
+        }
+
+
+        // deleting invoice + reset
         case 'deleteInvoice': {
             const invoiceId = action.payload as string;
+
+            console.log('deleted id: ', invoiceId);
+            console.log('deleted inv: ', state.invoices.find(inv => inv.id === invoiceId));
 
             const newInvoices = state.invoices.filter(inv => {
                 return inv.id !== invoiceId;
@@ -113,6 +134,16 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             return {
                 ...state,
                 invoices: newInvoices,
+                isInvoiceDeleted: true,
+                isBackdropOpen: false,
+            };
+        }
+
+        case 'resetDeletedInvoice': {
+            
+            return {
+                ...state,
+                isInvoiceDeleted: false,
             };
         }
 

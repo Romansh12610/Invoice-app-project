@@ -1,6 +1,6 @@
-import { MainWrapper, StyledForm, Input, Label, Title, FieldSet, Legend, Backdrop, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, TopWrapper, StyledError } from "../styledComponents/FormInvoiceStyled";
+import { MainWrapper, StyledForm, Input, Label, Title, FieldSet, Legend, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, TopWrapper, StyledError } from "../styledComponents/FormInvoiceStyled";
 import FormFooter from "./FormFooter";
-import DatePicker from "../styledComponents/DatePicker";
+import DatePicker from "./DatePicker";
 import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
@@ -18,8 +18,8 @@ const FormController = () => {
     const [shouldShowError, setShouldShowError] = useState(false);
 
     // refs
-    const modalRef = useRef(null);
-    const backdropRef = useRef(null);
+    const modalRef = useRef<HTMLDivElement>(null);
+    const backdropRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
     const URLparams = useParams();
@@ -59,9 +59,6 @@ const FormController = () => {
     
     const controller = (
         <>
-            <Backdrop 
-                ref={backdropRef}
-            />
             <MainWrapper
                 aria-modal={true}
                 aria-label="Invoice form"

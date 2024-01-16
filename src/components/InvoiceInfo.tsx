@@ -2,7 +2,7 @@
 import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapper, CityTextFrom, CountryTextFrom, DescriptionText, InfoSection, InfoWrapperPart, InvoiceDateField, InvoiceDateValue, InvoiceDateWrapper, MainSectionWrapper, PaymentDueField, PaymentDueValue, PaymentDueWrapper, PostCodeFrom, SentToField, SentToValue, SentToWrapper, StatusBarWrapper, StreetTextFrom, UidDescriptionWrapper, UidHashSpan, UidText, StreetTextTo, CityTextTo, PostCodeTo, CountryTextTo, ItemsWrapper, TotalWrapper, TotalText, TotalPrice, FooterWrapper, EditBtn, DeleteBtn, MarkBtn } from '../styledComponents/InvoiceInfoStyled';
 // helper components & types
 import { StyledLabel } from '../shared/colorLabels';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useGlobalContext } from './ContextWrapper';
 import { LabelColorsType } from '../shared/colorLabels';
 import GoBackLink from '../shared/goBackLink';
@@ -19,7 +19,17 @@ export default function InvoiceView() {
     // we need to know 'status' of current invoice
     const URLparams = useParams();
     const { globalState, orientation, dispatchAction } = useGlobalContext();
-    const { invoices, isModalOpen } = globalState;
+    const { invoices, isModalOpen, isInvoiceDeleted } = globalState;
+
+    // case where it is deleted
+    if (isInvoiceDeleted) {
+        return (
+            <div>
+                <h3>Invoice successfully deleted!</h3>
+                <Link to='/'>Ok</Link>
+            </div>
+        )
+    };
 
     // retrieve invoice that gets opened
     const currentInvoice = useMemo(() => {

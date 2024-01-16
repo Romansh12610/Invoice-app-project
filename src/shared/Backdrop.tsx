@@ -1,0 +1,54 @@
+import { styled } from "styled-components";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+import { createPortal } from "react-dom";
+
+export const StyledBackdrop = styled(motion.div)`
+    z-index: 98;
+    background-color: #0000004e;
+    position: fixed;
+    top: 0;
+    left: 0;
+`;
+
+const Backdrop = () => {
+
+    const component = (
+        <AnimatePresence initial={false}>
+            <StyledBackdrop 
+                layout='position'
+                animate='animate'
+                exit='exit'
+                variants={backdropVariants}
+            />
+        </AnimatePresence>
+    );
+
+    return createPortal(component, document.body);
+};
+
+export default Backdrop;
+
+const backdropVariants: Variants = {
+    animate: {
+        right: 0,
+        bottom: 0,
+        transition: {
+            layout: {
+                duration: 0.7,
+                type: 'spring',
+                stiffness: 100,
+                damping: 15
+            }
+        }
+    },
+    exit: {
+        right: '-100vw',
+        bottom: '100vh',
+        transition: {
+            layout: {
+                duration: 0.6,
+                type: 'spring'
+            },
+        },
+    },
+};
