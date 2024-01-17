@@ -5,11 +5,11 @@ import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
 import GoBackLink from "../shared/goBackLink";
-import React, { useEffect, useRef, useState, forwardRef } from 'react';
-import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
+import React, { useRef, useState, forwardRef, useCallback } from 'react';
 import { ChangeEventInputType } from "../hooks/useManageInvoices";
 import SelectLabel from "./Select";
 import Items from "./Items";
+import useModal from "../hooks/useModal";
 
 
 const FormController = () => {
@@ -19,7 +19,6 @@ const FormController = () => {
 
     // refs
     const modalRef = useRef<HTMLDivElement>(null);
-    const backdropRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
     const URLparams = useParams();
@@ -27,35 +26,15 @@ const FormController = () => {
     const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange, submitInvoiceForm } = useGlobalContext();
     const { isInvoiceEdited } = globalState;
 
-    useEffect(() => {
-        // prevent scroll when modal is active
-        document.body.style.overflow = 'hidden';
-
-        // focus trap
-        const keySet: keySetType = new Set();
-        
-        const closeFormCallback = () => {
-            dispatchAction({ type: 'closeForm' });
-        };
-
-        const onKeyDown = (e: KeyboardEvent) => focusTrapKeyDown(e, modalRef, closeFormCallback, keySet);
-        const onKeyUp = (e: KeyboardEvent) => focusTrapKeyUp(e, keySet);
-
-        document.addEventListener('keydown', onKeyDown);
-        document.addEventListener('keyup', onKeyUp);
-
-        // if click outside --> close modal
-        const handleOutsideClick = (e: MouseEvent) => closeModalIfOutsideClick(e, backdropRef, closeFormCallback);
-        document.addEventListener('click', handleOutsideClick);
-
-        return () => {
-            // enable scrolling after modal closing
-            document.body.style.overflow = 'unset';
-            document.removeEventListener('keydown', onKeyDown);
-            document.removeEventListener('keyup', onKeyUp);
-            document.removeEventListener('click', handleOutsideClick);
-        }
-    }, []);
+    // focus trap + click outside
+    const closeCallback = useCallback(() => {
+        dispatchAction({
+            type: 'closeForm'
+        });
+    }, [dispatchAction]);
+    
+    // custom hook
+    useModal(modalRef, closeCallback);
     
     const controller = (
         <>
