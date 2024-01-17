@@ -1,28 +1,59 @@
 import { useState, useEffect } from 'react';
+import { OrientationType } from '../interfaces/globalContextInt';
 
-const mobileWidthCondition = "(max-width: 768px)";
+// media queryies
+const mobileQuery = window.matchMedia('(max-width: 767px)');
+const tabletQuery = window.matchMedia('(min-width: 768px) and (max-width: 1019px)');
+const desktopQuery = window.matchMedia('(min-width: 1020px)');
 
+// helper functions
+const getInitOrientation = (): OrientationType => {
+    if (mobileQuery.matches) {
+        return 'mobile';
+    }
+    else if (tabletQuery.matches) {
+        return 'tablet';
+    }
+    else {
+        return 'desktop';
+    }
+};
+
+// custom hook
 const useDeviceOrientation = () => {
 
-    const [isMobile, setIsMobile] = useState(
-        window.matchMedia(mobileWidthCondition).matches
-    );
+    const [orientation, setOrientation] = useState<OrientationType>(getInitOrientation());
 
-    useEffect(() => {
-        function checkCondition() {
-            setIsMobile(window.matchMedia(mobileWidthCondition).matches);
-        }
+    useEffect(() => {   
+        // event handler
+        const handleChangeOrientation = () => {
+            if (desktopQuery.matches) {
+                setOrientation('desktop');
+            }
+            else if (tabletQuery.matches) {
+                setOrientation('tablet');
+            }
+            else {
+                setOrientation('mobile');
+            }
+        };
 
-        window.matchMedia(mobileWidthCondition)
-            .addEventListener('change', checkCondition);
+        // add event listeners
+        mobileQuery.addEventListener('change', handleChangeOrientation);
+        tabletQuery.addEventListener('change', handleChangeOrientation);
+        desktopQuery.addEventListener('change', handleChangeOrientation);
+
 
         return () => {
-            window.matchMedia(mobileWidthCondition)
-                .removeEventListener('change', checkCondition);
+            mobileQuery.removeEventListener('change', handleChangeOrientation);
+            tabletQuery.removeEventListener('change', handleChangeOrientation);
+            desktopQuery.removeEventListener('change', handleChangeOrientation);
         }
-    }, [isMobile]);
 
-    return [isMobile] as const;
+    }, []);
+
+
+    return orientation;
 };
 
 export default useDeviceOrientation;

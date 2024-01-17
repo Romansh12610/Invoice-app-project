@@ -13,7 +13,7 @@ const AppContext = React.createContext<GlobalContextInt | null>(null);
 export default function ContextWrapper({ children }: { children: React.ReactNode }) {
 
 	// device orientation
-	const [isMobile] = useDeviceOrientation();
+	const orientation = useDeviceOrientation();
 
 	// take global state values from hooks
     const [theme, toggleTheme] = useThemeToggle();
@@ -35,7 +35,7 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 			toggleTheme,
 			filterStatus,
 			setFilterStatus,
-			orientation: isMobile ? "mobile" : "desktop",
+			orientation,
 			globalState,
 			dispatchAction,
 			newInvoice,
