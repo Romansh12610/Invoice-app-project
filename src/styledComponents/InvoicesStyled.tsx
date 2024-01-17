@@ -9,18 +9,18 @@ import { JustifyType } from "../shared/buttons";
 import { svgBackgroundMixin } from "../styledComponents/GlobalStyles";
 import plusIcon from '../assets/icon-plus.svg';
 import { motion } from "framer-motion";
-
+import { OrientationType } from "../interfaces/globalContextInt";
 
 export const MainContainer = styled(motion.main)<{ $flexArgs: FlexMixinInterface }>`
     ${props => createFlexMixin(props.$flexArgs)};
     min-height: 100vh;
-    margin-inline: 5svw;
+    margin-inline: 10vw;
 `;
 
-export const HeadingWrapper = styled(motion.div)<{$flexArgs: FlexMixinInterface}>`
+export const HeadingWrapper = styled(motion.div)<{$flexArgs: FlexMixinInterface, $orientation: OrientationType }>`
     ${props => createFlexMixin(props.$flexArgs)};
     margin-block: ${rem(25)};
-    width: 100%;
+    width: ${props => props.$orientation === 'desktop' ? `${rem(850)}` : '100%'};
 `;
 
 export const TitleWrapper = styled.div<{ $flexArgs: FlexMixinInterface}>`

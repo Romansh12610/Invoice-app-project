@@ -8,7 +8,7 @@ import ListItem from "./InvoiceListItem";
 
 const InvoiceList = () => {
     
-    const { globalState } = useGlobalContext();
+    const { globalState, orientation } = useGlobalContext();
     const { invoices } = globalState;
 
     // rendering invoices
@@ -21,6 +21,7 @@ const InvoiceList = () => {
                     direction: 'column',
                     gap: '20'
                 }}
+                $orientation={orientation}
                 initial='initial'
                 animate='animate'
                 exit='exit'

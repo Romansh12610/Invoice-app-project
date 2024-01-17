@@ -5,12 +5,13 @@ import { CustomizableTextItem } from "../shared/typographyStyles";
 import { Link, LinkProps } from 'react-router-dom';
 import { styled } from "styled-components";
 import { motion } from "framer-motion";
+import { OrientationType } from "../interfaces/globalContextInt";
 
-export const InvoiceUl= styled(motion.ul)<{ $flexArgs: FlexMixinInterface }>`
+export const InvoiceUl= styled(motion.ul)<{ $flexArgs: FlexMixinInterface, $orientation: OrientationType }>`
     ${props => createFlexMixin(props.$flexArgs)};
     list-style: none;
     min-height: 100vh;
-    width: 100%;
+    width: ${props => props.$orientation === 'desktop' ? `${rem(850)}` : '100%'};
     padding: 0;
     background-color: ${({theme}) => theme.bgColor};
     transition: background-color 300ms ease-in-out;

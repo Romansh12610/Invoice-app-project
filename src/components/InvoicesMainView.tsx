@@ -48,6 +48,7 @@ export default function Main() {
                         justify: 'space-between',
                         alignItems: 'center'
                     }}
+                    $orientation={orientation}
                     initial='initial'
                     animate='animate'
                     exit='exit'
