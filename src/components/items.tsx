@@ -49,8 +49,11 @@ const Items = (props: ItemsProps) => {
     const renderItems = items.map((item: InitialItemInterface, index) => {
 
         const handleNameChange: ItemProps['handleNameChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+
         const handlePriceChange: ItemProps['handlePriceChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+
         const handleQuantityChange: ItemProps['handleQuantityChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+        
         const handleRemoveItem: ItemProps['handleRemoveItem'] = (e) => handleInvoiceChange(e, 'removeItem', null, index);
 
         return (
@@ -113,6 +116,8 @@ const ItemsButton = (props: ItemsButtonProps) => {
     )
 };
 
+
+// Signle Item component
 const Item = (props: ItemProps) => {
 
     const colorTheme = useTheme();

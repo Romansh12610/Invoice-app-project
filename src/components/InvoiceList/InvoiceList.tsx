@@ -2,7 +2,7 @@ import { InvoiceUl } from "../../styledComponents/InvoiceListStyled";
 import { useGlobalContext } from "../ContextWrapper";
 // animation
 import { AnimatePresence } from "framer-motion";
-import { invoiceListVariants } from "../../utilities/invoiceListVariants";
+import { invoiceListVariants } from "../../utilities/variants/invoiceListVariants";
 // components
 import ListItem from "./InvoiceListItem";
 

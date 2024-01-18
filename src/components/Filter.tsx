@@ -5,7 +5,7 @@ import { useGlobalContext } from './ContextWrapper';
 import { useTheme } from "styled-components";
 import { FilterActiveType } from '../interfaces/filterTypes';
 import { motion } from 'framer-motion';
-import { filterListVariants, filterItemVariants } from '../utilities/filterVariants';
+import { filterListVariants, filterItemVariants } from '../utilities/variants/filterVariants';
 import useCloseIfClickOutside from '../hooks/useCloseIfClickOutside';
 
 export default function Filter() {

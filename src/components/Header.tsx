@@ -10,7 +10,8 @@ export default function Header() {
     } = useGlobalContext();
 
     const colorTheme = useTheme();
-
+    
+    // rendering
     return (
         <StyledHeader>
             <LogoLink to='/' />

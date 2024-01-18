@@ -6,7 +6,6 @@ import InvoiceInfo from '../InvoiceInfo/InvoiceInfo';
 
 const AnimatedRoutes = () => {
     const location = useLocation();
-    console.log(location);
 
     return (
         <Routes location={location} key={location.key}>

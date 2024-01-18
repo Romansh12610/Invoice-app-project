@@ -22,6 +22,7 @@ export const StyledWrapper = styled(motion.div)`
     position: fixed;
     left: calc(50% - 15vw);
     top: calc(50% - ${rem(100)});
+    z-index: 99;
 
     &:hover {
         background-color: ${({theme}) => theme.modalBgHover};

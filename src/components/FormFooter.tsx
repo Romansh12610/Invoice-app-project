@@ -1,5 +1,5 @@
 import { FooterWrapper, DiscardBtn, SaveDraftBtn, SaveSendBtn } from "../styledComponents/FormFooterStyled";
-import buttonVariants from "../utilities/buttonVariants";
+import buttonVariants from "../utilities/variants/buttonVariants";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "./ContextWrapper";
 import { SubmitInvoiceForm, ActionTypes } from "../hooks/useManageInvoices";

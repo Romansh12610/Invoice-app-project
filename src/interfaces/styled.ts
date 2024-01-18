@@ -7,8 +7,6 @@ export default interface ThemeInterface {
     invoiceBg: string;
     invoiceBgSecondary: string;
     totalBlockBg: string;
-    editBtnBg: string;
-    editBtnColor: string;
     formBg: string;
     inputBorder: string;
     selectOptionBg: string;
@@ -18,11 +16,12 @@ export default interface ThemeInterface {
     selectItemListText: string;
     selectTopWrapperBg: string;
     backLinkHover: string;
-    deleteBtnBg: string;
     addBtnBg: string;
     addBtnHover: string;
     discardBtn: string;
     discardBtnHover: string;
+    modalBg: string;
+    modalBgHover: string;
     general: {
         iconColor: string;
         purple: string;
@@ -37,12 +36,20 @@ export default interface ThemeInterface {
         white: string;
         black: string;
         uidHash: string;
+        editBtnBg: string;
+        editBtnHover: string;
         deleteBtnBg: string;
+        deleteBtnHover: string;
         markBtnBg: string;
+        markBtnHover: string;
         saveDraftBtn: string;
         saveDraftBtnHover: string;
         saveSendBtn: string,
         saveSendBtnHover: string,
         error: string;
+        cancelBtn: string;
+        cancelBtnHover: string;
+        confirmBtnBg: string;
+        confirmBtnHover: string;
     }
 }

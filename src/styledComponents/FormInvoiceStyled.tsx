@@ -74,7 +74,7 @@ export const MainWrapper = styled(motion.div)`
     transform: translateX(-100vw);
 
     @media (min-width: 768px) {
-        width: ${rem(750)};
+        width: ${rem(800)};
     }
 `;
 
@@ -104,6 +104,7 @@ export const StyledForm = styled.form`
     display: flex;
     flex-flow: nowrap column;
     height: 70%;
+    width: 100%;
     margin-top: calc(12vh - 5px);
 `;
 
@@ -119,6 +120,7 @@ export const Legend = styled.legend<{ $items?: true }>`
 export const FieldSet = styled.fieldset`
     display: flex;
     flex-flow: column nowrap;
+    width: 95%;
     gap: ${rem(15)};
 `;
 
@@ -211,7 +213,9 @@ export const SelectOptionText = styled.p`
 // items
 
 export const ItemsAddButton = styled.button`
-    width: 100%;
+    width: max(50%, ${rem(200)});
+    align-self: center;
+
     display: flex;
     justify-content: center;
     align-items: center;

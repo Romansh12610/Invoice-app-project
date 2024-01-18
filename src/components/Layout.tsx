@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
-import { useGlobalContext } from "./ContextWrapper";
 import FormController from "./FormInvoice";
 import Backdrop from "../shared/Backdrop";
+import { useGlobalContext } from "./ContextWrapper";
 
-export default function() {
+export default function Layout() {
 
     const { globalState } = useGlobalContext();
 	const { isFormOpen, isBackdropOpen } = globalState;

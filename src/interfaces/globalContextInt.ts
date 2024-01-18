@@ -11,7 +11,11 @@ export interface GlobalStateInterface {
     isFormOpen: boolean;
     isInvoiceEdited: boolean;
     isModalOpen: boolean;
+    isBackdropOpen: boolean;
+    isInvoiceDeleted: boolean;
 }
+
+export type OrientationType = "mobile" | "tablet" | "desktop";
 
 // globalContext interface
 export default interface GlobalContextInt {
@@ -19,7 +23,7 @@ export default interface GlobalContextInt {
     toggleTheme: VoidFuncType;
     filterStatus: FilterStatusType;
     setFilterStatus: FilterStatusSetterType;
-    orientation: "mobile" | "desktop";
+    orientation: OrientationType;
     globalState: GlobalStateInterface;
     dispatchAction: InvoiceListDispatchType;
     newInvoice: InitialInvoiceInterface;

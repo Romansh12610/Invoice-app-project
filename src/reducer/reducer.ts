@@ -1,6 +1,6 @@
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
 import ReducerActions,  { PayloadWithCallbackArr } from '../interfaces/reducerTypes';
-import { initialState } from '../hooks/useManageInvoices';
+import { getInitialState } from '../hooks/useManageInvoices';
 import { InitialInvoiceInterface } from '../interfaces/invoiceTypes';
 import { FilterStatusType } from '../interfaces/filterTypes';
 import generateUniqueID from '../utilities/generateID';
@@ -8,7 +8,6 @@ import { InvoiceListType } from '../interfaces/invoiceTypes';
 
 // helpers
 const postInvoicesToLocalStorage = (invoices: InvoiceListType) => {
-    console.log('post to storage: ', invoices);
     localStorage.setItem('invoices', JSON.stringify(invoices));
 };
 
@@ -21,20 +20,21 @@ const restoreToInitial = (stateSetterArray: StateSetterCallback[]) => {
 export default function InvoiceReducer(state: GlobalStateInterface, action: ReducerActions) {
 
     switch (action.type) {
-
+        
         // filter invoices
         case "filter": {
+            console.log('REDUCER: filter case');
             const filterStatus = action.payload as FilterStatusType;
 
             if (filterStatus === 'all') {
-                return initialState;
+                return getInitialState();
             }
 
             // always filter initial state
-           const filteredInvoices = initialState.invoices.filter(i => i.status === filterStatus);
+           const filteredInvoices = getInitialState().invoices.filter(i => i.status === filterStatus);
 
            const newState = {
-                ...initialState,
+                ...getInitialState(),
                 invoices: filteredInvoices
            };
 
@@ -83,6 +83,8 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                 ...payload.newInvoice,
                 id: generateUniqueID(state.invoices)
             };
+
+            console.log(`REDUCER: new invoice added to draft ${newInvoice}`);
 
             const newInvoices = [...state.invoices, newInvoice];
 

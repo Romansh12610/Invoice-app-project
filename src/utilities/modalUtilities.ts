@@ -1,7 +1,7 @@
 // types
 type closeCallbackType = () => void;
 
-type closeModalType = (e: MouseEvent, modalElement: Node, closeCallback: closeCallbackType) => void;
+type closeModalType = (e: MouseEvent, backdropElement: HTMLDivElement, closeCallback: closeCallbackType) => void;
 
 export type keySetType = Set<'Tab' | 'Shift'>; 
 
@@ -10,16 +10,11 @@ type FocusTrapDownType = (e: KeyboardEvent, modalElement: HTMLDivElement | HTMLF
 type FocusTrapUpType = (e: KeyboardEvent, keySet: keySetType) => void;
 
 // functions
-export const closeModalIfOutsideClick: closeModalType = (e, modalElement, closeCallback) => {
-    e.stopPropagation();
+export const closeModalIfOutsideClick: closeModalType = (e, backdropElement, closeCallback) => {
 
     const { target } = e;
 
-    console.log('target: ', target);
-    console.log('modal: ', modalElement);
-    console.log('modal contains target: ', modalElement.contains(target as Node));
-
-    if (modalElement.contains(target as Node) == false) {
+    if (target === backdropElement) {
         closeCallback();
     } 
     else {
@@ -45,19 +40,19 @@ export const focusTrapKeyDown: FocusTrapDownType = (e, modalElement, closeCallba
     const lastItem = focusableElementsList[listLength - 1];
 
     if (document.activeElement === firstItem && e.key === 'Tab' && keySet.has('Shift')) {
-        lastItem.focus();
         lastItem.scrollIntoView({
             behavior: 'smooth',
         });
+        lastItem.focus();
     }
 
     else if (document.activeElement === lastItem && e.key === 'Tab') {
-        firstItem.focus();
         firstItem.scrollIntoView(
             {
                 behavior: 'smooth',
             }
-        )
+        );
+        firstItem.focus();
     }
 };
 

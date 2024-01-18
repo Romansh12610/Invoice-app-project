@@ -10,7 +10,7 @@ import InfoListItem from './InvoiceInfoListItem';
 // utility functions
 import convertDateFromString from '../../utilities/convertDateOutput';
 import formatPrice from '../../utilities/formatPrice';
-import buttonVariants from '../../utilities/buttonVariants';
+import buttonVariants from '../../utilities/variants/buttonVariants';
 import { useEffect, useMemo, useState } from 'react';
 import { InitialItemInterface } from '../../interfaces/invoiceTypes';
 import Modal from '../Modal';

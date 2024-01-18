@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { focusTrapKeyDown, focusTrapKeyUp, keySetType, closeModalIfOutsideClick } from "../utilities/modalUtilities";
 
 
-const useModal = (modalRef: React.RefObject<HTMLDivElement | HTMLFormElement>, closeCallback: () => void) => {
+const useModal = (modalRef: React.RefObject<HTMLFormElement | HTMLDivElement>, closeCallback: () => void) => {
 
     useEffect(() => {
         // prevent scroll when modal is active
         document.body.style.overflow = 'hidden';
+        const backdropElement = document.getElementById('backdrop') as HTMLDivElement;
 
         // focus trap
         const keySet: keySetType = new Set();
@@ -20,7 +21,7 @@ const useModal = (modalRef: React.RefObject<HTMLDivElement | HTMLFormElement>, c
         document.addEventListener('keyup', onKeyUp);
 
         // if click outside --> close modal
-        const handleOutsideClick = (e: MouseEvent) => closeModalIfOutsideClick(e, modalRef.current, closeCallback);
+        const handleOutsideClick = (e: MouseEvent) => closeModalIfOutsideClick(e, backdropElement, closeCallback);
         document.addEventListener('click', handleOutsideClick, true);
 
         return () => {
@@ -30,7 +31,7 @@ const useModal = (modalRef: React.RefObject<HTMLDivElement | HTMLFormElement>, c
             document.removeEventListener('keyup', onKeyUp);
             document.removeEventListener('click', handleOutsideClick, true);
         }
-    }, [modalRef]);
+    }, []);
 };
 
 

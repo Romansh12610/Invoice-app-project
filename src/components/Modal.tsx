@@ -1,8 +1,7 @@
 import { StyledWrapper, TitleText, ParText, BtnWrapper, CancelBtn, ActionBtn } from "../styledComponents/ModalStyled";
 import { useGlobalContext } from "./ContextWrapper";
 import { createPortal } from "react-dom";
-import buttonVariants from "../utilities/buttonVariants";
-
+import buttonVariants from "../utilities/variants/buttonVariants";
 
 interface ModalProps {
     mod: 'DELETE' | 'CHANGE_STATUS' | 'SAVE_CHANGES';

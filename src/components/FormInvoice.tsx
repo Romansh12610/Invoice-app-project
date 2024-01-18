@@ -13,8 +13,7 @@ import DatePicker from "./DatePicker";
 import SelectLabel from "./Select";
 import Items from "./Items";
 // for animations
-import { AnimatePresence } from "framer-motion";
-import getFormVariants from "../utilities/formVariants";
+import getFormVariants from "../utilities/variants/formVariants";
 import keyMap from "../utilities/uniqueKeysForAnimation";
 
 const FormController = () => {

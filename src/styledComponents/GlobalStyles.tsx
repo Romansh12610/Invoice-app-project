@@ -17,8 +17,6 @@ export const styleTheme: {
         invoiceBg: '#fff',
         invoiceBgSecondary: '#e6e6e6',
         totalBlockBg: '#373b53',
-        editBtnBg: '#6573e0',
-        editBtnColor: '#dddddd',
         formBg: '#ffffff',
         inputBorder: '#d0d5ff',
         selectOptionBg: '#ffffff',
@@ -28,11 +26,12 @@ export const styleTheme: {
         selectItemListText: '#a0a0a0',
         selectTopWrapperBg: '#dbdada',
         backLinkHover: '#000',
-        deleteBtnBg: '#6573e0',
         addBtnBg: '#e0e4fa',
         addBtnHover: '#c7d0ff',
         discardBtn: '#e0e4fa',
         discardBtnHover: '#cccfe4',
+        modalBg: '#e0e4fa',
+        modalBgHover: '#cacff0',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -47,13 +46,21 @@ export const styleTheme: {
             white: '#fff',
             black: '#000',
             uidHash: '#8283c0',
-            deleteBtnBg: 'hsl(0,80%,63%)',
-            markBtnBg: '#7b5cfa',
+            editBtnBg: '#6573e0',
+            editBtnHover: '#707ff0',
+            deleteBtnBg: '#c40000',
+            deleteBtnHover: '#e73b3b',
+            markBtnBg: '#5a3fc5',
+            markBtnHover: '#6d49ff',
             saveDraftBtn: '#6b328b',
             saveDraftBtnHover: '#9c48cc',
             saveSendBtn: '#460096',
             saveSendBtnHover: '#7700ff',
             error: 'hsl(0,80%,63%)',
+            cancelBtn: '#00909b',
+            cancelBtnHover: '#00b3c0',
+            confirmBtnBg: '#00b963',
+            confirmBtnHover: '#00ff88',
         }
     },
     dark: {
@@ -65,8 +72,6 @@ export const styleTheme: {
         invoiceBg: '#1f223b',
         invoiceBgSecondary: '#2d3155',
         totalBlockBg: '#0d0e17',
-        editBtnBg: '#303b8d',
-        editBtnColor: '#e0e4fb',
         formBg: '#131622',
         inputBorder: '#838bc2',
         selectOptionBg: '#292f5a',
@@ -75,11 +80,12 @@ export const styleTheme: {
         selectItemListText: '#c9c9c9',
         selectTopWrapperBg: '#504ed47a',
         backLinkHover: '#7b5cfa',
-        deleteBtnBg: '#838bc2',
         addBtnBg: '#504ed47a',
         addBtnHover: '#16148d',
         discardBtn: '#1f234d',
         discardBtnHover: '#313a7c',
+        modalBg: '#1f234d',
+        modalBgHover: '#333968',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -94,13 +100,21 @@ export const styleTheme: {
             white: '#fff',
             black: '#000',
             uidHash: '#8283c0',
-            deleteBtnBg: 'hsl(0,80%,63%)',
-            markBtnBg: '#7b5cfa',
+            editBtnBg: '#6573e0',
+            editBtnHover: '#707ff0',
+            deleteBtnBg: '#c40000',
+            deleteBtnHover: '#e73b3b',
+            markBtnBg: '#5a3fc5',
+            markBtnHover: '#6d49ff',
             saveDraftBtn: '#6b328b',
             saveDraftBtnHover: '#9c48cc',
             saveSendBtn: '#460096',
             saveSendBtnHover: '#7700ff',
             error: 'hsl(0,80%,63%)',
+            cancelBtn: '#00909b',
+            cancelBtnHover: '#00b3c0',
+            confirmBtnBg: '#00b963',
+            confirmBtnHover: '#00ff88',
         }
     }
 };
@@ -120,12 +134,16 @@ const GlobalStyles = createGlobalStyle< { $isDark: boolean } >`
         cursor: pointer;
     };
 
-    fieldset {
-        border: none;
-    };
-
     input:focus {
         outline: none;
+    };
+
+    button, input {
+        font: inherit;
+    }
+
+    fieldset {
+        border: none;
     };
 
     fieldset {

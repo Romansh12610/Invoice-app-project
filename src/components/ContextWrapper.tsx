@@ -28,6 +28,8 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 		handleInvoiceChange,
 		submitInvoiceForm,
 	} = useManageInvoices();
+	console.log('context rerender');
+	console.log('CONTEXT current state: ', globalState.invoices);
 
     return (
 		<AppContext.Provider value={{

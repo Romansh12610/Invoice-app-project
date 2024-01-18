@@ -3,8 +3,7 @@ import { useGlobalContext } from './ContextWrapper';
 import Icon from '../Icon/Icon';
 import { useTheme } from 'styled-components';
 import React, { useRef, forwardRef } from 'react';
-import { motion } from 'framer-motion';
-import { SelectItemVariants, SelectListVariants } from '../utilities/selectVariants';
+import { SelectItemVariants, SelectListVariants } from '../utilities/variants/selectVariants';
 import useCloseIfClickOutside from '../hooks/useCloseIfClickOutside';
 
 // types
@@ -77,7 +76,6 @@ const SelectLabel = (props: SelectLabelProps) => {
                     />
                 </Select>
                 <SelectOptionList
-                    as={motion.ul}
                     id='select-list'
                     initial={false}
                     animate={isOpen ? 'open' : 'closed'}

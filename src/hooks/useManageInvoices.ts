@@ -1,6 +1,6 @@
 import initialInvoices from '../data/data.json';
 import React, { useReducer, useEffect, useState, useCallback } from 'react';
-import InvoiceReducer from '../reducer/reducer';;
+import InvoiceReducer from '../reducer/reducer';
 // util functions
 import validateForm from '../utilities/formValidation';
 import getPaymentDueDate from '../utilities/getPaymentDueDate';
@@ -67,29 +67,21 @@ const initialInvoice: InitialInvoiceInterface = {
     total: 0,
 };
 
-// get init invoices function
-const getInitialInvoices = () => {
-    const invoicesFromStorage = getInvoicesFromLocalStorage();
-    if (invoicesFromStorage.length > 1) {
-        return invoicesFromStorage;
-    } else {
-    }
-    return initialInvoices;
-};
-
 // initial state - to retrieve than filterType === 'all' 
-export const initialState: GlobalStateInterface = {
-    invoices: getInitialInvoices() as InvoiceListType,
-    isFormOpen: false,
-    isInvoiceEdited: false,
-    isModalOpen: false,
-    isBackdropOpen: false,
-    isInvoiceDeleted: false,
+export function getInitialState(): GlobalStateInterface {
+    return {
+        invoices: getInvoicesFromLocalStorage() as InvoiceListType || initialInvoices as InvoiceListType,
+        isFormOpen: false,
+        isInvoiceEdited: false,
+        isModalOpen: false,
+        isBackdropOpen: false,
+        isInvoiceDeleted: false,
+    };
 };
 
 const useManageInvoices = () => {
     // reducer
-    const [globalState, dispatchAction] = useReducer(InvoiceReducer, initialState);
+    const [globalState, dispatchAction] = useReducer(InvoiceReducer, getInitialState());
 
     // form state
     const [newInvoice, setNewInvoice] = useState(initialInvoice);
@@ -100,6 +92,8 @@ const useManageInvoices = () => {
 
     // each time one of states changes => change new invoice
     useEffect(() => {
+
+        console.log('useManageInv: setting new field in newInvoice', newInvoice);
 
         setNewInvoice(i => ({
             ...i,
@@ -192,12 +186,6 @@ const useManageInvoices = () => {
 
         const { name } = e.currentTarget;
 
-        // call exit animation
-        exitAnimationStateCallback();
-
-        // wait
-        await new Promise(res => setTimeout(res, 400));
-
         // dispatch
         switch(name) {
             case 'discard': {
@@ -214,6 +202,12 @@ const useManageInvoices = () => {
                     type: 'discardChanges',
                     payload: stateSetterCallbackArr
                 });
+
+                // call exit animation
+                exitAnimationStateCallback();
+                // wait
+                await new Promise(res => setTimeout(res, 400));
+
                 break;
             }
 
@@ -242,6 +236,11 @@ const useManageInvoices = () => {
                         callbackArr: stateSetterCallbackArr,
                     },
                 });
+
+                // call exit animation
+                exitAnimationStateCallback();
+                // wait
+                await new Promise(res => setTimeout(res, 400));
                 break;
             }
 
@@ -275,6 +274,11 @@ const useManageInvoices = () => {
                             callbackArr: stateSetterCallbackArr
                         },
                     });
+
+                    // call exit animation
+                    exitAnimationStateCallback();
+                    // wait
+                    await new Promise(res => setTimeout(res, 400));
                     break;
                 }
             }

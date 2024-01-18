@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react';
 // styled components
 import { InvoiceDate, InvoiceLink, InvoiceListItem, InvoiceName, InvoicePrice, InvoiceUid, SpanUid } from '../../styledComponents/InvoiceListStyled' /* '.../styledComponents/InvoiceListStyled'; */
 import { StyledLabel } from "../../shared/colorLabels";
-import { invoiceItemVariants } from "../../utilities/invoiceListVariants";
+import { invoiceItemVariants } from "../../utilities/variants/invoiceListVariants";
 // types
 import { InitialInvoiceInterface } from '../../interfaces/invoiceTypes';
 // utils
