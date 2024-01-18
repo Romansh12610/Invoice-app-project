@@ -1,5 +1,5 @@
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
-import ReducerActions,  { PayloadWithCallbackArr } from '../interfaces/reducerTypes';
+import ReducerActions,  { PayloadWithCallback } from '../interfaces/reducerTypes';
 import { getInitialState } from '../hooks/useManageInvoices';
 import { InitialInvoiceInterface } from '../interfaces/invoiceTypes';
 import { FilterStatusType } from '../interfaces/filterTypes';
@@ -11,19 +11,12 @@ const postInvoicesToLocalStorage = (invoices: InvoiceListType) => {
     localStorage.setItem('invoices', JSON.stringify(invoices));
 };
 
-export type StateSetterCallback = () => void;
-
-const restoreToInitial = (stateSetterArray: StateSetterCallback[]) => {
-    stateSetterArray.forEach(callback => callback());
-};
-
 export default function InvoiceReducer(state: GlobalStateInterface, action: ReducerActions) {
 
     switch (action.type) {
         
         // filter invoices
         case "filter": {
-            console.log('REDUCER: filter case');
             const filterStatus = action.payload as FilterStatusType;
 
             if (filterStatus === 'all') {
@@ -64,8 +57,8 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         case 'discardChanges': {
 
             //  clean up
-            const stateSettercallbackArr = action.payload as StateSetterCallback[];
-            restoreToInitial(stateSettercallbackArr);
+            const { restoreCallback } = action.payload as PayloadWithCallback;
+            setTimeout(() => restoreCallback, 1000);
 
             return {
                 ...state,
@@ -77,21 +70,18 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         }
 
         case 'addDraft': {
-            const payload = action.payload as PayloadWithCallbackArr;
+            const payload = action.payload as PayloadWithCallback;
 
             const newInvoice: InitialInvoiceInterface = {
                 ...payload.newInvoice,
                 id: generateUniqueID(state.invoices)
             };
 
-            console.log(`REDUCER: new invoice added to draft ${newInvoice}`);
-
             const newInvoices = [...state.invoices, newInvoice];
 
             //  clean up
-            postInvoicesToLocalStorage(newInvoices)
-            const stateSettercallbackArr = payload.callbackArr;
-            restoreToInitial(stateSettercallbackArr);
+            postInvoicesToLocalStorage(newInvoices);
+            setTimeout(() => payload.restoreCallback, 1000); // asynch
 
             return {
                 ...state,
@@ -103,8 +93,7 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         }
 
         case 'addInvoice': {
-
-            const payload = action.payload as PayloadWithCallbackArr;
+            const payload = action.payload as PayloadWithCallback;
 
             const newInvoice: InitialInvoiceInterface = {
                 ...payload.newInvoice,
@@ -114,9 +103,8 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             const newInvoices = [...state.invoices, newInvoice];
 
             //  clean up
-            postInvoicesToLocalStorage(newInvoices)
-            const stateSettercallbackArr = payload.callbackArr;
-            restoreToInitial(stateSettercallbackArr);
+            postInvoicesToLocalStorage(newInvoices);
+            setTimeout(() => payload.restoreCallback, 1000); // asynch
 
             return {
                 ...state,

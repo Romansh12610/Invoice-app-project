@@ -4,7 +4,7 @@ import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
 import React, { useRef, useState, forwardRef, useCallback } from 'react';
-import { ChangeEventInputType } from "../hooks/useManageInvoices";
+import useFormState, { ChangeEventInputType, FormChangeEventType } from "../hooks/useFormState";
 import useModal from "../hooks/useModal";
 // helper components
 import FormFooter from "./FormFooter";
@@ -15,6 +15,10 @@ import Items from "./Items";
 // for animations
 import getFormVariants from "../utilities/variants/formVariants";
 import keyMap from "../utilities/uniqueKeysForAnimation";
+// types
+import { RangeOfNames } from "../hooks/useFormState";
+import { InvoicePayload } from "../interfaces/reducerTypes";
+
 
 const FormController = () => {
 
@@ -29,8 +33,9 @@ const FormController = () => {
 
     const URLparams = useParams();
     // global state
-    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange, submitInvoiceForm } = useGlobalContext();
+    const { globalState, dispatchAction } = useGlobalContext();
     const { isInvoiceEdited } = globalState;
+    const [formState, handleChangeField, restoreToInitial] = useFormState();
 
     // focus trap + click outside
     const closeCallback = useCallback(async () => {
@@ -80,8 +85,8 @@ const FormController = () => {
                         inputName="street"
                         inputType="text"
                         required
-                        value={senderAddress.street}
-                        onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
+                        value={formState.senderAddress.street}
+                        onChange={(e) => handleChangeField(e, 'senderAddress')}
                     />
                     <FlexWrapper>
                         <InputLabelWrapper
@@ -91,8 +96,8 @@ const FormController = () => {
                             inputType="text"
                             required
                             htmlForID="sender-city"
-                            value={senderAddress.city}
-                            onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
+                            value={formState.senderAddress.city}
+                            onChange={(e) => handleChangeField(e, 'senderAddress')}
                         />
                         <InputLabelWrapper
                             shouldShowError={shouldShowError} 
@@ -101,8 +106,8 @@ const FormController = () => {
                             inputType="text"
                             required
                             htmlForID="sender-postcode"
-                            value={senderAddress.postCode}
-                            onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
+                            value={formState.senderAddress.postCode}
+                            onChange={(e) => handleChangeField(e, 'senderAddress')}
                         />
                         <InputLabelWrapper
                             shouldShowError={shouldShowError} 
@@ -111,8 +116,8 @@ const FormController = () => {
                             inputType="text"
                             required
                             htmlForID="sender-country"
-                            value={senderAddress.country}
-                            onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
+                            value={formState.senderAddress.country}
+                            onChange={(e) => handleChangeField(e, 'senderAddress')}
                         />
                     </FlexWrapper>
                 </FieldSet>
@@ -125,8 +130,8 @@ const FormController = () => {
                         inputType="text"
                         required
                         htmlForID="client-name"
-                        value={newInvoice.clientName}
-                        onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
+                        value={formState.clientName}
+                        onChange={(e) => handleChangeField(e, 'newInvoice')}
                     />
                     <InputLabelWrapper
                         shouldShowError={shouldShowError} 
@@ -135,8 +140,8 @@ const FormController = () => {
                         inputType="email"
                         required
                         htmlForID="client-email"
-                        value={newInvoice.clientEmail}
-                        onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
+                        value={formState.clientEmail}
+                        onChange={(e) => handleChangeField(e, 'newInvoice')}
                     />
                     <InputLabelWrapper
                         shouldShowError={shouldShowError} 
@@ -145,8 +150,8 @@ const FormController = () => {
                         inputType="text"
                         required
                         htmlForID="client-street"
-                        value={clientAddress.street}
-                        onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
+                        value={formState.clientAddress.street}
+                        onChange={(e) => handleChangeField(e, 'clientAddress')}
                     />
                     <FlexWrapper>
                         <InputLabelWrapper
@@ -156,8 +161,8 @@ const FormController = () => {
                             inputType="text"
                             required
                             htmlForID="client-city"
-                            value={clientAddress.city}
-                            onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
+                            value={formState.clientAddress.city}
+                            onChange={(e) => handleChangeField(e, 'clientAddress')}
                         />
                         <InputLabelWrapper
                             shouldShowError={shouldShowError} 
@@ -166,8 +171,8 @@ const FormController = () => {
                             inputType="text"
                             required
                             htmlForID="client-postcode"
-                            value={clientAddress.postCode}
-                            onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
+                            value={formState.clientAddress.postCode}
+                            onChange={(e) => handleChangeField(e, 'clientAddress')}
                         />
                         <InputLabelWrapper
                             shouldShowError={shouldShowError} 
@@ -176,8 +181,8 @@ const FormController = () => {
                             inputType="text"
                             required
                             htmlForID="client-country"
-                            value={clientAddress.country}
-                            onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
+                            value={formState.clientAddress.country}
+                            onChange={(e) => handleChangeField(e, 'clientAddress')}
                         />
                     </FlexWrapper>
                 </FieldSet>
@@ -186,8 +191,12 @@ const FormController = () => {
                         <InputLabelWrapper 
                             labelText="Invoice Date"
                             date
+                            formState={formState}
+                            hanldeChangeField={handleChangeField}
                         />
-                        <SelectLabel 
+                        <SelectLabel
+                            formState={formState}
+                            handleChangeField={handleChangeField} 
                             labelText="Payment Terms" 
                         />
                     </FlexWrapper>
@@ -198,20 +207,26 @@ const FormController = () => {
                         inputType="text"
                         htmlForID="description"
                         required
-                        value={newInvoice.description}
-                        onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
+                        value={formState.description}
+                        onChange={(e) => handleChangeField(e, 'newInvoice')}
                     />
                 </FieldSet>
                 <ItemsFieldSet>
                     <Legend $items>Item List</Legend>
                     <StyledFlexWrapper $col>
-                        <Items shouldShowError={shouldShowError} />
+                        <Items
+                            itemsState={formState.items}
+                            handleChangeField={handleChangeField} 
+                            shouldShowError={shouldShowError} 
+                        />
                     </StyledFlexWrapper>
                 </ItemsFieldSet>
                 <FormFooter 
                     formRef={formRef}
-                    submitInvoiceForm={submitInvoiceForm}
+                    formState={formState}
                     setShouldShowError={setShouldShowError}
+                    dispatchAction={dispatchAction}
+                    restoreCallback={restoreToInitial}
                     exitAnimationCallback={() => setAnimationState('exit')}
                 />
             </Form>
@@ -227,7 +242,7 @@ export default FormController;
 interface InputLabelWrapperProps {
     labelText: string;
     htmlForID?: string;
-    inputName?: string;
+    inputName?: RangeOfNames;
     inputType?: 'text' | 'email';
     required?: boolean;
     value?: string | number;
@@ -238,6 +253,8 @@ interface InputLabelWrapperProps {
     price?: true;
     // shouldShowError state from form
     shouldShowError?: boolean;
+    formState?: InvoicePayload;
+    hanldeChangeField?: FormChangeEventType;
 }
 
 // helper components
@@ -272,7 +289,10 @@ export const InputLabelWrapper = (props: InputLabelWrapperProps) => {
                 {shouldShow && <Error reason={reason} />}
             </Label>
             {props.date ? (
-                <DatePicker />
+                <DatePicker 
+                    formState={props.formState}
+                    handleChangeField={props.hanldeChangeField} 
+                />
             ) : (<Input
                 id={props.htmlForID}
                 required={props.required} 

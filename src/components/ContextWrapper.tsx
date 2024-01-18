@@ -21,12 +21,6 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 	const {
 		globalState,
 		dispatchAction,
-		newInvoice,
-		senderAddress,
-		clientAddress,
-		items,
-		handleInvoiceChange,
-		submitInvoiceForm,
 	} = useManageInvoices();
 	console.log('context rerender');
 	console.log('CONTEXT current state: ', globalState.invoices);
@@ -40,12 +34,6 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 			orientation,
 			globalState,
 			dispatchAction,
-			newInvoice,
-			senderAddress,
-			clientAddress,
-			items,
-			handleInvoiceChange,
-			submitInvoiceForm
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>

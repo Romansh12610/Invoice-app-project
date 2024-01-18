@@ -1,10 +1,12 @@
 import { Select, SelectText, SelectOptionList, SelectOption, SelectOptionButton, Label, StyledInputLabelWrapper, StyledSelectWrapper, SelectOptionText } from '../styledComponents/FormInvoiceStyled';
-import { useGlobalContext } from './ContextWrapper';
 import Icon from '../Icon/Icon';
 import { useTheme } from 'styled-components';
 import React, { useRef, forwardRef } from 'react';
 import { SelectItemVariants, SelectListVariants } from '../utilities/variants/selectVariants';
 import useCloseIfClickOutside from '../hooks/useCloseIfClickOutside';
+// types
+import { FormChangeEventType } from '../hooks/useFormState';
+import { InvoicePayload } from '../interfaces/reducerTypes';
 
 // types
 interface SelectWrapperProps {
@@ -12,6 +14,8 @@ interface SelectWrapperProps {
 }
 
 interface SelectLabelProps {
+    formState: InvoicePayload;
+    handleChangeField: FormChangeEventType;
     labelText: string;
 } 
 
@@ -27,7 +31,7 @@ type handleOpenType = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => vo
 // component code
 const SelectLabel = (props: SelectLabelProps) => {
 
-    const { newInvoice, handleInvoiceChange } = useGlobalContext();
+    const { formState, handleChangeField } = props;
     const colorTheme = useTheme();
     
     // list ref to handle outside clicks
@@ -50,7 +54,7 @@ const SelectLabel = (props: SelectLabelProps) => {
     // handle selectOption click
     const handleSelectOptionClick: OptionProps['handleClick'] = (e) => {
         e.preventDefault();
-        handleInvoiceChange(e, 'newInvoice');
+        handleChangeField(e, 'newInvoice');
         setIsOpen(false);
     };
 
@@ -64,7 +68,7 @@ const SelectLabel = (props: SelectLabelProps) => {
                     aria-expanded={isOpen}
                     aria-controls='select-list'
                 >
-                    <SelectText>Net {newInvoice.paymentTerms} Days</SelectText>
+                    <SelectText>Net {formState.paymentTerms} Days</SelectText>
                     <Icon 
                         name="arrow-down"
                         size={11}

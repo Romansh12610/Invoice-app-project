@@ -8,6 +8,9 @@ import React, { forwardRef, useMemo } from 'react';
 import { useGlobalContext } from './ContextWrapper';
 import { useTheme } from 'styled-components';
 import rem from '../utilities/pxIntoRem';
+// types
+import { FormChangeEventType } from '../hooks/useFormState';
+import { InvoicePayload } from '../interfaces/reducerTypes';
 
 export const StyledDatePicker = styled.input`
     ${defaultInput};
@@ -67,16 +70,22 @@ export const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(({ isD
     )
 });
 
-const DatePicker = () => {
 
-    const { globalState, newInvoice, handleInvoiceChange } = useGlobalContext();
+// Main component
+interface DatePickerProps {
+    formState: InvoicePayload;
+    handleChangeField: FormChangeEventType; 
+}
+
+const DatePicker = (props: DatePickerProps) => {
+
+    const { globalState } = useGlobalContext();
     const colorTheme = useTheme();
-
 
     return (
         <ReactDatePicker 
-            selected={new Date(newInvoice.createdAt)}
-            onChange={(date: Date | null) => handleInvoiceChange(false, 'date', date)}
+            selected={new Date(props.formState.createdAt)}
+            onChange={(date: Date | null) => props.handleChangeField(false, 'date', date)}
             minDate={new Date()}
             customInput={
             <CustomInput 

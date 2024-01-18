@@ -2,12 +2,16 @@ import { FooterWrapper, DiscardBtn, SaveDraftBtn, SaveSendBtn } from "../styledC
 import buttonVariants from "../utilities/variants/buttonVariants";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "./ContextWrapper";
-import { SubmitInvoiceForm, ActionTypes } from "../hooks/useManageInvoices";
+import { submitInvoiceForm, ActionTypes } from "../utilities/submitForm";
+import { InvoicePayload, RestoreCallback } from "../interfaces/reducerTypes";
+import { InvoiceListDispatchType } from "../interfaces/invoiceTypes";
 
 interface FormFooterProps {
     formRef: React.RefObject<HTMLFormElement>;
-    submitInvoiceForm: SubmitInvoiceForm;
+    formState: InvoicePayload;
     setShouldShowError: React.Dispatch<React.SetStateAction<boolean>>;
+    dispatchAction: InvoiceListDispatchType;
+    restoreCallback: RestoreCallback;
     exitAnimationCallback: () => void;
 }
 
@@ -23,7 +27,7 @@ const FormFooter = (props: FormFooterProps) => {
     const handleSubmitBtnClick: SubmitBtnClick = (e) => {
         e.preventDefault();
 
-        props.submitInvoiceForm(e, props.formRef, props.setShouldShowError, props.exitAnimationCallback);
+        submitInvoiceForm(e, props.formState, props.formRef, props.setShouldShowError, props.dispatchAction, props.restoreCallback, props.exitAnimationCallback);
     };
 
     return (

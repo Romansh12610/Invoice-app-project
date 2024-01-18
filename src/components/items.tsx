@@ -1,13 +1,15 @@
-import { ChangeEventInputType } from "../hooks/useManageInvoices";
+import { ChangeEventInputType } from "../hooks/useFormState";
 import { StyledFlexWrapper, StyledInputLabelWrapper, Label, TotalValue, ItemsAddButton, RemoveButton } from "../styledComponents/FormInvoiceStyled";
 import { InputLabelWrapper, FlexWrapper } from "./FormInvoice";
 import { useTheme } from "styled-components";
 import Icon from "../Icon/Icon";
-import { useGlobalContext } from "./ContextWrapper";
 import { InitialItemInterface } from "../interfaces/invoiceTypes";
+import { FormChangeEventType } from "../hooks/useFormState";
 
 // types
 interface ItemsProps {
+    itemsState: InitialItemInterface[],
+    handleChangeField: FormChangeEventType;
     shouldShowError: boolean;
 }
 
@@ -44,17 +46,17 @@ interface TotalLabelWrapperProps {
 // main component  
 const Items = (props: ItemsProps) => {
 
-    const { items, handleInvoiceChange } = useGlobalContext();
+    const items = props.itemsState;
 
     const renderItems = items.map((item: InitialItemInterface, index) => {
 
-        const handleNameChange: ItemProps['handleNameChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+        const handleNameChange: ItemProps['handleNameChange'] = (e) => props.handleChangeField(e, 'changeItem', null, index);
 
-        const handlePriceChange: ItemProps['handlePriceChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+        const handlePriceChange: ItemProps['handlePriceChange'] = (e) => props.handleChangeField(e, 'changeItem', null, index);
 
-        const handleQuantityChange: ItemProps['handleQuantityChange'] = (e) => handleInvoiceChange(e, 'changeItem', null, index);
+        const handleQuantityChange: ItemProps['handleQuantityChange'] = (e) => props.handleChangeField(e, 'changeItem', null, index);
         
-        const handleRemoveItem: ItemProps['handleRemoveItem'] = (e) => handleInvoiceChange(e, 'removeItem', null, index);
+        const handleRemoveItem: ItemProps['handleRemoveItem'] = (e) => props.handleChangeField(e, 'removeItem', null, index);
 
         return (
             <Item 
@@ -80,7 +82,7 @@ const Items = (props: ItemsProps) => {
         <>
             {renderItems}
             <ItemsButton 
-                handleClick={(e) => handleInvoiceChange(e, 'addItem')}
+                handleClick={(e) => props.handleChangeField(e, 'addItem')}
             />
         </>
     )
