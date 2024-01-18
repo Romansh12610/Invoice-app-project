@@ -1,10 +1,10 @@
-import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrapper, NewInvoiceButton, NewInvoiceText } from "../styledComponents/InvoicesStyled";
+import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrapper, NewInvoiceButton, NewInvoiceText, InvoiceQuantityStyled } from "../styledComponents/InvoicesStyled";
 import Filter from "./Filter";
 import { useGlobalContext } from "./ContextWrapper";
 import InvoiceList from "./InvoiceList/InvoiceList";
-import { headerVariants } from "../utilities/mainContentVariants";
-import { AnimatePresence } from "framer-motion";
+import { headerVariants } from "../utilities/variants/mainContentVariants";
 import { useEffect } from "react";
+import buttonVariants from "../utilities/variants/buttonVariants";
 
 
 export default function Main() {
@@ -34,55 +34,60 @@ export default function Main() {
     }, [isInvoiceDeleted]);
 
     return (
-        <AnimatePresence>
-            <MainContainer 
+        <MainContainer 
+            $flexArgs={{
+                direction: 'column',
+                alignItems: 'center',
+            }}
+            whileInView='animate'
+            exit='exit'
+            key='main'
+        >
+            <HeadingWrapper
                 $flexArgs={{
-                    direction: 'column',
-                    alignItems: 'center',
+                    justify: 'space-between',
+                    alignItems: 'center'
                 }}
-                whileInView='animate'
+                $orientation={orientation}
+                initial='initial'
+                animate='animate'
                 exit='exit'
+                variants={headerVariants}
             >
-                <HeadingWrapper
+                <TitleWrapper
                     $flexArgs={{
-                        justify: 'space-between',
-                        alignItems: 'center'
+                        direction: 'column'
                     }}
-                    $orientation={orientation}
-                    initial='initial'
-                    animate='animate'
-                    exit='exit'
-                    variants={headerVariants}
                 >
-                    <TitleWrapper
-                        $flexArgs={{
-                            direction: 'column'
-                        }}
+                    <HeadingTitle>Invoices</HeadingTitle>
+                    <HeadingSubtitle
+                        $size="medium"
+                        $weight="thin"
+                    >{orientation === 'desktop' && 'There are'} <InvoiceQuantityStyled>
+                        {invoiceQuantity}
+                    </InvoiceQuantityStyled> total invoices</HeadingSubtitle>
+                </TitleWrapper>
+                <Filter />
+                <NewInvoiceButton 
+                    $justify="flex-end"
+                    onClick={handleFormOpen}
+                    
+                    whileHover='hover'
+                    whileTap='tap'
+                    variants={buttonVariants}
+                >
+                    <NewInvoiceText
+                        $size="small"
+                        $weight="bold"
+                        $letterSpacing="medium"
                     >
-                        <HeadingTitle>Invoices</HeadingTitle>
-                        <HeadingSubtitle
-                            $size="medium"
-                            $weight="thin"
-                        >{orientation === 'desktop' && 'There are'} {invoiceQuantity} total invoices</HeadingSubtitle>
-                    </TitleWrapper>
-                    <Filter />
-                    <NewInvoiceButton 
-                        $justify="flex-end"
-                        onClick={handleFormOpen}
-                    >
-                        <NewInvoiceText
-                            $size="small"
-                            $weight="bold"
-                            $letterSpacing="medium"
-                        >
-                            New {orientation === 'desktop' && 'Invoice'}
-                        </NewInvoiceText>
-                    </NewInvoiceButton>
-                </HeadingWrapper>
-                
-                {/* list of invoices */}
-                <InvoiceList />
-            </MainContainer>
-        </AnimatePresence>
+                        New {orientation === 'desktop' && 'Invoice'}
+                    </NewInvoiceText>
+                </NewInvoiceButton>
+            </HeadingWrapper>
+            
+            {/* list of invoices */}
+            <InvoiceList />
+        </MainContainer>
     )
 }
