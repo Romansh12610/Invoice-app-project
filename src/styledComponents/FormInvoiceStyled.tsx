@@ -67,15 +67,14 @@ export const MainWrapper = styled(motion.div)`
     position: fixed;
     top: clamp(${rem(70)}, 10.5vw, ${rem(80)});
     bottom: 0;
-    right: 0;
     left: 0;
     z-index: 99;
     transition: background-color 300ms ease-in-out;
-    transform: translateX(-100%);
+    width: 90vw;
+    transform: translateX(-100vw);
 
     @media (min-width: 768px) {
-        right: 40svw;
-        right: 40vw;
+        width: ${rem(750)};
     }
 `;
 

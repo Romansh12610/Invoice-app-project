@@ -11,7 +11,7 @@ export const FooterWrapper = styled.div`
     align-items: center;
     justify-content: space-around;
     
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
