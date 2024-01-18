@@ -4,7 +4,7 @@ import FlexMixinInterface from "../interfaces/flexMixin";
 import { CustomizableTextItem } from "../shared/typographyStyles";
 import FontPropsInterface from "../interfaces/fontProps";
 import rem from "../utilities/pxIntoRem";
-import ButtonDefault from "../shared/buttons";
+import { btnDefaultStylesMixin } from "../shared/buttons";
 import { JustifyType } from "../shared/buttons";
 import { svgBackgroundMixin } from "../styledComponents/GlobalStyles";
 import plusIcon from '../assets/icon-plus.svg';
@@ -36,10 +36,12 @@ export const HeadingSubtitle = styled(CustomizableTextItem)<FontPropsInterface>`
     color: ${({theme}) => theme.textColor};
 `;
 
-export const NewInvoiceButton = styled(ButtonDefault)<{$justify: JustifyType}>`
+export const NewInvoiceButton = styled(motion.button)<{$justify: JustifyType}>`
+    ${btnDefaultStylesMixin};
     background-color: ${ ({theme}) => theme.general.purple};
     color: ${ ({theme}) => theme.general.white};
     padding-right: ${rem(15)};
+    margin-left: 2vw;
     margin-left: 2svw;
 
     &::before {
@@ -50,4 +52,37 @@ export const NewInvoiceButton = styled(ButtonDefault)<{$justify: JustifyType}>`
 
 export const NewInvoiceText = styled(CustomizableTextItem)<FontPropsInterface>`
     padding-left: ${rem(28)};
+`;
+
+export const InvoiceQuantityStyled = styled.span`
+    font-weight: bold;
+    font-size: clamp(${rem(24)}, 2.2vw, ${rem(28)});
+    
+    padding-inline: ${rem(10)};
+    overflow: hidden;
+    position: relative;
+    display: inline-flex;
+    align-items: flex-start;
+    
+    color: ${props => props.theme.general.confirmBtnBg};
+    transition: box-shadow 150ms ease-in-out;
+
+    &::before {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        bottom: 0px;
+        left: 1px;
+        right: 1px;
+        height: 1px;
+        background-color: ${props => props.theme.general.confirmBtnBg};
+    };
+
+
+    &:hover {
+
+        &::before {
+            box-shadow: 0px 0px 3px 2px ${props => props.theme.general.confirmBtnBg};
+        }
+    }
 `;
