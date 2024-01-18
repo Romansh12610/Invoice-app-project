@@ -19,7 +19,7 @@ export const FooterWrapper = styled.div`
     @media (min-width: 768px) {
         right: 40svw;
         right: 40vw;
-        width: auto;
+        width: 100%;
     }
 `;
 
@@ -28,7 +28,7 @@ export const DiscardBtn = styled(ButtonDefault)`
     background-color: ${({theme}) => theme.discardBtn};
     color: ${({theme}) => theme.textColor};
 
-    &:hover {
+    &:hover, &:focus {
         background-color: ${({theme}) => theme.discardBtnHover};
     };
 `;
@@ -39,7 +39,7 @@ export const SaveDraftBtn = styled(ButtonDefault)`
     background-color: ${({theme}) => theme.general.saveDraftBtn};
     color: ${({theme}) => theme.general.white};
 
-    &:hover {
+    &:hover, &:focus {
         background-color: ${({theme}) => theme.general.saveDraftBtnHover};
     }
 `;
@@ -50,7 +50,7 @@ export const SaveSendBtn = styled(ButtonDefault)`
     background-color: ${({theme}) => theme.general.saveSendBtn};
     color: ${({theme}) => theme.general.white};
 
-    &:hover {
+    &:hover, &:focus {
         background-color: ${({theme}) => theme.general.saveSendBtnHover};
     }
 `;

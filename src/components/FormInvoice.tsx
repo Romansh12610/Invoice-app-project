@@ -1,16 +1,21 @@
 import { MainWrapper, StyledForm, Input, Label, Title, FieldSet, Legend, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, TopWrapper, StyledError } from "../styledComponents/FormInvoiceStyled";
-import FormFooter from "./FormFooter";
-import DatePicker from "./DatePicker";
+// hooks
 import { useGlobalContext } from "./ContextWrapper";
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
-import GoBackLink from "../shared/goBackLink";
 import React, { useRef, useState, forwardRef, useCallback } from 'react';
 import { ChangeEventInputType } from "../hooks/useManageInvoices";
+import useModal from "../hooks/useModal";
+// helper components
+import FormFooter from "./FormFooter";
+import GoBackLink from "../shared/goBackLink";
+import DatePicker from "./DatePicker";
 import SelectLabel from "./Select";
 import Items from "./Items";
-import useModal from "../hooks/useModal";
-
+// for animations
+import { AnimatePresence } from "framer-motion";
+import getFormVariants from "../utilities/formVariants";
+import keyMap from "../utilities/uniqueKeysForAnimation";
 
 const FormController = () => {
 
@@ -23,7 +28,7 @@ const FormController = () => {
 
     const URLparams = useParams();
     // global state
-    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange, submitInvoiceForm } = useGlobalContext();
+    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange, submitInvoiceForm, orientation } = useGlobalContext();
     const { isInvoiceEdited } = globalState;
 
     // focus trap + click outside
@@ -35,15 +40,25 @@ const FormController = () => {
     
     // custom hook
     useModal(modalRef, closeCallback);
+
+    // animation
+    const formVariants = getFormVariants(orientation);
+    const elKey = keyMap.get('FORM');
     
     const controller = (
-        <>
+        <AnimatePresence>
             <MainWrapper
                 aria-modal={true}
                 aria-label="Invoice form"
                 tabIndex={-1}
                 role="dialog"
                 ref={modalRef}
+
+                key={elKey}
+                layout="position"
+                variants={formVariants}
+                exit='exit'
+                animate='animate'
             >
                 <TopWrapper>
                     <GoBackLink to="/" />
@@ -196,8 +211,8 @@ const FormController = () => {
                     />
                 </Form>
             </MainWrapper>
-        </>
-    );
+        </AnimatePresence>
+    ); 
 
     return createPortal(controller, document.body);
 };

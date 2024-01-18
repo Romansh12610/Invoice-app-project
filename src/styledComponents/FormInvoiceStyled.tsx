@@ -61,16 +61,6 @@ const customScrollBar = css`
 
 // styles
 
-export const Backdrop = styled(motion.div)`
-    position: fixed;
-    top: clamp(${rem(70)}, 10.5vw, ${rem(80)});
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #0000005e;
-    z-index: 98;
-`;
-
 export const MainWrapper = styled(motion.div)`
     background-color: ${({theme}) => theme.formBg};
     padding: ${rem(22)};
@@ -81,20 +71,22 @@ export const MainWrapper = styled(motion.div)`
     left: 0;
     z-index: 99;
     transition: background-color 300ms ease-in-out;
+    transform: translateX(-100%);
 
     @media (min-width: 768px) {
         right: 40svw;
+        right: 40vw;
     }
 `;
 
 export const TopWrapper = styled.div`
-    width: 100%;
     height: 12vh;
     padding-left: 5vw;
     z-index: 100;
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
     transition: background-color 200ms ease-in-out;
     background-color: ${({theme}) => theme.selectTopWrapperBg};
     padding-bottom: ${rem(15)};
@@ -199,11 +191,11 @@ export const SelectOptionButton = styled.button< OptionProps >`
     ${props => props.$top ? useTopOption : props.$bottom ? useBottomOption : ''};
     background-color: inherit;
 
-    &:hover {
+    &:hover, &:focus {
        background-color: ${({theme}) => theme.selectOptHover};
     };
 
-    &:hover p {
+    &:hover p, &:focus p {
         transform: scale(1.15);
         font-weight: bold;
     }

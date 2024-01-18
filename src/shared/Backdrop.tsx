@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { createPortal } from "react-dom";
+import keyMap from "../utilities/uniqueKeysForAnimation";
 
 export const StyledBackdrop = styled(motion.div)`
     z-index: 98;
@@ -12,9 +13,13 @@ export const StyledBackdrop = styled(motion.div)`
 
 const Backdrop = () => {
 
+    const elementKey = keyMap.get('BACKDROP');
+
     const component = (
         <AnimatePresence initial={false}>
-            <StyledBackdrop 
+            <StyledBackdrop
+                id="backdrop"
+                key={elementKey} 
                 layout='position'
                 animate='animate'
                 exit='exit'
