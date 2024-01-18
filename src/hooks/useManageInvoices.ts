@@ -1,12 +1,15 @@
 import initialInvoices from '../data/data.json';
 import React, { useReducer, useEffect, useState, useCallback } from 'react';
-import InvoiceReducer from '../reducer/reducer';
-import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType } from '../interfaces/invoiceTypes';
-import { GlobalStateInterface } from '../interfaces/globalContextInt';
+import InvoiceReducer from '../reducer/reducer';;
 // util functions
 import validateForm from '../utilities/formValidation';
 import getPaymentDueDate from '../utilities/getPaymentDueDate';
 import sumTotal from '../utilities/sumTotal';
+// helper types
+import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType } from '../interfaces/invoiceTypes';
+import { GlobalStateInterface } from '../interfaces/globalContextInt'
+import { StateSetterCallback } from '../reducer/reducer';
+import { InvoicePayload } from '../interfaces/reducerTypes';
 
 
 // helper types
@@ -33,17 +36,13 @@ const getInvoicesFromLocalStorage: getInvoicesFromStorage = () => {
     return JSON.parse(localStorage.getItem('invoices'));
 };
 
-const postInvoicesToLocalStorage = (invoices: InvoiceListType) => {
-    console.log('post inv to storage: ', invoices);
-    localStorage.setItem('invoices', JSON.stringify(invoices));
-};
 
 // initial state containers
-const initialAddress: AddressInterface = {
-    street: '',
-    city: '',
-    postCode: '',
-    country: '',
+function InitialAddress() {
+    this.street = '';
+    this.postCode = '';
+    this.country = '';
+    this.city = '';
 };
 
 const initialItem: InitialItemInterface = {
@@ -62,8 +61,8 @@ const initialInvoice: InitialInvoiceInterface = {
     paymentTerms: 30,
     clientName: '',
     clientEmail: '',
-    senderAddress: initialAddress,
-    clientAddress: initialAddress,
+    senderAddress: new InitialAddress() as AddressInterface,
+    clientAddress: new InitialAddress() as AddressInterface,
     items: [],
     total: 0,
 };
@@ -94,19 +93,13 @@ const useManageInvoices = () => {
 
     // form state
     const [newInvoice, setNewInvoice] = useState(initialInvoice);
-    const [senderAddress, setSenderAddress] = useState(initialAddress);
-    const [clientAddress, setClientAddress] = useState(initialAddress);
+    const [senderAddress, setSenderAddress] = useState<AddressInterface>(new InitialAddress());
+    const [clientAddress, setClientAddress] = useState<AddressInterface>(new InitialAddress());
     const [items, setItems]: [InitialItemInterface[], setItemsType] = useState([]);
 
-    // *** effect to track updates ***
-    useEffect(() => {   
-        console.log('invoice changed, here new: ', newInvoice);
-    }, [newInvoice]);
 
     // each time one of states changes => change new invoice
     useEffect(() => {
-
-        console.log('useEffect triggers, new state of invoice: ', newInvoice);
 
         setNewInvoice(i => ({
             ...i,
@@ -115,11 +108,6 @@ const useManageInvoices = () => {
             items
         }));
     }, [senderAddress, clientAddress, items]); 
-
-    // every time state changes - reset in localStorage
-    useEffect(() => {
-        postInvoicesToLocalStorage(globalState.invoices as InvoiceListType);
-    }, [globalState.invoices]);
 
     // function to change new invoice (or edited)
     const handleInvoiceChange: HandleInvoiceChangeType = useCallback((e, type, date, index) => {
@@ -135,7 +123,6 @@ const useManageInvoices = () => {
         e.preventDefault();
 
         const { name, value } = e.currentTarget;
-        console.log('name/value of redacted event: ' + name + ' / ' + value);
 
         // if paymentTerms --> update paymentDue
         switch (type) {
@@ -196,7 +183,7 @@ const useManageInvoices = () => {
                 break;
             }
         }
-    }, [setNewInvoice, setClientAddress, setClientAddress, items]);
+    }, [setNewInvoice, setClientAddress, items]);
 
 
     // function to submit form
@@ -214,26 +201,68 @@ const useManageInvoices = () => {
         // dispatch
         switch(name) {
             case 'discard': {
+
+                // state setter callback
+                const stateSetterCallbackArr: StateSetterCallback[] = [
+                    () => setNewInvoice(initialInvoice),
+                    () => setClientAddress(new InitialAddress()),
+                    () => setSenderAddress(new InitialAddress()),
+                    () => setItems([]),
+                ];
+
                 dispatchAction({
                     type: 'discardChanges',
+                    payload: stateSetterCallbackArr
                 });
-                restoreToInitial();
                 break;
             }
+
+
             case 'draft': {
+
+                // state setter callback
+                const stateSetterCallbackArr: StateSetterCallback[] = [
+                    () => setNewInvoice(initialInvoice),
+                    () => setClientAddress(new InitialAddress()),
+                    () => setSenderAddress(new InitialAddress()),
+                    () => setItems([]),
+                ];
+
+                const newInvoicePayload: InvoicePayload = {
+                    ...newInvoice,
+                    paymentDue: getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms),
+                    status: 'draft',
+                    total: sumTotal(newInvoice.items),
+                };
+
                 dispatchAction({
                     type: 'addDraft',
                     payload: {
-                        ...newInvoice,
-                        paymentDue: getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms),
-                        status: 'draft',
-                        total: sumTotal(newInvoice.items),
+                        newInvoice: newInvoicePayload,
+                        callbackArr: stateSetterCallbackArr,
                     },
                 });
-                restoreToInitial();
                 break;
             }
+
+
             case 'add': {
+                // state setter callback
+                const stateSetterCallbackArr: StateSetterCallback[] = [
+                    () => setNewInvoice(initialInvoice),
+                    () => setClientAddress(new InitialAddress()),
+                    () => setSenderAddress(new InitialAddress()),
+                    () => setItems([]),
+                ];
+
+                const newInvoicePayload: InvoicePayload = {
+                    ...newInvoice,
+                    paymentDue: getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms),
+                    status: 'pending',
+                    total: sumTotal(newInvoice.items),
+                };
+
+
                 if (validateForm(formRef) == false) {
                     setShouldShowError(true);
                     return;
@@ -242,26 +271,15 @@ const useManageInvoices = () => {
                     dispatchAction({
                         type: 'addInvoice',
                         payload: {
-                            ...newInvoice,
-                            paymentDue: getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms),
-                            status: 'pending',
-                            total: sumTotal(newInvoice.items),
+                            newInvoice: newInvoicePayload,
+                            callbackArr: stateSetterCallbackArr
                         },
                     });
-                    restoreToInitial();
                     break;
                 }
             }
         }
     }, []);
-
-    // restore to initial helper
-    const restoreToInitial = () => {
-        setNewInvoice(initialInvoice);
-        setClientAddress(initialAddress);
-        setSenderAddress(initialAddress);
-        setItems([]);
-    };
 
     
     return {

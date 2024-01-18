@@ -1,9 +1,22 @@
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
-import ReducerActions from '../interfaces/reducerTypes';
+import ReducerActions,  { PayloadWithCallbackArr } from '../interfaces/reducerTypes';
 import { initialState } from '../hooks/useManageInvoices';
 import { InitialInvoiceInterface } from '../interfaces/invoiceTypes';
 import { FilterStatusType } from '../interfaces/filterTypes';
 import generateUniqueID from '../utilities/generateID';
+import { InvoiceListType } from '../interfaces/invoiceTypes';
+
+// helpers
+const postInvoicesToLocalStorage = (invoices: InvoiceListType) => {
+    console.log('post to storage: ', invoices);
+    localStorage.setItem('invoices', JSON.stringify(invoices));
+};
+
+export type StateSetterCallback = () => void;
+
+const restoreToInitial = (stateSetterArray: StateSetterCallback[]) => {
+    stateSetterArray.forEach(callback => callback());
+};
 
 export default function InvoiceReducer(state: GlobalStateInterface, action: ReducerActions) {
 
@@ -49,6 +62,11 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
 
         // invoice changes
         case 'discardChanges': {
+
+            //  clean up
+            const stateSettercallbackArr = action.payload as StateSetterCallback[];
+            restoreToInitial(stateSettercallbackArr);
+
             return {
                 ...state,
                 isFormOpen: false,
@@ -59,42 +77,51 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         }
 
         case 'addDraft': {
-            console.log('reducer: payload is: ', action.payload);
-            let newInvoice = action.payload as InitialInvoiceInterface;
-            //log
-            console.log('draft payload:', newInvoice);
+            const payload = action.payload as PayloadWithCallbackArr;
 
-            newInvoice = {
-                ...newInvoice,
+            const newInvoice: InitialInvoiceInterface = {
+                ...payload.newInvoice,
                 id: generateUniqueID(state.invoices)
             };
 
+            const newInvoices = [...state.invoices, newInvoice];
+
+            //  clean up
+            postInvoicesToLocalStorage(newInvoices)
+            const stateSettercallbackArr = payload.callbackArr;
+            restoreToInitial(stateSettercallbackArr);
+
             return {
                 ...state,
-                invoices: [...state.invoices, newInvoice],
+                invoices: newInvoices,
                 isFormOpen: false,
                 isModalOpen: false, 
+                isBackdropOpen: false,
             }
         }
 
         case 'addInvoice': {
-            console.log('reducer: payload is: ', action.payload);
 
-            let newInvoice = action.payload as InitialInvoiceInterface;
+            const payload = action.payload as PayloadWithCallbackArr;
 
-            //log
-            console.log('invoice payload:', newInvoice);
-
-            newInvoice = {
-                ...newInvoice,
+            const newInvoice: InitialInvoiceInterface = {
+                ...payload.newInvoice,
                 id: generateUniqueID(state.invoices)
             };
 
+            const newInvoices = [...state.invoices, newInvoice];
+
+            //  clean up
+            postInvoicesToLocalStorage(newInvoices)
+            const stateSettercallbackArr = payload.callbackArr;
+            restoreToInitial(stateSettercallbackArr);
+
             return {
                 ...state,
-                invoices: [...state.invoices, newInvoice],
+                invoices: newInvoices,
                 isFormOpen: false,
-                isModalOpen: false,
+                isModalOpen: false, 
+                isBackdropOpen: false,
             }
         }
 
@@ -124,12 +151,12 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
         case 'deleteInvoice': {
             const invoiceId = action.payload as string;
 
-            console.log('deleted id: ', invoiceId);
-            console.log('deleted inv: ', state.invoices.find(inv => inv.id === invoiceId));
-
             const newInvoices = state.invoices.filter(inv => {
                 return inv.id !== invoiceId;
             });
+
+            //  clean up
+            postInvoicesToLocalStorage(newInvoices);
 
             return {
                 ...state,
@@ -168,7 +195,9 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             return {
                 ...state,
                 invoices: newInvoices,
+                isModalOpen: false,
+                isBackdropOpen: false,
             }
         }
     }
-}
+};
