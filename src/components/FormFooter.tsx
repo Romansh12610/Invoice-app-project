@@ -8,23 +8,22 @@ interface FormFooterProps {
     formRef: React.RefObject<HTMLFormElement>;
     submitInvoiceForm: SubmitInvoiceForm;
     setShouldShowError: React.Dispatch<React.SetStateAction<boolean>>;
+    exitAnimationCallback: () => void;
 }
 
 // types of handlers
-type SafeBtnClick = (e: React.MouseEvent<HTMLButtonElement & { name: ActionTypes }, MouseEvent>) => void;
+type SubmitBtnClick = (e: React.MouseEvent<HTMLButtonElement & { name: ActionTypes }, MouseEvent>) => void;
 
 const FormFooter = (props: FormFooterProps) => {
 
     const { globalState } = useGlobalContext();
     const { isInvoiceEdited } = globalState;
 
-    // handlers
-    const handleSaveBtnClick: SafeBtnClick = (e) => {
+    // handler
+    const handleSubmitBtnClick: SubmitBtnClick = (e) => {
         e.preventDefault();
 
-        console.log('FormFooter: isEdited: ' + isInvoiceEdited);
-
-        props.submitInvoiceForm(e, props.formRef, props.setShouldShowError);
+        props.submitInvoiceForm(e, props.formRef, props.setShouldShowError, props.exitAnimationCallback);
     };
 
     return (
@@ -36,6 +35,8 @@ const FormFooter = (props: FormFooterProps) => {
                 whileTap={'tap'}
                 name='discard'
                 form="invoice-form"
+
+                onClick={handleSubmitBtnClick}
             >Discard</DiscardBtn>
             { isInvoiceEdited === false && <SaveDraftBtn
                 as={motion.button} 
@@ -44,6 +45,8 @@ const FormFooter = (props: FormFooterProps) => {
                 whileTap={'tap'}
                 name='draft'
                 form="invoice-form"
+
+                onClick={handleSubmitBtnClick}
             >Save as Draft</SaveDraftBtn> }
             <SaveSendBtn
                 as={motion.button} 
@@ -53,7 +56,7 @@ const FormFooter = (props: FormFooterProps) => {
                 name={isInvoiceEdited ? 'save' : 'add'}
                 form="invoice-form"
 
-                onClick={handleSaveBtnClick}
+                onClick={handleSubmitBtnClick}
             >Save & Send</SaveSendBtn>
         </FooterWrapper>
     )

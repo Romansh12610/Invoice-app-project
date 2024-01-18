@@ -21,6 +21,8 @@ const FormController = () => {
 
     // local state for form error
     const [shouldShowError, setShouldShowError] = useState(false);
+    // animation state (for exit animation)
+    const [animationState, setAnimationState] = useState<'animate' | 'exit'>('animate');
 
     // refs
     const modalRef = useRef<HTMLDivElement>(null);
@@ -28,11 +30,16 @@ const FormController = () => {
 
     const URLparams = useParams();
     // global state
-    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange, submitInvoiceForm, orientation } = useGlobalContext();
+    const { globalState, dispatchAction, newInvoice, senderAddress, clientAddress, handleInvoiceChange, submitInvoiceForm } = useGlobalContext();
     const { isInvoiceEdited } = globalState;
 
     // focus trap + click outside
-    const closeCallback = useCallback(() => {
+    const closeCallback = useCallback(async () => {
+        // do exit animation
+        setAnimationState('exit');
+        // wait some time
+        await new Promise(res => setTimeout(res, 400));
+        // unmount form
         dispatchAction({
             type: 'closeForm'
         });
@@ -42,176 +49,174 @@ const FormController = () => {
     useModal(modalRef, closeCallback);
 
     // animation
-    const formVariants = getFormVariants(orientation);
+    const formVariants = getFormVariants();
     const elKey = keyMap.get('FORM');
     
     const controller = (
-        <AnimatePresence>
-            <MainWrapper
-                aria-modal={true}
-                aria-label="Invoice form"
-                tabIndex={-1}
-                role="dialog"
-                ref={modalRef}
+        <MainWrapper
+            aria-modal={true}
+            aria-label="Invoice form"
+            tabIndex={-1}
+            role="dialog"
+            ref={modalRef}
 
-                key={elKey}
-                layout="position"
-                variants={formVariants}
-                exit='exit'
-                animate='animate'
-            >
-                <TopWrapper>
-                    <GoBackLink to="/" />
-                    <Title>
-                        {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
-                    </Title>
-                </TopWrapper>
-                <Form id='invoice-form' ref={formRef}>
-                    <FieldSet>
-                        <Legend>Bill from</Legend>
+            key={elKey}
+            variants={formVariants}
+            animate={animationState}
+            initial='initial'
+        >
+            <TopWrapper>
+                <GoBackLink to="/" />
+                <Title>
+                    {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
+                </Title>
+            </TopWrapper>
+            <Form id='invoice-form' ref={formRef}>
+                <FieldSet>
+                    <Legend>Bill from</Legend>
+                    <InputLabelWrapper
+                        shouldShowError={shouldShowError}
+                        labelText="Street Address"
+                        htmlForID="sender-street"
+                        inputName="street"
+                        inputType="text"
+                        required
+                        value={senderAddress.street}
+                        onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
+                    />
+                    <FlexWrapper>
                         <InputLabelWrapper
-                            shouldShowError={shouldShowError}
-                            labelText="Street Address"
-                            htmlForID="sender-street"
-                            inputName="street"
+                            shouldShowError={shouldShowError} 
+                            labelText="City"
+                            inputName="city"
                             inputType="text"
                             required
-                            value={senderAddress.street}
+                            htmlForID="sender-city"
+                            value={senderAddress.city}
                             onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                         />
-                        <FlexWrapper>
-                            <InputLabelWrapper
-                                shouldShowError={shouldShowError} 
-                                labelText="City"
-                                inputName="city"
-                                inputType="text"
-                                required
-                                htmlForID="sender-city"
-                                value={senderAddress.city}
-                                onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
-                            />
-                            <InputLabelWrapper
-                                shouldShowError={shouldShowError} 
-                                labelText="Post Code"
-                                inputName="postCode"
-                                inputType="text"
-                                required
-                                htmlForID="sender-postcode"
-                                value={senderAddress.postCode}
-                                onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
-                            />
-                            <InputLabelWrapper
-                                shouldShowError={shouldShowError} 
-                                labelText="Country"
-                                inputName="country"
-                                inputType="text"
-                                required
-                                htmlForID="sender-country"
-                                value={senderAddress.country}
-                                onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
-                            />
-                        </FlexWrapper>
-                    </FieldSet>
-                    <FieldSet>
-                        <Legend>Bill to</Legend>
                         <InputLabelWrapper
                             shouldShowError={shouldShowError} 
-                            labelText="Client's Name"
-                            inputName="clientName"
+                            labelText="Post Code"
+                            inputName="postCode"
                             inputType="text"
                             required
-                            htmlForID="client-name"
-                            value={newInvoice.clientName}
-                            onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
+                            htmlForID="sender-postcode"
+                            value={senderAddress.postCode}
+                            onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
                         />
                         <InputLabelWrapper
                             shouldShowError={shouldShowError} 
-                            labelText="Client's email"
-                            inputName="clientEmail"
-                            inputType="email"
-                            required
-                            htmlForID="client-email"
-                            value={newInvoice.clientEmail}
-                            onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
-                        />
-                        <InputLabelWrapper
-                            shouldShowError={shouldShowError} 
-                            labelText="Street Address"
-                            inputName="street"
+                            labelText="Country"
+                            inputName="country"
                             inputType="text"
                             required
-                            htmlForID="client-street"
-                            value={clientAddress.street}
+                            htmlForID="sender-country"
+                            value={senderAddress.country}
+                            onChange={(e) => handleInvoiceChange(e, 'senderAddress')}
+                        />
+                    </FlexWrapper>
+                </FieldSet>
+                <FieldSet>
+                    <Legend>Bill to</Legend>
+                    <InputLabelWrapper
+                        shouldShowError={shouldShowError} 
+                        labelText="Client's Name"
+                        inputName="clientName"
+                        inputType="text"
+                        required
+                        htmlForID="client-name"
+                        value={newInvoice.clientName}
+                        onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
+                    />
+                    <InputLabelWrapper
+                        shouldShowError={shouldShowError} 
+                        labelText="Client's email"
+                        inputName="clientEmail"
+                        inputType="email"
+                        required
+                        htmlForID="client-email"
+                        value={newInvoice.clientEmail}
+                        onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
+                    />
+                    <InputLabelWrapper
+                        shouldShowError={shouldShowError} 
+                        labelText="Street Address"
+                        inputName="street"
+                        inputType="text"
+                        required
+                        htmlForID="client-street"
+                        value={clientAddress.street}
+                        onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
+                    />
+                    <FlexWrapper>
+                        <InputLabelWrapper
+                            shouldShowError={shouldShowError} 
+                            labelText="City"
+                            inputName="city"
+                            inputType="text"
+                            required
+                            htmlForID="client-city"
+                            value={clientAddress.city}
                             onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                         />
-                        <FlexWrapper>
-                            <InputLabelWrapper
-                                shouldShowError={shouldShowError} 
-                                labelText="City"
-                                inputName="city"
-                                inputType="text"
-                                required
-                                htmlForID="client-city"
-                                value={clientAddress.city}
-                                onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
-                            />
-                            <InputLabelWrapper
-                                shouldShowError={shouldShowError} 
-                                labelText="Post Code"
-                                inputName="postCode"
-                                inputType="text"
-                                required
-                                htmlForID="client-postcode"
-                                value={clientAddress.postCode}
-                                onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
-                            />
-                            <InputLabelWrapper
-                                shouldShowError={shouldShowError} 
-                                labelText="Country"
-                                inputName="country"
-                                inputType="text"
-                                required
-                                htmlForID="client-country"
-                                value={clientAddress.country}
-                                onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
-                            />
-                        </FlexWrapper>
-                    </FieldSet>
-                    <FieldSet>
-                        <FlexWrapper>
-                            <InputLabelWrapper 
-                                labelText="Invoice Date"
-                                date
-                            />
-                            <SelectLabel 
-                                labelText="Payment Terms" 
-                            />
-                        </FlexWrapper>
                         <InputLabelWrapper
                             shouldShowError={shouldShowError} 
-                            labelText="Project Description"
-                            inputName="description"
+                            labelText="Post Code"
+                            inputName="postCode"
                             inputType="text"
-                            htmlForID="description"
                             required
-                            value={newInvoice.description}
-                            onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
+                            htmlForID="client-postcode"
+                            value={clientAddress.postCode}
+                            onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
                         />
-                    </FieldSet>
-                    <ItemsFieldSet>
-                        <Legend $items>Item List</Legend>
-                        <StyledFlexWrapper $col>
-                            <Items shouldShowError={shouldShowError} />
-                        </StyledFlexWrapper>
-                    </ItemsFieldSet>
-                    <FormFooter 
-                        formRef={formRef}
-                        submitInvoiceForm={submitInvoiceForm}
-                        setShouldShowError={setShouldShowError}
+                        <InputLabelWrapper
+                            shouldShowError={shouldShowError} 
+                            labelText="Country"
+                            inputName="country"
+                            inputType="text"
+                            required
+                            htmlForID="client-country"
+                            value={clientAddress.country}
+                            onChange={(e) => handleInvoiceChange(e, 'clientAddress')}
+                        />
+                    </FlexWrapper>
+                </FieldSet>
+                <FieldSet>
+                    <FlexWrapper>
+                        <InputLabelWrapper 
+                            labelText="Invoice Date"
+                            date
+                        />
+                        <SelectLabel 
+                            labelText="Payment Terms" 
+                        />
+                    </FlexWrapper>
+                    <InputLabelWrapper
+                        shouldShowError={shouldShowError} 
+                        labelText="Project Description"
+                        inputName="description"
+                        inputType="text"
+                        htmlForID="description"
+                        required
+                        value={newInvoice.description}
+                        onChange={(e) => handleInvoiceChange(e, 'newInvoice')}
                     />
-                </Form>
-            </MainWrapper>
-        </AnimatePresence>
+                </FieldSet>
+                <ItemsFieldSet>
+                    <Legend $items>Item List</Legend>
+                    <StyledFlexWrapper $col>
+                        <Items shouldShowError={shouldShowError} />
+                    </StyledFlexWrapper>
+                </ItemsFieldSet>
+                <FormFooter 
+                    formRef={formRef}
+                    submitInvoiceForm={submitInvoiceForm}
+                    setShouldShowError={setShouldShowError}
+                    exitAnimationCallback={() => setAnimationState('exit')}
+                />
+            </Form>
+        </MainWrapper>
     ); 
 
     return createPortal(controller, document.body);

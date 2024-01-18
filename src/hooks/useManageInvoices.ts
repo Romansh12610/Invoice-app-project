@@ -1,5 +1,5 @@
 import initialInvoices from '../data/data.json';
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect, useState, useCallback } from 'react';
 import InvoiceReducer from '../reducer/reducer';
 import { InvoiceListType, InitialInvoiceInterface, InitialItemInterface, AddressInterface, setItemsType } from '../interfaces/invoiceTypes';
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
@@ -8,7 +8,10 @@ import validateForm from '../utilities/formValidation';
 import getPaymentDueDate from '../utilities/getPaymentDueDate';
 import sumTotal from '../utilities/sumTotal';
 
+
 // helper types
+type getInvoicesFromStorage = () => InvoiceListType | [];
+
 type RangeOfNames = 'clientName' | 'clientEmail' | 'street' | 'postCode' | 'country' | 'city' | 'description' | 'itemName' | 'quantity' | 'price';
 
 type TypesOfEvents = 'newInvoice' | 'senderAddress' | 'clientAddress' | 'addItem' | 'removeItem' | 'changeItem' | 'date';
@@ -22,14 +25,16 @@ export type HandleInvoiceChangeType = (e: ChangeEventInputType | ChangeEventSele
 // form submission types
 export type ActionTypes = 'discard' | 'save' | 'add' | 'draft';
 
-export type SubmitInvoiceForm = (e: React.MouseEvent<HTMLButtonElement & { name: ActionTypes }>, formRef: React.RefObject<HTMLFormElement>, setShouldShowError: React.Dispatch<React.SetStateAction<boolean>>) => void;
+export type SubmitInvoiceForm = (e: React.MouseEvent<HTMLButtonElement & { name: ActionTypes }>, formRef: React.RefObject<HTMLFormElement>, setShouldShowError: React.Dispatch<React.SetStateAction<boolean>>, exitAnimationStateCallback: () => void) => void;
 
 // helper localStorage functions
-const getInvoicesFromLocalStorage = () => {
+const getInvoicesFromLocalStorage: getInvoicesFromStorage = () => {
+    console.log('get from storage:' + localStorage.getItem('invoices'));
     return JSON.parse(localStorage.getItem('invoices'));
 };
 
 const postInvoicesToLocalStorage = (invoices: InvoiceListType) => {
+    console.log('post inv to storage: ', invoices);
     localStorage.setItem('invoices', JSON.stringify(invoices));
 };
 
@@ -63,25 +68,46 @@ const initialInvoice: InitialInvoiceInterface = {
     total: 0,
 };
 
+// get init invoices function
+const getInitialInvoices = () => {
+    const invoicesFromStorage = getInvoicesFromLocalStorage();
+    if (invoicesFromStorage.length > 1) {
+        return invoicesFromStorage;
+    } else {
+    }
+    return initialInvoices;
+};
+
 // initial state - to retrieve than filterType === 'all' 
 export const initialState: GlobalStateInterface = {
-    invoices: getInvoicesFromLocalStorage() || initialInvoices,
+    invoices: getInitialInvoices() as InvoiceListType,
     isFormOpen: false,
     isInvoiceEdited: false,
     isModalOpen: false,
+    isBackdropOpen: false,
+    isInvoiceDeleted: false,
 };
 
 const useManageInvoices = () => {
-
     // reducer
     const [globalState, dispatchAction] = useReducer(InvoiceReducer, initialState);
+
+    // form state
     const [newInvoice, setNewInvoice] = useState(initialInvoice);
     const [senderAddress, setSenderAddress] = useState(initialAddress);
     const [clientAddress, setClientAddress] = useState(initialAddress);
     const [items, setItems]: [InitialItemInterface[], setItemsType] = useState([]);
 
+    // *** effect to track updates ***
+    useEffect(() => {   
+        console.log('invoice changed, here new: ', newInvoice);
+    }, [newInvoice]);
+
     // each time one of states changes => change new invoice
     useEffect(() => {
+
+        console.log('useEffect triggers, new state of invoice: ', newInvoice);
+
         setNewInvoice(i => ({
             ...i,
             senderAddress,
@@ -95,19 +121,8 @@ const useManageInvoices = () => {
         postInvoicesToLocalStorage(globalState.invoices as InvoiceListType);
     }, [globalState.invoices]);
 
-    //effect for paymentDue
-    useEffect(() => {
-        const dueDate = getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms);
-
-        setNewInvoice(i => ({
-            ...i,
-            paymentDue: dueDate
-        }));
-
-    }, [newInvoice.paymentTerms, newInvoice.createdAt]);
-
     // function to change new invoice (or edited)
-    const handleInvoiceChange: HandleInvoiceChangeType = (e, type, date, index) => {
+    const handleInvoiceChange: HandleInvoiceChangeType = useCallback((e, type, date, index) => {
         // setting date instantly:
         if (e === false) {
             setNewInvoice(i => ({
@@ -120,6 +135,7 @@ const useManageInvoices = () => {
         e.preventDefault();
 
         const { name, value } = e.currentTarget;
+        console.log('name/value of redacted event: ' + name + ' / ' + value);
 
         // if paymentTerms --> update paymentDue
         switch (type) {
@@ -180,15 +196,22 @@ const useManageInvoices = () => {
                 break;
             }
         }
-    };
+    }, [setNewInvoice, setClientAddress, setClientAddress, items]);
 
 
     // function to submit form
     // type also choosen from state (isInvoiceEdited)
-    const submitInvoiceForm: SubmitInvoiceForm = (e, formRef, setShouldShowError) => {
+    const submitInvoiceForm: SubmitInvoiceForm = useCallback(async (e, formRef, setShouldShowError, exitAnimationStateCallback) => {
 
         const { name } = e.currentTarget;
 
+        // call exit animation
+        exitAnimationStateCallback();
+
+        // wait
+        await new Promise(res => setTimeout(res, 400));
+
+        // dispatch
         switch(name) {
             case 'discard': {
                 dispatchAction({
@@ -202,6 +225,7 @@ const useManageInvoices = () => {
                     type: 'addDraft',
                     payload: {
                         ...newInvoice,
+                        paymentDue: getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms),
                         status: 'draft',
                         total: sumTotal(newInvoice.items),
                     },
@@ -219,6 +243,7 @@ const useManageInvoices = () => {
                         type: 'addInvoice',
                         payload: {
                             ...newInvoice,
+                            paymentDue: getPaymentDueDate(newInvoice.createdAt, newInvoice.paymentTerms),
                             status: 'pending',
                             total: sumTotal(newInvoice.items),
                         },
@@ -228,7 +253,7 @@ const useManageInvoices = () => {
                 }
             }
         }
-    };
+    }, []);
 
     // restore to initial helper
     const restoreToInitial = () => {
