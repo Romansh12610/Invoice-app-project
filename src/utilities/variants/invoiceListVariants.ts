@@ -1,30 +1,27 @@
 import { Variants } from "framer-motion";
 
+const initClipPath = 'inset(10% 50% 90% 50% round 15px)';
+
 export const invoiceListVariants: Variants = {
     initial: {
         opacity: 0,
-        y: 500,
+        clipPath: initClipPath,
     },
     animate: {
         opacity: 1,
-        y: 0,
+        clipPath: 'inset(0 0 0 0)',
         transition: {
-            type: 'spring',
-            duration: 0.5,
-            stiffness: 100,
-            bounce: 0.3,
-            damping: 13,
+            duration: 0.7,
+            delayChildren: 1,
+            staggerChildren: 0.4,
         }
     },
     exit: {
-        opacity: [1, 0.3, 0],
-        y: [0, 250, 500],
+        opacity: 0,
+        clipPath: initClipPath,
         transition: {
-            type: 'spring',
             duration: 0.5,
-            stiffness: 100,
-            bounce: 0.3,
-            damping: 13,
+            when: 'afterChildren'
         }
     }
 };
@@ -41,8 +38,7 @@ export const invoiceItemVariants: Variants = {
             type: 'spring',
             duration: 0.6,
             stiffness: 100,
-            bounce: 0.6,
-            damping: 17,
+            mass: 0.5
         } 
     },
     exit: {
@@ -51,13 +47,12 @@ export const invoiceItemVariants: Variants = {
         transition: {
             type: 'spring',
             duration: 0.5,
-            stiffness: 100,
-            bounce: 0.3,
-            damping: 13,
+            mass: 0.5,
 
             layout: {
                 duration: 0.5,
                 type: 'spring',
+                mass: 0.5
             }
         }
     }

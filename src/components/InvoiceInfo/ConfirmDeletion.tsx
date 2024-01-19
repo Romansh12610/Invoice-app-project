@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 // mixins
 import { btnDefaultStylesMixin } from "../../shared/buttons";
 import { transitionMixin } from "../../styledComponents/GlobalStyles";
+// animation
+import { motion } from "framer-motion";
+import modalVariants from "../../utilities/variants/modalVariants";
 
 // styled comps
-const WrapperStyled = styled.div`
+const WrapperStyled = styled(motion.div)`
     width: max(20vw, ${rem(200)});
     height: ${rem(150)};
     padding: ${rem(25)};
@@ -56,11 +59,19 @@ const ConfirmBtn = styled(Link)`
     };
 `;
 
-const ConfirmDeletion = () => {
+interface ConfirmDeletionProps {
+    text: string
+}
+
+const ConfirmDeletion = (props: ConfirmDeletionProps) => {
 
     return (
-        <WrapperStyled>
-            <TitleText>Invoice was successfully deleted!</TitleText>
+        <WrapperStyled
+            variants={modalVariants}
+            initial='initial'
+            animate='animate'
+        >
+            <TitleText>{props.text}</TitleText>
             <ConfirmBtn 
                 to='/'
             >Confirm</ConfirmBtn>
