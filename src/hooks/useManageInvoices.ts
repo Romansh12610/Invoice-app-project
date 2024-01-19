@@ -11,7 +11,6 @@ type getInvoicesFromStorage = () => InvoiceListType | [];
 
 // helper localStorage functions
 const getInvoicesFromLocalStorage: getInvoicesFromStorage = () => {
-    console.log('get from storage:' + localStorage.getItem('invoices'));
     return JSON.parse(localStorage.getItem('invoices'));
 };
 
@@ -20,6 +19,7 @@ const getInvoicesFromLocalStorage: getInvoicesFromStorage = () => {
 export function getInitialState(): GlobalStateInterface {
     return {
         invoices: getInvoicesFromLocalStorage() as InvoiceListType || initialInvoices as InvoiceListType,
+        invoiceEditPayload: null,
         isFormOpen: false,
         isInvoiceEdited: false,
         isModalOpen: false,
@@ -31,7 +31,6 @@ export function getInitialState(): GlobalStateInterface {
 const useManageInvoices = () => {
     // reducer
     const [globalState, dispatchAction] = useReducer(InvoiceReducer, getInitialState());
-
     
     return {
         globalState,

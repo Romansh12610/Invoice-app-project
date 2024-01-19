@@ -1,5 +1,6 @@
 import { FilterStatusType, FilterStatusSetterType } from "./filterTypes";
 import { InvoiceListType, InvoiceListDispatchType } from "./invoiceTypes";
+import { InvoicePayload } from "./reducerTypes";
 
 // generic helper types
 type VoidFuncType = () => void;
@@ -7,6 +8,7 @@ type VoidFuncType = () => void;
 // global state interface
 export interface GlobalStateInterface {
     invoices: InvoiceListType;
+    invoiceEditPayload: InvoicePayload | null;
     isFormOpen: boolean;
     isInvoiceEdited: boolean;
     isModalOpen: boolean;

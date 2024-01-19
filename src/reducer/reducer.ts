@@ -1,5 +1,5 @@
 import { GlobalStateInterface } from '../interfaces/globalContextInt';
-import ReducerActions,  { PayloadWithCallback } from '../interfaces/reducerTypes';
+import ReducerActions,  { PayloadWithCallback, EditInvoicePayload, SaveChangesPayload } from '../interfaces/reducerTypes';
 import { getInitialState } from '../hooks/useManageInvoices';
 import { InitialInvoiceInterface } from '../interfaces/invoiceTypes';
 import { FilterStatusType } from '../interfaces/filterTypes';
@@ -44,11 +44,25 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             };
         }
 
+        case 'openFormEdit': {
+
+            const { invoiceEditPayload } = action.payload as EditInvoicePayload
+            
+            return {
+                ...state,
+                isFormOpen: true,
+                isInvoiceEdited: true,
+                invoiceEditPayload,
+                isBackdropOpen: true,
+            }
+        }
+
         case 'closeForm': {
 
             return {
                 ...state, 
                 isFormOpen: false,
+                isInvoiceEdited: false,
                 isBackdropOpen: false,
             }
         }
@@ -86,6 +100,7 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             return {
                 ...state,
                 invoices: newInvoices,
+                isInvoiceEdited: false,
                 isFormOpen: false,
                 isModalOpen: false, 
                 isBackdropOpen: false,
@@ -109,6 +124,38 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             return {
                 ...state,
                 invoices: newInvoices,
+                isInvoiceEdited: false,
+                isFormOpen: false,
+                isModalOpen: false, 
+                isBackdropOpen: false,
+            }
+        }
+
+        case 'saveChanges': {
+            
+            const { invoiceEditPayload, editedInvoiceId, restoreCallback } = action.payload as SaveChangesPayload; 
+
+            const updatedInvoice: InitialInvoiceInterface = {
+                ...invoiceEditPayload,
+                id: editedInvoiceId,
+            };
+
+            const newInvoices = state.invoices.map(inv => {
+                if (inv.id === editedInvoiceId) {
+                    return updatedInvoice;
+                } else {
+                    return inv;
+                }
+            });
+
+            //  clean up
+            postInvoicesToLocalStorage(newInvoices);
+            setTimeout(() => restoreCallback, 1000); // asynch
+
+            return {
+                ...state,
+                invoices: newInvoices,
+                isInvoiceEdited: false,
                 isFormOpen: false,
                 isModalOpen: false, 
                 isBackdropOpen: false,
@@ -181,6 +228,8 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                     return changedInvoice;
                 }
             });
+
+            postInvoicesToLocalStorage(newInvoices);
             
             return {
                 ...state,

@@ -3,7 +3,7 @@
 import { AddressInterface, InitialItemInterface } from "../interfaces/invoiceTypes";
 import { InvoicePayload } from "../interfaces/reducerTypes";
 // hooks
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 
 //TYPES
@@ -54,19 +54,21 @@ const getInitialFormState = (): InvoicePayload => {
 
 
 // custom hook
-const useFormState = () => {
+const useFormState = (editPayload: InvoicePayload | null) => {
 
-    const [formState, setFormState] = useState(() => getInitialFormState());
+    const [formState, setFormState] = useState(() => {
+        return editPayload ?? getInitialFormState();
+    });
 
     // FORM STATE HANDLING
     const handleChangeField: FormChangeEventType = useCallback((e, type, date, index) => {
 
         // if date changes
         if (e === false) {
-            setFormState(prevState => ({
-                ...prevState,
+            setFormState({
+                ...formState,
                 createdAt: date
-            }));
+            });
             return;
         }
         
@@ -78,42 +80,42 @@ const useFormState = () => {
         switch (type) {
             // all text inputs
             case 'newInvoice': {
-                setFormState(prevState => ({
-                    ...prevState,
+                setFormState({
+                    ...formState,
                     [name]: value
-                }));
+                });
                 break;
             }
 
             // addresses
             case 'senderAddress': {
-                setFormState(prevState => ({
-                    ...prevState,
+                setFormState({
+                    ...formState,
                     senderAddress: {
-                        ...prevState.senderAddress,
+                        ...formState.senderAddress,
                         [name]: value
                     }
-                }));
+                });
                 break;
             }
 
             case 'clientAddress': {
-                setFormState(prevState => ({
-                    ...prevState,
+                setFormState({
+                    ...formState,
                     clientAddress: {
-                        ...prevState.clientAddress,
+                        ...formState.clientAddress,
                         [name]: value,
                     }
-                }));
+                });
                 break;
             }
 
             // items: add / change / delete 
             case 'addItem': {
-                setFormState(prevState => ({
-                    ...prevState,
-                    items: [...prevState.items, {...initialItem}]
-                }));
+                setFormState({
+                    ...formState,
+                    items: [...formState.items, {...initialItem}]
+                });
                 break;
             }
 
@@ -129,10 +131,10 @@ const useFormState = () => {
 
                 newItems[index].total = newItems[index].price * newItems[index].quantity;
 
-                setFormState(prevState => ({
-                    ...prevState,
+                setFormState({
+                    ...formState,
                     items: newItems,
-                }));
+                });
                 break;
             }
 
@@ -145,10 +147,10 @@ const useFormState = () => {
                     }
                 });
 
-                setFormState(prevState => ({
-                    ...prevState,
+                setFormState({
+                    ...formState,
                     items: newItems,
-                }));
+                });
                 break;
             }
         }
@@ -161,7 +163,12 @@ const useFormState = () => {
         setFormState(initState);
     };
 
-    return [formState, handleChangeField, restoreToInitial] as const;
+    // testing....
+    useEffect(() => {
+        console.log('hook: state changed to: ', formState);
+    }, [formState]);
+
+    return { formState, handleChangeField, restoreToInitial, setFormState } as const;
 };
 
 

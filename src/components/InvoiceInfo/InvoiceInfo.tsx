@@ -12,9 +12,11 @@ import convertDateFromString from '../../utilities/convertDateOutput';
 import formatPrice from '../../utilities/formatPrice';
 import buttonVariants from '../../utilities/variants/buttonVariants';
 import { useEffect, useMemo, useState } from 'react';
+import useFormState from '../../hooks/useFormState';
 import { InitialItemInterface } from '../../interfaces/invoiceTypes';
 import Modal from '../Modal';
 import ConfirmDeletion from './ConfirmDeletion';
+import { InvoicePayload } from '../../interfaces/reducerTypes';
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
@@ -22,10 +24,11 @@ export default function InvoiceView() {
     const { globalState, orientation, dispatchAction } = useGlobalContext();
     const { invoices, isModalOpen, isInvoiceDeleted } = globalState;
 
+    const text = 'Invoice was successfully deleted!';
     // case where it is deleted
     if (isInvoiceDeleted) {
         return (
-            <ConfirmDeletion />
+            <ConfirmDeletion text={text} />
         )
     };
 
@@ -69,6 +72,20 @@ export default function InvoiceView() {
         });
     };
 
+    // edit logic
+    // pass to form state
+    
+    const handleEditBtnClick = () => {  
+        const { id: unNeededID, ...currInvoiceWithoutID } = currentInvoice;
+        dispatchAction({
+            type: 'openFormEdit',
+            payload: {
+                invoiceEditPayload: currInvoiceWithoutID as InvoicePayload
+            }
+        })
+    };
+
+    // modal logic
     useEffect(() => {
         if (!isModalOpen && isDeleteOpen) {
             setIsDeleteOpen(false);
@@ -103,6 +120,7 @@ export default function InvoiceView() {
                                 whileHover='hover'
                                 whileTap='tap'
                                 variants={buttonVariants}
+                                onClick={handleEditBtnClick}
                             >Edit</EditBtn>}
                             <DeleteBtn 
                                 whileHover='hover'
@@ -255,6 +273,7 @@ export default function InvoiceView() {
                     whileHover='hover'
                     whileTap='tap'
                     variants={buttonVariants}
+                    onClick={handleEditBtnClick}
                 >Edit</EditBtn>}
                 <DeleteBtn 
                     whileHover='hover'

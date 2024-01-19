@@ -19,8 +19,19 @@ import keyMap from "../utilities/uniqueKeysForAnimation";
 import { RangeOfNames } from "../hooks/useFormState";
 import { InvoicePayload } from "../interfaces/reducerTypes";
 
+export interface FormControllerProps {
+    invoiceEditPayload: null | InvoicePayload;
+}
 
-const FormController = () => {
+const FormController = (props: FormControllerProps) => {
+    
+    // global state
+    const { globalState, dispatchAction } = useGlobalContext();
+    const { isInvoiceEdited } = globalState;
+
+    // form state
+    const { formState, handleChangeField, restoreToInitial } = useFormState(props.invoiceEditPayload);
+    const URLparams = useParams();
 
     // local state for form error
     const [shouldShowError, setShouldShowError] = useState(false);
@@ -31,11 +42,6 @@ const FormController = () => {
     const modalRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
-    const URLparams = useParams();
-    // global state
-    const { globalState, dispatchAction } = useGlobalContext();
-    const { isInvoiceEdited } = globalState;
-    const [formState, handleChangeField, restoreToInitial] = useFormState();
 
     // focus trap + click outside
     const closeCallback = useCallback(async () => {
@@ -72,7 +78,7 @@ const FormController = () => {
             <TopWrapper>
                 <GoBackLink to="/" />
                 <Title>
-                    {isInvoiceEdited == false ? 'New Invoice' : `Edit &#35;${URLparams.invoiceId}`}
+                    {isInvoiceEdited == false ? 'New Invoice' : `Editing ${String.fromCharCode(35)}${URLparams.invoiceId} invoice`}
                 </Title>
             </TopWrapper>
             <Form id='invoice-form' ref={formRef}>
@@ -197,7 +203,8 @@ const FormController = () => {
                         <SelectLabel
                             formState={formState}
                             handleChangeField={handleChangeField} 
-                            labelText="Payment Terms" 
+                            labelText="Payment Terms"
+                            isEdited={isInvoiceEdited} 
                         />
                     </FlexWrapper>
                     <InputLabelWrapper
@@ -221,15 +228,16 @@ const FormController = () => {
                         />
                     </StyledFlexWrapper>
                 </ItemsFieldSet>
-                <FormFooter 
+            </Form>
+            <FormFooter 
                     formRef={formRef}
                     formState={formState}
                     setShouldShowError={setShouldShowError}
                     dispatchAction={dispatchAction}
                     restoreCallback={restoreToInitial}
                     exitAnimationCallback={() => setAnimationState('exit')}
-                />
-            </Form>
+                    editedInvoiceId={isInvoiceEdited ? URLparams.invoiceId : null}
+            />
         </MainWrapper>
     ); 
 

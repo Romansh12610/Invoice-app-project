@@ -13,6 +13,7 @@ interface FormFooterProps {
     dispatchAction: InvoiceListDispatchType;
     restoreCallback: RestoreCallback;
     exitAnimationCallback: () => void;
+    editedInvoiceId: null | string;
 }
 
 // types of handlers
@@ -27,7 +28,7 @@ const FormFooter = (props: FormFooterProps) => {
     const handleSubmitBtnClick: SubmitBtnClick = (e) => {
         e.preventDefault();
 
-        submitInvoiceForm(e, props.formState, props.formRef, props.setShouldShowError, props.dispatchAction, props.restoreCallback, props.exitAnimationCallback);
+        submitInvoiceForm(e, props.formState, props.formRef, props.setShouldShowError, props.dispatchAction, props.restoreCallback, props.exitAnimationCallback, props.editedInvoiceId);
     };
 
     return (
@@ -61,7 +62,7 @@ const FormFooter = (props: FormFooterProps) => {
                 form="invoice-form"
 
                 onClick={handleSubmitBtnClick}
-            >Save & Send</SaveSendBtn>
+            >Save {isInvoiceEdited ? 'Changes' : '& Send'}</SaveSendBtn>
         </FooterWrapper>
     )
 };
