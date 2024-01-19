@@ -8,7 +8,7 @@ export const StyledWrapper = styled(motion.div)`
     ${transitionMixin};
     background-color: ${({theme}) => theme.modalBg};
     padding: ${rem(30)};
-    width: clamp(${rem(150)}, 30vw, ${rem(600)});
+    width: clamp(${rem(250)}, 25vw, ${rem(400)});
     height: auto;
     border-radius: ${rem(20)};
 
@@ -20,8 +20,9 @@ export const StyledWrapper = styled(motion.div)`
 
     // position
     position: fixed;
-    left: calc(50% - 15vw);
-    top: calc(50% - ${rem(100)});
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 99;
 
     &:hover {

@@ -14,11 +14,11 @@ interface OptionProps {
 export const defaultInput = css`
     border-radius: ${rem(5)};
     line-height: 1.2;
-    font-size: ${rem(20)};
-    font-weight: 500;
-    letter-spacing: ${rem(1)};
-    padding: ${rem(15)};
-    height: ${rem(25)};
+    font-size: ${rem(22)};
+    font-weight: 600;
+    letter-spacing: ${rem(1.2)};
+    padding: ${rem(20)};
+    height: ${rem(20)};
     background-color: ${({theme}) => theme.invoiceBg};
     border: ${rem(2)} solid ${({theme}) => theme.inputBorder};
     transition: border-color 300ms ease-in;
@@ -88,8 +88,9 @@ export const TopWrapper = styled.div`
     left: 0;
     right: 0;
     transition: background-color 200ms ease-in-out;
-    background-color: ${({theme}) => theme.selectTopWrapperBg};
-    padding-bottom: ${rem(15)};
+    background-color: ${({theme}) => theme.formHeaderBg};
+    border-bottom: 4px solid ${props => props.theme.fromHeaderBorder};
+    padding-bottom: ${rem(18)};
 `;
 
 export const Title = styled.h2`
@@ -136,7 +137,7 @@ export const Label = styled.label`
     font-size: ${rem(20)};
     letter-spacing: ${rem(1)};
     font-weight: 600;
-    color: ${({theme}) => theme.textColor};
+    color: ${({theme}) => theme.general.labelColor};
     // for error correct displaying
     display: flex;
     flex-flow: row nowrap;
@@ -235,7 +236,7 @@ export const ItemsAddButton = styled.button`
     transition: all 300ms ease-in-out;
 
     & > p {
-        color: ${({theme}) => theme.textColor};
+        color: ${({theme}) => theme.general.white};
         font-weight: bold;
         font-size: ${rem(18)};
         letter-spacing: 0.5px;
@@ -252,9 +253,9 @@ export const ItemsAddButton = styled.button`
 
 export const TotalValue = styled.p`
     line-height: 1.2;
-    font-size: ${rem(20)};
-    font-weight: 500;
-    letter-spacing: ${rem(1)};
+    font-size: ${rem(24)};
+    font-weight: 600;
+    letter-spacing: ${rem(1.2)};
     padding: ${rem(15)};
     height: ${rem(25)};
     border: ${rem(2)} solid ${({theme}) => theme.inputBorder};

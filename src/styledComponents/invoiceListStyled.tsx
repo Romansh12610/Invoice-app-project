@@ -6,6 +6,7 @@ import { Link, LinkProps } from 'react-router-dom';
 import { styled } from "styled-components";
 import { motion } from "framer-motion";
 import { OrientationType } from "../interfaces/globalContextInt";
+import { transitionMixin } from "./GlobalStyles";
 
 export const InvoiceUl= styled(motion.ul)<{ $flexArgs: FlexMixinInterface, $orientation: OrientationType }>`
     ${props => createFlexMixin(props.$flexArgs)};
@@ -23,9 +24,9 @@ export const InvoiceListItem = styled(motion.li)`
 `;
 
 export const InvoiceLink = styled(Link)<LinkProps>`
+    ${transitionMixin};
     background-color: ${({theme}) => theme.invoiceBg};
     border-radius: ${rem(15)};
-    transition: background-color 300ms ease-in-out;
     padding: ${rem(25)};
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -35,12 +36,11 @@ export const InvoiceLink = styled(Link)<LinkProps>`
                             'price . status';
     align-items: center;
     row-gap: ${rem(5)};
+    border: ${rem(2)} solid ${props => props.theme.invoiceBg};
 
-    // hover doesn't working
-    border: ${rem(2)} solid transparent;
-    &::hover {
-        border: ${rem(2)} solid ${({theme}) => theme.general.purple};
-
+    &:hover {
+        border-color: ${({theme}) => theme.general.purple};
+        background-color: ${props => props.theme.invoiceHover};
     }
 `;
 
