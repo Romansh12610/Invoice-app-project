@@ -1,7 +1,12 @@
 import { StyledWrapper, TitleText, ParText, BtnWrapper, CancelBtn, ActionBtn } from "../styledComponents/ModalStyled";
 import { useGlobalContext } from "./ContextWrapper";
 import { createPortal } from "react-dom";
+import { useState } from 'react';
+// animation
 import buttonVariants from "../utilities/variants/buttonVariants";
+import modalVariants from "../utilities/variants/modalVariants";
+import keyMap from "../utilities/uniqueKeysForAnimation";
+
 
 interface ModalProps {
     mod: 'DELETE' | 'CHANGE_STATUS' | 'SAVE_CHANGES';
@@ -12,6 +17,8 @@ const Modal = ({ mod, id }: ModalProps) => {
 
     // globalState
     const { dispatchAction } = useGlobalContext();
+    // animation
+    const [animateModal, setAnimateModal] = useState('animate');
     
     // TEXT MANIPULATIONS
     // heading
@@ -23,7 +30,10 @@ const Modal = ({ mod, id }: ModalProps) => {
     const actionBtnText = mod === 'DELETE' ? 'delete' : mod === 'CHANGE_STATUS' ? 'Mark As Paid' : 'Save Changes';
 
     // EVENT HANDLERS
-    const handleCancelBtnClick = () => {
+    const handleCancelBtnClick = async () => {
+        setAnimateModal('exit');
+        await new Promise(res => setTimeout(res, 410));
+
         dispatchAction({
             type: 'closeModal',
         });
@@ -40,7 +50,12 @@ const Modal = ({ mod, id }: ModalProps) => {
     };
 
     const modal = (
-        <StyledWrapper>
+        <StyledWrapper
+            key={keyMap.get('MODAL')}
+            variants={modalVariants}
+            animate={animateModal}
+            initial='initial'
+        >
             <TitleText>Confirm {headText}</TitleText>
             <ParText>{message}</ParText>
             <BtnWrapper>
