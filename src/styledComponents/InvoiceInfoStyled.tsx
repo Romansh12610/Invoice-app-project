@@ -5,30 +5,35 @@ import FlexMixinInterface from "../interfaces/flexMixin";
 import { CustomizableTextItem } from "../shared/typographyStyles";
 import breakPointValues from "../utilities/breakpointMixins";
 import ButtonDefault from '../shared/buttons';
+import { motion } from "framer-motion";
 
-export const MainSectionWrapper = styled.section`
+export const MainSectionWrapper = styled(motion.section)`
     margin-top: ${rem(15)};
     min-height: 80vh;
     width: 90svw;
     margin-inline: auto;
 `;
 
-export const StatusBarWrapper = styled.div<{ $flexArgs: FlexMixinInterface }>`
+export const StatusBarWrapper = styled(motion.div)<{ $flexArgs: FlexMixinInterface }>`
     ${props => createFlexMixin(props.$flexArgs)};
     background-color: ${({theme}) => theme.invoiceBg};
     color: ${({theme}) => theme.textColorSecondary};
     padding: clamp(${rem(24)}, 4svw, ${rem(48)});
     margin-bottom: ${rem(15)};
     border-radius: ${rem(10)};
+
+    perspective: ${rem(1000)};
 `;
 
-export const InfoSection = styled.article<{ $flexArgs: FlexMixinInterface }>`
+export const InfoSection = styled(motion.article)<{ $flexArgs: FlexMixinInterface }>`
     ${props => createFlexMixin(props.$flexArgs)};
     background-color: ${({theme}) => theme.invoiceBg};
     transition: backround-color 300ms ease-in-out;
     padding: clamp(${rem(24)}, 4svw, ${rem(48)});
     border-radius: ${rem(10)};
     margin-bottom: 0;
+
+    perspective: ${rem(1000)};
 `;
 
 export const InfoWrapperPart = styled.div`

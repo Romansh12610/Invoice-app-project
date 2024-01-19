@@ -16,6 +16,12 @@ import { InitialItemInterface } from '../../interfaces/invoiceTypes';
 import Modal from '../Modal';
 import ConfirmDeletion from '../../shared/ConfirmDeletion';
 import { InvoicePayload } from '../../interfaces/reducerTypes';
+// animation
+import * as variants from '../../utilities/variants/invoiceInfoVariants';
+
+
+
+
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
@@ -107,14 +113,23 @@ export default function InvoiceView() {
     // rendering code
     return (
         <>
-            <MainSectionWrapper>
+            <MainSectionWrapper
+                variants={variants.MainWrapperVariants}
+                initial='initial'
+                animate='animate'
+                exit='exit'
+            >
                 <GoBackLink to='/' />
-                <StatusBarWrapper $flexArgs={{
-                    justify: orientation === 'mobile' ? 'space-between'
-                        : 'flex-start',
-                    alignItems: 'center',
-                    gap: orientation === 'mobile' ? '0' : '15'
-                }}>
+                <StatusBarWrapper 
+                    $flexArgs={{
+                        justify: orientation === 'mobile' ? 'space-between'
+                            : 'flex-start',
+                        alignItems: 'center',
+                        gap: orientation === 'mobile' ? '0' : '15'
+                    }}
+
+                    variants={variants.HeaderBarVariants}
+                >
                     Status
                     <StyledLabel $color={invoiceColor}>
                         {status}
@@ -152,6 +167,8 @@ export default function InvoiceView() {
                         alignItems: 'flex-start',
                         justify: 'center',
                     }}
+
+                    variants={variants.InfoSectionVariants}
                 >
                     <InfoWrapperPart>
                         <UidDescriptionWrapper>
