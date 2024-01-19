@@ -6,6 +6,7 @@ export default interface ThemeInterface {
     filterCheck: string;
     invoiceBg: string;
     invoiceBgSecondary: string;
+    invoiceHover: string;
     totalBlockBg: string;
     formBg: string;
     inputBorder: string;
@@ -22,6 +23,8 @@ export default interface ThemeInterface {
     discardBtnHover: string;
     modalBg: string;
     modalBgHover: string;
+    footerBg: string;
+    footerBorder: string;
     general: {
         iconColor: string;
         purple: string;

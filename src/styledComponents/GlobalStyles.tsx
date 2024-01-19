@@ -16,11 +16,12 @@ export const styleTheme: {
         filterCheck: '#e0e4fa',
         invoiceBg: '#fff',
         invoiceBgSecondary: '#e6e6e6',
+        invoiceHover: '#d9ddff',
         totalBlockBg: '#373b53',
         formBg: '#ffffff',
         inputBorder: '#d0d5ff',
         selectOptionBg: '#ffffff',
-        selectOptBorder: '#000000',
+        selectOptBorder: '#000',
         selectOptHover: '#ffffff',
         selectOptBoxShadow: '#c4c4c4',
         selectItemListText: '#a0a0a0',
@@ -32,6 +33,8 @@ export const styleTheme: {
         discardBtnHover: '#cccfe4',
         modalBg: '#e0e4fa',
         modalBgHover: '#cacff0',
+        footerBg: '#e4e4e4',
+        footerBorder: '#000',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -71,6 +74,7 @@ export const styleTheme: {
         filterCheck: '#181d3a',
         invoiceBg: '#1f223b',
         invoiceBgSecondary: '#2d3155',
+        invoiceHover: '#242b68',
         totalBlockBg: '#0d0e17',
         formBg: '#131622',
         inputBorder: '#838bc2',
@@ -82,10 +86,12 @@ export const styleTheme: {
         backLinkHover: '#7b5cfa',
         addBtnBg: '#504ed47a',
         addBtnHover: '#16148d',
-        discardBtn: '#1f234d',
-        discardBtnHover: '#313a7c',
+        discardBtn: '#0e1888',
+        discardBtnHover: '#1327b9',
         modalBg: '#1f234d',
         modalBgHover: '#333968',
+        footerBg: '#5c67e6',
+        footerBorder: '#ffffff',
         general: {
             iconColor: '#c5c5c5',
             purple: '#7b5cfa',
@@ -106,9 +112,9 @@ export const styleTheme: {
             deleteBtnHover: '#e73b3b',
             markBtnBg: '#5a3fc5',
             markBtnHover: '#6d49ff',
-            saveDraftBtn: '#6b328b',
-            saveDraftBtnHover: '#9c48cc',
-            saveSendBtn: '#460096',
+            saveDraftBtn: '#8724c0',
+            saveDraftBtnHover: '#ac4ce4',
+            saveSendBtn: '#5b00c4',
             saveSendBtnHover: '#7700ff',
             error: 'hsl(0,80%,63%)',
             cancelBtn: '#00909b',
@@ -193,7 +199,7 @@ export const svgBackgroundMixin = (svgUrl: string, pos: 'right' | 'left' | 'cent
 `;
 
 export const transitionMixin = css`
-    transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+    transition: background-color 300ms ease-in-out, color 300ms ease-in-out, border-color 300ms ease-in-out;
 `;
 
 export default GlobalStyles;

@@ -64,7 +64,8 @@ const customScrollBar = css`
 export const MainWrapper = styled(motion.div)`
     background-color: ${({theme}) => theme.formBg};
     padding: ${rem(22)};
-    position: fixed;
+    padding-bottom: 0;
+    position: absolute;
     top: clamp(${rem(70)}, 10.5vw, ${rem(80)});
     bottom: 0;
     left: 0;
@@ -106,6 +107,7 @@ export const StyledForm = styled.form`
     height: 70%;
     width: 100%;
     margin-top: calc(12vh - 5px);
+    padding-bottom: ${rem(30)};
 `;
 
 export const Legend = styled.legend<{ $items?: true }>`
@@ -122,6 +124,7 @@ export const FieldSet = styled.fieldset`
     flex-flow: column nowrap;
     width: 95%;
     gap: ${rem(15)};
+    margin-block: ${rem(15)};
 `;
 
 export const ItemsFieldSet = styled.fieldset`
@@ -130,10 +133,10 @@ export const ItemsFieldSet = styled.fieldset`
 `;
 
 export const Label = styled.label`
-    font-size: ${rem(18)};
-    letter-spacing: ${rem(0.5)};
-    font-weight: 500;
-    color: ${({theme}) => theme.textColorSecondary};
+    font-size: ${rem(20)};
+    letter-spacing: ${rem(1)};
+    font-weight: 600;
+    color: ${({theme}) => theme.textColor};
     // for error correct displaying
     display: flex;
     flex-flow: row nowrap;
@@ -156,6 +159,11 @@ export const Select = styled.button`
     align-items: center;
     width: 100%;
     height: 100%;
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
 `;
 
 export const SelectText = styled.p`
@@ -267,6 +275,7 @@ export const StyledInputLabelWrapper = styled.div<{ $minWidth: number }>`
     display: flex;
     flex-flow: column nowrap;
     gap: ${rem(10)};
+    margin-block: ${rem(10)};
     // flex-child props
     flex: 1;
     min-width: ${({ $minWidth }) => rem($minWidth)};

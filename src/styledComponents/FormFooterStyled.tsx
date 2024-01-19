@@ -4,7 +4,7 @@ import ButtonDefault from "../shared/buttons";
 import { transitionMixin } from "./GlobalStyles";
 
 export const FooterWrapper = styled.div`
-    height: ${rem(115)};
+    height: ${rem(80)};
     padding: ${rem(16)};
     display: flex;
     flex-flow: row nowrap;
@@ -16,11 +16,9 @@ export const FooterWrapper = styled.div`
     left: 0;
     right: 0;
 
-    @media (min-width: 768px) {
-        right: 40svw;
-        right: 40vw;
-        width: 100%;
-    }
+    border-top: 2px solid ${props => props.theme.footerBorder};
+    padding-top: ${rem(20)};
+    background-color: ${({theme}) => theme.footerBg};
 `;
 
 export const DiscardBtn = styled(ButtonDefault)`
