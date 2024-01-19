@@ -16,7 +16,7 @@ export const FooterWrapper = styled.div`
     left: 0;
     right: 0;
 
-    border-top: 2px solid ${props => props.theme.footerBorder};
+    border-top: 4px solid ${props => props.theme.footerBorder};
     padding-top: ${rem(20)};
     background-color: ${({theme}) => theme.footerBg};
 `;
@@ -24,7 +24,7 @@ export const FooterWrapper = styled.div`
 export const DiscardBtn = styled(ButtonDefault)`
     ${transitionMixin};
     background-color: ${({theme}) => theme.discardBtn};
-    color: ${({theme}) => theme.textColor};
+    color: ${({theme}) => theme.general.white};
 
     &:hover, &:focus {
         background-color: ${({theme}) => theme.discardBtnHover};

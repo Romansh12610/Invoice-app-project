@@ -25,6 +25,8 @@ export default interface ThemeInterface {
     modalBgHover: string;
     footerBg: string;
     footerBorder: string;
+    formHeaderBg: string,
+    fromHeaderBorder: string;
     general: {
         iconColor: string;
         purple: string;
@@ -54,5 +56,6 @@ export default interface ThemeInterface {
         cancelBtnHover: string;
         confirmBtnBg: string;
         confirmBtnHover: string;
+        labelColor: string;
     }
 }

@@ -9,6 +9,7 @@ export const StyledBackdrop = styled(motion.div)`
     position: fixed;
     top: 0;
     left: 0;
+    filter: blur(200px);
 `;
 
 const Backdrop = () => {

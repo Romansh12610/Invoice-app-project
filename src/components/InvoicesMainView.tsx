@@ -21,6 +21,7 @@ export default function Main() {
 
         dispatchAction({
             type: 'openForm',
+            payload: { edited: false }
         });
     };
 

@@ -16,6 +16,7 @@ interface SelectWrapperProps {
 interface SelectLabelProps {
     formState: InvoicePayload;
     handleChangeField: FormChangeEventType;
+    isEdited: boolean;
     labelText: string;
 } 
 
@@ -67,6 +68,7 @@ const SelectLabel = (props: SelectLabelProps) => {
                     aria-label='Select payment terms'
                     aria-expanded={isOpen}
                     aria-controls='select-list'
+                    disabled={props.isEdited}
                 >
                     <SelectText>Net {formState.paymentTerms} Days</SelectText>
                     <Icon 

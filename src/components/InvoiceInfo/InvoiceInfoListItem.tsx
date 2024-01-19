@@ -18,7 +18,6 @@ const InfoListItem = memo(({ item }: InfoListItemProps) => {
     
         return (
             <ItemSingleWrapper>
-
                 <ItemTitleText
                     $size='small'
                     $weight='medium'

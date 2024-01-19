@@ -8,7 +8,7 @@ import useFilterStatus from '../hooks/useFilterChange';
 import useManageInvoices from '../hooks/useManageInvoices';
 import useDeviceOrientation from '../hooks/useDeviceOrientation';
 
-const AppContext = React.createContext<GlobalContextInt | null>(null);
+const AppContext = React.createContext<GlobalContextInt>({} as unknown as GlobalContextInt);
 
 export default function ContextWrapper({ children }: { children: React.ReactNode }) {
 
@@ -22,8 +22,6 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 		globalState,
 		dispatchAction,
 	} = useManageInvoices();
-	console.log('context rerender');
-	console.log('CONTEXT current state: ', globalState.invoices);
 
     return (
 		<AppContext.Provider value={{

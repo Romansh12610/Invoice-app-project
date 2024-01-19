@@ -29,7 +29,7 @@ const InvoiceList = () => {
                     invoiceListVariants
                 }
             >
-                <AnimatePresence mode='sync' initial={false}>
+                <AnimatePresence mode='sync'>
                     {renderingList}
                 </AnimatePresence>
             </InvoiceUl>
