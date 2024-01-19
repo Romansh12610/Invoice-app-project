@@ -1,12 +1,12 @@
 import { styled } from "styled-components";
-import rem from "../../utilities/pxIntoRem";
+import rem from "../utilities/pxIntoRem";
 import { Link } from "react-router-dom";
 // mixins
-import { btnDefaultStylesMixin } from "../../shared/buttons";
-import { transitionMixin } from "../../styledComponents/GlobalStyles";
+import { btnDefaultStylesMixin } from "./buttons";
+import { transitionMixin } from "../styledComponents/GlobalStyles";
 // animation
 import { motion } from "framer-motion";
-import modalVariants from "../../utilities/variants/modalVariants";
+import modalVariants from "../utilities/variants/modalVariants";
 
 // styled comps
 const WrapperStyled = styled(motion.div)`

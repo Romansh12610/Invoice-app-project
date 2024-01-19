@@ -10,7 +10,7 @@ import buttonVariants from "../utilities/variants/buttonVariants";
 export default function Main() {
 
     const { orientation, dispatchAction, globalState } = useGlobalContext();
-    const { isInvoiceDeleted } = globalState;
+    const { isInvoiceDeleted, isChangesSaved } = globalState;
 
     // invoices quantity to text output
     const invoiceQuantity = globalState.invoices.length;
@@ -21,15 +21,19 @@ export default function Main() {
 
         dispatchAction({
             type: 'openForm',
-            payload: { edited: false }
         });
     };
 
-    // reset deleteInvoiceFlag
+    // reset global state flags for animation
     useEffect(() => {
         if (isInvoiceDeleted) {
             dispatchAction({
                 type: 'resetDeletedInvoice'
+            });
+        }
+        if (isChangesSaved) {
+            dispatchAction({
+                type: 'resetSaveChanges'
             });
         }
     }, [isInvoiceDeleted]);

@@ -11,13 +11,13 @@ import { InvoiceListDispatchType } from '../interfaces/invoiceTypes';
 // form submission types
 export type ActionTypes = 'discard' | 'save' | 'add' | 'draft';
 
-type SubmitInvoiceForm = (e: React.MouseEvent<HTMLButtonElement & { name: ActionTypes }>, formState: InvoicePayload, formRef: React.RefObject<HTMLFormElement>, setShouldShowError: React.Dispatch<React.SetStateAction<boolean>>, dispatchAction: InvoiceListDispatchType, restoreToInitial: RestoreCallback, exitAnimationStateCallback: () => void, editedInvoiceId: string | null) => void;
+type SubmitInvoiceForm = (currentTarget: HTMLButtonElement & { name: ActionTypes }, formState: InvoicePayload, formRef: React.RefObject<HTMLFormElement>, setShouldShowError: React.Dispatch<React.SetStateAction<boolean>>, dispatchAction: InvoiceListDispatchType, restoreToInitial: RestoreCallback, exitAnimationStateCallback: () => void, editedInvoiceId: string | null) => void;
 
 
 // MAIN FUNCTION
-export const submitInvoiceForm: SubmitInvoiceForm = async (e, formState, formRef, setShouldShowError, dispatchAction, restoreToInitial, exitAnimationStateCallback, editedInvoiceId) => {
+export const submitInvoiceForm: SubmitInvoiceForm = async (currentTarget, formState, formRef, setShouldShowError, dispatchAction, restoreToInitial, exitAnimationStateCallback, editedInvoiceId) => {
 
-    const { name } = e.currentTarget;
+    const { name } = currentTarget;
 
     // dispatch
     switch(name) {

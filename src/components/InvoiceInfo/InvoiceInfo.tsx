@@ -12,25 +12,31 @@ import convertDateFromString from '../../utilities/convertDateOutput';
 import formatPrice from '../../utilities/formatPrice';
 import buttonVariants from '../../utilities/variants/buttonVariants';
 import { useEffect, useMemo, useState } from 'react';
-import useFormState from '../../hooks/useFormState';
 import { InitialItemInterface } from '../../interfaces/invoiceTypes';
 import Modal from '../Modal';
-import ConfirmDeletion from './ConfirmDeletion';
+import ConfirmDeletion from '../../shared/ConfirmDeletion';
 import { InvoicePayload } from '../../interfaces/reducerTypes';
 
 export default function InvoiceView() {
     // we need to know 'status' of current invoice
     const URLparams = useParams();
     const { globalState, orientation, dispatchAction } = useGlobalContext();
-    const { invoices, isModalOpen, isInvoiceDeleted } = globalState;
+    const { invoices, isModalOpen, isInvoiceDeleted, isChangesSaved } = globalState;
 
-    const text = 'Invoice was successfully deleted!';
+    // Confirm logic
+    const textOnDeletion = 'Invoice was successfully deleted!';
+    const textOnSavedChanges = 'Changes was successfully saved!';
     // case where it is deleted
     if (isInvoiceDeleted) {
         return (
-            <ConfirmDeletion text={text} />
+            <ConfirmDeletion text={textOnDeletion} />
         )
-    };
+    }
+    else if (isChangesSaved) {
+        return (
+            <ConfirmDeletion text={textOnSavedChanges} />
+        )
+    }
 
     // retrieve invoice that gets opened
     const currentInvoice = useMemo(() => {

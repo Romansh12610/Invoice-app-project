@@ -5,11 +5,10 @@ import keyMap from "../utilities/uniqueKeysForAnimation";
 
 export const StyledBackdrop = styled(motion.div)`
     z-index: 98;
-    background-color: #0000004e;
+    background-color: #000000a7;
     position: fixed;
     top: 0;
     left: 0;
-    filter: blur(200px);
 `;
 
 const Backdrop = () => {

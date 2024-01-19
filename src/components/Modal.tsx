@@ -1,24 +1,44 @@
 import { StyledWrapper, TitleText, ParText, BtnWrapper, CancelBtn, ActionBtn } from "../styledComponents/ModalStyled";
 import { useGlobalContext } from "./ContextWrapper";
 import { createPortal } from "react-dom";
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import useModal from "../hooks/useModal";
 // animation
 import buttonVariants from "../utilities/variants/buttonVariants";
 import modalVariants from "../utilities/variants/modalVariants";
 import keyMap from "../utilities/uniqueKeysForAnimation";
+// types
+import { ButtonClick } from "./FormFooter";
+import { ActionTypes } from "../utilities/submitForm";
 
 
 interface ModalProps {
     mod: 'DELETE' | 'CHANGE_STATUS' | 'SAVE_CHANGES';
     id: string;
+    customActiveBtnClickCallback?: ButtonClick;
+    customBtnName?: ActionTypes;
 }
 
-const Modal = ({ mod, id }: ModalProps) => {
+const Modal = (props: ModalProps) => {
+
+    //props descrukt
+    const { mod, id, customActiveBtnClickCallback, customBtnName } = props;
 
     // globalState
     const { dispatchAction } = useGlobalContext();
     // animation
     const [animateModal, setAnimateModal] = useState('animate');
+    // modal functional (ref + custom hook)
+    const modalRef = useRef<HTMLDivElement>(null);
+    const closeModalCallback = async () => {
+        setAnimateModal('exit');
+        await new Promise(res => setTimeout(res, 410));
+
+        dispatchAction({
+            type: 'closeModal',
+        });
+    };
+    useModal(modalRef, closeModalCallback);
     
     // TEXT MANIPULATIONS
     // heading
@@ -30,24 +50,30 @@ const Modal = ({ mod, id }: ModalProps) => {
     const actionBtnText = mod === 'DELETE' ? 'delete' : mod === 'CHANGE_STATUS' ? 'Mark As Paid' : 'Save Changes';
 
     // EVENT HANDLERS
-    const handleCancelBtnClick = async () => {
-        setAnimateModal('exit');
-        await new Promise(res => setTimeout(res, 410));
-
-        dispatchAction({
-            type: 'closeModal',
-        });
-    };
-
     //action types
     const typeOfAction = mod === 'DELETE' ? 'deleteInvoice' : mod === 'CHANGE_STATUS' ? 'changeStatus' : 'saveChanges';
 
-    const handleActiveBtnClick = () => {
-        dispatchAction({
-            type: typeOfAction,
-            payload: id
-        });
-    };
+    const custom = customActiveBtnClickCallback != null;
+
+    // if custom callback provided
+    let handleSubmitBtnClick: ButtonClick;
+    if (custom) {
+        handleSubmitBtnClick = (e) => {
+            customActiveBtnClickCallback(e);
+            setTimeout(() => closeModalCallback(), 0);
+        }
+    }
+    // if not provided --> do default
+    else {
+        handleSubmitBtnClick = async () => {
+            await closeModalCallback();
+
+            dispatchAction({
+                type: typeOfAction,
+                payload: id
+            });
+        }
+    }
 
     const modal = (
         <StyledWrapper
@@ -64,14 +90,15 @@ const Modal = ({ mod, id }: ModalProps) => {
                     whileTap='tap'
                     variants={buttonVariants}
 
-                    onClick={handleCancelBtnClick}
+                    onClick={closeModalCallback}
                 >Cancel</CancelBtn>
                 <ActionBtn
                     whileHover='hover'
                     whileTap='tap'
                     variants={buttonVariants}
+                    name={customBtnName || ''}
 
-                    onClick={handleActiveBtnClick}
+                    onClick={handleSubmitBtnClick}
                     $type={mod}
                 >{actionBtnText}</ActionBtn>
             </BtnWrapper>

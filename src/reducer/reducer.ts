@@ -159,6 +159,7 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                 isFormOpen: false,
                 isModalOpen: false, 
                 isBackdropOpen: false,
+                isChangesSaved: true,
             }
         }
 
@@ -203,14 +204,6 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             };
         }
 
-        case 'resetDeletedInvoice': {
-            
-            return {
-                ...state,
-                isInvoiceDeleted: false,
-            };
-        }
-
         case 'changeStatus': {
             const invoiceId = action.payload as string;
             const invoiceToChange = state.invoices.find(inv => inv.id === invoiceId);
@@ -238,5 +231,23 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                 isBackdropOpen: false,
             }
         }
+
+        // helper reset-states for animations
+        case 'resetDeletedInvoice': {
+            
+            return {
+                ...state,
+                isInvoiceDeleted: false,
+            };
+        }
+
+
+        case 'resetSaveChanges': {
+            return {
+                ...state,
+                isChangesSaved: false,
+            }
+        }
+
     }
 };

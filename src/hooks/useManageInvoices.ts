@@ -25,6 +25,7 @@ export function getInitialState(): GlobalStateInterface {
         isModalOpen: false,
         isBackdropOpen: false,
         isInvoiceDeleted: false,
+        isChangesSaved: false,
     };
 };
 
