@@ -11,4 +11,5 @@ export default defineConfig({
       configFile: false,
     }
   })],
+  base: '/Invoice-app-project/'
 });
