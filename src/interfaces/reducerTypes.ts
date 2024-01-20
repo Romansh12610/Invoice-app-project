@@ -23,6 +23,6 @@ export interface PayloadWithCallback {
 } 
 
 export default interface ReducerActions {
-    type: 'filter' | 'openForm' | 'openFormEdit' | 'closeForm' | 'addInvoice' | 'addDraft' | 'saveChanges' | 'discardChanges' | 'closeModal' | 'openModal' | 'deleteInvoice' | 'changeStatus' | 'resetDeletedInvoice' | 'resetSaveChanges';
+    type: 'filter' | 'openForm' | 'openFormEdit' | 'closeForm' | 'addInvoice' | 'addDraft' | 'saveChanges' | 'discardChanges' | 'closeModal' | 'openModal' | 'deleteInvoice' | 'changeStatus' | 'resetDeletedInvoice' | 'resetSaveChanges' | 'resetChangeStatus';
     payload?: InitialInvoiceInterface | FilterStatusType | string | RestoreCallback | PayloadWithCallback | EditInvoicePayload | SaveChangesPayload;
 };

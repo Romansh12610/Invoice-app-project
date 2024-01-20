@@ -65,7 +65,7 @@ export const CancelBtn = styled(ButtonDefault)`
 `;
 
 // types of btn;
-export type TypesOfBtns = 'DELETE' | 'CHANGE_STATUS' | 'SAVE_CHANGES';
+export type TypesOfBtns = 'DELETE' | 'CHANGE_STATUS' | 'SAVE_CHANGES' | 'ADD_INVOICE';
 
 export const ActionBtn = styled(ButtonDefault)<{ $type: TypesOfBtns }>`
     background-color: ${({theme, $type}) => $type === 'DELETE' 

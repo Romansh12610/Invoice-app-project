@@ -15,6 +15,7 @@ export interface GlobalStateInterface {
     isBackdropOpen: boolean;
     isInvoiceDeleted: boolean;
     isChangesSaved: boolean;
+    isStatusChanged: boolean;
 }
 
 export type OrientationType = "mobile" | "tablet" | "desktop";

@@ -12,6 +12,7 @@ export const MainSectionWrapper = styled(motion.section)`
     min-height: 80vh;
     width: 90svw;
     margin-inline: auto;
+    padding: ${rem(20)};
 `;
 
 export const StatusBarWrapper = styled(motion.div)<{ $flexArgs: FlexMixinInterface }>`

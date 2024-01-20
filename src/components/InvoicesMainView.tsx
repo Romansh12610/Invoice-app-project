@@ -10,7 +10,7 @@ import buttonVariants from "../utilities/variants/buttonVariants";
 export default function Main() {
 
     const { orientation, dispatchAction, globalState } = useGlobalContext();
-    const { isInvoiceDeleted, isChangesSaved } = globalState;
+    const { isInvoiceDeleted, isChangesSaved, isStatusChanged } = globalState;
 
     // invoices quantity to text output
     const invoiceQuantity = globalState.invoices.length;
@@ -36,7 +36,12 @@ export default function Main() {
                 type: 'resetSaveChanges'
             });
         }
-    }, [isInvoiceDeleted]);
+        if (isStatusChanged) {
+            dispatchAction({
+                type: 'resetChangeStatus'
+            });
+        }
+    }, [isInvoiceDeleted, isChangesSaved, isStatusChanged]);
 
     return (
         <MainContainer 

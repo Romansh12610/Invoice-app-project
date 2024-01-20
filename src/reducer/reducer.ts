@@ -229,6 +229,7 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
                 invoices: newInvoices,
                 isModalOpen: false,
                 isBackdropOpen: false,
+                isStatusChanged: true,
             }
         }
 
@@ -246,6 +247,14 @@ export default function InvoiceReducer(state: GlobalStateInterface, action: Redu
             return {
                 ...state,
                 isChangesSaved: false,
+            }
+        }
+
+
+        case 'resetChangeStatus': {
+            return {
+                ...state,
+                isStatusChanged: false,
             }
         }
 

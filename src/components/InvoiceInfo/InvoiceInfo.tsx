@@ -27,11 +27,12 @@ export default function InvoiceView() {
     // we need to know 'status' of current invoice
     const URLparams = useParams();
     const { globalState, orientation, dispatchAction } = useGlobalContext();
-    const { invoices, isModalOpen, isInvoiceDeleted, isChangesSaved } = globalState;
+    const { invoices, isModalOpen, isInvoiceDeleted, isChangesSaved, isStatusChanged } = globalState;
 
     // Confirm logic
     const textOnDeletion = 'Invoice was successfully deleted!';
     const textOnSavedChanges = 'Changes was successfully saved!';
+    const textOnStatusChanged = 'Successfully changed to status "paid"!';
     // case where it is deleted
     if (isInvoiceDeleted) {
         return (
@@ -41,6 +42,11 @@ export default function InvoiceView() {
     else if (isChangesSaved) {
         return (
             <ConfirmDeletion text={textOnSavedChanges} />
+        )
+    }
+    else if (isStatusChanged) {
+        return (
+            <ConfirmDeletion text={textOnStatusChanged} />
         )
     }
 

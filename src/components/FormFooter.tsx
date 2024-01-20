@@ -88,10 +88,10 @@ const FormFooter = (props: FormFooterProps) => {
             {/* Modal open logic */}
             {isModalOpen && (
                 <Modal 
-                    mod="SAVE_CHANGES"               
+                    mod={isInvoiceEdited ? "SAVE_CHANGES" : "ADD_INVOICE"}               
                     id={props.editedInvoiceId}
                     customActiveBtnClickCallback={handleButtonClick}
-                    customBtnName='save' 
+                    customBtnName={isInvoiceEdited ? 'save' : 'add'}
                 />)}
         </>
     )
