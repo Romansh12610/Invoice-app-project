@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FilterWrapper, FilterButton, FilterList, FilterText, FilterListItem, ListItemButton } from '../styledComponents/FilterStyled';
+import { FilterWrapper, FilterButton, FilterList, FilterText, ListItem } from '../styledComponents/FilterStyled';
 import Icon from "../Icon/Icon";
 import { useGlobalContext } from '../hooks/useGlobalContext';
 import { useTheme } from "styled-components";
@@ -98,36 +98,27 @@ export default function Filter() {
                     gap: '8'
                 }}
             >    
-                <FilterListItem
-                    as={motion.li}
+                <ListItem 
+                    filterStatus='draft'
+                    btnText='draft'
+                    handleBtnClick={handleFilterButtonClick}
+                    $checked={filterStatus === 'draft'}
                     variants={filterItemVariants}
-                >
-                    <ListItemButton
-                        $checked={filterStatus === 'draft'}
-                        data-filterstatus='draft'
-                        onClick={handleFilterButtonClick}    
-                    >Draft</ListItemButton>
-                </FilterListItem>
-                <FilterListItem
-                    as={motion.li}
+                />
+                <ListItem 
+                    filterStatus='pending'
+                    btnText='pending'
+                    handleBtnClick={handleFilterButtonClick}
+                    $checked={filterStatus === 'pending'}
                     variants={filterItemVariants}
-                >
-                    <ListItemButton
-                        $checked={filterStatus === 'pending'}
-                        data-filterstatus='pending'
-                        onClick={handleFilterButtonClick}
-                    >Pending</ListItemButton>
-                </FilterListItem>
-                <FilterListItem
-                    as={motion.li}
+                />
+                <ListItem 
+                    filterStatus='paid'
+                    btnText='paid'
+                    handleBtnClick={handleFilterButtonClick}
+                    $checked={filterStatus === 'paid'}
                     variants={filterItemVariants}
-                >
-                    <ListItemButton
-                        $checked={filterStatus === 'paid'}
-                        data-filterstatus='paid'
-                        onClick={handleFilterButtonClick}
-                    >Paid</ListItemButton>
-                </FilterListItem>
+                />
             </FilterList>
         </FilterWrapper>
     )

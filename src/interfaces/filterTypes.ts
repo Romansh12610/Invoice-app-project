@@ -9,7 +9,6 @@ export type FilterStatusSetterType = React.Dispatch<React.SetStateAction<FilterS
 
 export interface CustomHTMLButtonElement extends React.ComponentPropsWithoutRef<"button"> {
     'data-filterstatus': FilterStatusType; 
-    $checked: boolean;
 };
 
 export type FilterEventType = React.MouseEvent<CustomHTMLButtonElement>; 
