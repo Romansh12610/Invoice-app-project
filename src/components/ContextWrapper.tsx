@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import useThemeToggle from '../hooks/useThemeToggle';
-import useFilterStatus from '../hooks/useFilterChange';
+import useFilterStatus from '../hooks/useFilterStatus';
 import useManageInvoices from '../hooks/useManageInvoices';
 import useDeviceOrientation from '../hooks/useDeviceOrientation';
 import { AppContext } from '../hooks/useGlobalContext';
