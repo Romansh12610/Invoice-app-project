@@ -26,12 +26,12 @@ interface CustomInputProps {
     isDisabled: boolean;
     color: string;
     value?: string;
-    onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    onFocus?: (e: React.FocusEvent<HTMLButtonElement>) => void;
-    onBlur?: (e: React.FocusEvent<HTMLButtonElement>) => void;
+    onClick?: (e?: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
+    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     onChange?: any;
     ref?: React.RefObject<HTMLInputElement>;
-}
+ }
 
 export const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(({ isDisabled, value, color, onBlur, onFocus, onChange }, ref) => {
 
