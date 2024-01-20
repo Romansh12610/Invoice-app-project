@@ -1,6 +1,6 @@
 import { FooterWrapper, DiscardBtn, SaveDraftBtn, SaveSendBtn } from "../styledComponents/FormFooterStyled";
 import buttonVariants from "../utilities/variants/buttonVariants";
-import { useGlobalContext } from "./ContextWrapper";
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import { submitInvoiceForm, ActionTypes } from "../utilities/submitForm";
 import { InvoicePayload, RestoreCallback } from "../interfaces/reducerTypes";
 import { InvoiceListDispatchType } from "../interfaces/invoiceTypes";

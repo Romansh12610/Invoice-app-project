@@ -1,6 +1,6 @@
 import { StyledHeader, LogoLink, ThemeButton, AvatarWrapper } from "../styledComponents/HeaderStyled";
 import Icon from "../Icon/Icon";
-import { useGlobalContext } from "./ContextWrapper";
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import { useTheme } from "styled-components";
 
 export default function Header() {

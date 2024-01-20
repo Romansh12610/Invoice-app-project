@@ -2,7 +2,7 @@ import { styled, useTheme, css } from "styled-components";
 import { Link } from "react-router-dom";
 import rem from "../utilities/pxIntoRem";
 import Icon from "../Icon/Icon";
-import { useGlobalContext } from "../components/ContextWrapper";
+import { useGlobalContext } from '../hooks/useGlobalContext';
 
 interface goBackLinkInterface {
     to: string;

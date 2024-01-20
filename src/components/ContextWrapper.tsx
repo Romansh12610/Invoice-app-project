@@ -3,12 +3,10 @@ import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import useThemeToggle from '../hooks/useThemeToggle';
-import GlobalContextInt from '../interfaces/globalContextInt';
 import useFilterStatus from '../hooks/useFilterChange';
 import useManageInvoices from '../hooks/useManageInvoices';
 import useDeviceOrientation from '../hooks/useDeviceOrientation';
-
-const AppContext = React.createContext<GlobalContextInt>({} as unknown as GlobalContextInt);
+import { AppContext } from '../hooks/useGlobalContext';
 
 export default function ContextWrapper({ children }: { children: React.ReactNode }) {
 
@@ -42,7 +40,3 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 		</AppContext.Provider>
     );
 }
-
-export const useGlobalContext = () => {
-	return React.useContext(AppContext) as GlobalContextInt;
-};

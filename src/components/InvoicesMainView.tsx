@@ -1,6 +1,6 @@
 import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrapper, NewInvoiceButton, NewInvoiceText, InvoiceQuantityStyled } from "../styledComponents/InvoicesStyled";
 import Filter from "./Filter";
-import { useGlobalContext } from "./ContextWrapper";
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import InvoiceList from "./InvoiceList/InvoiceList";
 import { headerVariants } from "../utilities/variants/mainContentVariants";
 import { useEffect } from "react";

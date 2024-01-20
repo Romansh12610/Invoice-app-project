@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { FilterWrapper, FilterButton, FilterList, FilterText, FilterListItem, ListItemButton } from '../styledComponents/FilterStyled';
 import Icon from "../Icon/Icon";
-import { useGlobalContext } from './ContextWrapper';
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import { useTheme } from "styled-components";
 import { FilterActiveType } from '../interfaces/filterTypes';
 import { motion } from 'framer-motion';

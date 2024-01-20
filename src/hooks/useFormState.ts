@@ -3,7 +3,7 @@
 import { AddressInterface, InitialItemInterface } from "../interfaces/invoiceTypes";
 import { InvoicePayload } from "../interfaces/reducerTypes";
 // hooks
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 
 
 //TYPES
@@ -162,11 +162,6 @@ const useFormState = (editPayload: InvoicePayload | null) => {
         const initState = getInitialFormState();
         setFormState(initState);
     };
-
-    // testing....
-    useEffect(() => {
-        console.log('hook: state changed to: ', formState);
-    }, [formState]);
 
     return { formState, handleChangeField, restoreToInitial, setFormState } as const;
 };

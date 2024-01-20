@@ -3,7 +3,7 @@ import { AddressFromWrapper, BillToAddress, BillToField, BillToName, BillToWrapp
 // helper components & types
 import { StyledLabel } from '../../shared/colorLabels';
 import { useParams } from 'react-router-dom';
-import { useGlobalContext } from '../ContextWrapper';
+import { useGlobalContext } from '../../hooks/useGlobalContext';
 import { LabelColorsType } from '../../shared/colorLabels';
 import GoBackLink from '../../shared/goBackLink';
 import InfoListItem from './InvoiceInfoListItem';

@@ -5,7 +5,7 @@ import { defaultInput } from '../styledComponents/FormInvoiceStyled';
 import Icon from '../Icon/Icon';
 import convertDateOutput from '../utilities/convertDateOutput';
 import React, { forwardRef, useMemo } from 'react';
-import { useGlobalContext } from './ContextWrapper';
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import { useTheme } from 'styled-components';
 import rem from '../utilities/pxIntoRem';
 // types

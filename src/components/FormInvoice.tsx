@@ -1,6 +1,6 @@
 import { MainWrapper, StyledForm, Input, Label, Title, FieldSet, Legend, StyledInputLabelWrapper, ItemsFieldSet, StyledFlexWrapper, TopWrapper, StyledError } from "../styledComponents/FormInvoiceStyled";
 // hooks
-import { useGlobalContext } from "./ContextWrapper";
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import { useParams } from "react-router-dom";
 import {createPortal} from 'react-dom';
 import React, { useRef, useState, forwardRef, useCallback } from 'react';

@@ -1,5 +1,5 @@
 import { StyledWrapper, TitleText, ParText, BtnWrapper, CancelBtn, ActionBtn } from "../styledComponents/ModalStyled";
-import { useGlobalContext } from "./ContextWrapper";
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import { createPortal } from "react-dom";
 import { useState, useRef } from 'react';
 import useModal from "../hooks/useModal";

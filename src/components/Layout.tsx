@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import FormController from "./FormInvoice";
 import Backdrop from "../shared/Backdrop";
-import { useGlobalContext } from "./ContextWrapper";
+import { useGlobalContext } from '../hooks/useGlobalContext';
 import { FormControllerProps } from "./FormInvoice";
 
 export default function Layout() {

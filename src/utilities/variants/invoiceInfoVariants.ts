@@ -35,7 +35,7 @@ const HeaderBarVariants: Variants = {
     },
     animate: {
         rotateX: 0,
-        filter: '',
+        filter: 'blur(0px)',
         transition: {
             type: 'spring',
             ease: 'circInOut',

@@ -1,5 +1,5 @@
 import { InvoiceUl } from "../../styledComponents/InvoiceListStyled";
-import { useGlobalContext } from "../ContextWrapper";
+import { useGlobalContext } from '../../hooks/useGlobalContext';
 // animation
 import { AnimatePresence } from "framer-motion";
 import { invoiceListVariants } from "../../utilities/variants/invoiceListVariants";
