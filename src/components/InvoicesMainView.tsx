@@ -1,10 +1,11 @@
-import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrapper, NewInvoiceButton, NewInvoiceText, InvoiceQuantityStyled } from "../styledComponents/InvoicesStyled";
+import { MainContainer, HeadingTitle, HeadingSubtitle, HeadingWrapper, TitleWrapper, NewInvoiceButton, NewInvoiceText, NewInvoiceBtnCircleWithSvg, InvoiceQuantityStyled } from "../styledComponents/InvoicesStyled";
 import Filter from "./Filter";
 import { useGlobalContext } from '../hooks/useGlobalContext';
 import InvoiceList from "./InvoiceList/InvoiceList";
 import { headerVariants } from "../utilities/variants/mainContentVariants";
 import { useEffect } from "react";
 import buttonVariants from "../utilities/variants/buttonVariants";
+import Icon from "../Icon/Icon";
 
 
 export default function Main() {
@@ -86,8 +87,15 @@ export default function Main() {
                     whileTap='tap'
                     variants={buttonVariants}
                 >
+                    <NewInvoiceBtnCircleWithSvg>
+                        <Icon 
+                            name="plus"
+                            size={10}
+                            color="#8300da"
+                        />
+                    </NewInvoiceBtnCircleWithSvg>
                     <NewInvoiceText
-                        $size="small"
+                        $size="medium"
                         $weight="bold"
                         $letterSpacing="medium"
                     >

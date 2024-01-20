@@ -1,7 +1,8 @@
-import { StyledHeader, LogoLink, ThemeButton, AvatarWrapper } from "../styledComponents/HeaderStyled";
+import { StyledHeader, LogoLink, LogoImg,ThemeButton, AvatarWrapper } from "../styledComponents/HeaderStyled";
 import Icon from "../Icon/Icon";
 import { useGlobalContext } from '../hooks/useGlobalContext';
 import { useTheme } from "styled-components";
+import logo from '../assets/logo.svg';
 
 export default function Header() {
 
@@ -14,7 +15,9 @@ export default function Header() {
     // rendering
     return (
         <StyledHeader>
-            <LogoLink to='/' />
+            <LogoLink to='/'>
+                <LogoImg src={logo} />
+            </LogoLink>
             <ThemeButton
                 onClick={() => toggleTheme()}
             >

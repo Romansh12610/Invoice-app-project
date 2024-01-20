@@ -6,8 +6,6 @@ import FontPropsInterface from "../interfaces/fontProps";
 import rem from "../utilities/pxIntoRem";
 import { btnDefaultStylesMixin } from "../shared/buttons";
 import { JustifyType } from "../shared/buttons";
-import { svgBackgroundMixin } from "../styledComponents/GlobalStyles";
-import plusIcon from '../assets/icon-plus.svg';
 import { motion } from "framer-motion";
 import { OrientationType } from "../interfaces/globalContextInt";
 
@@ -43,15 +41,23 @@ export const NewInvoiceButton = styled(motion.button)<{$justify: JustifyType}>`
     padding-right: ${rem(15)};
     margin-left: 2vw;
     margin-left: 2svw;
-
-    &::before {
-        ${svgBackgroundMixin(plusIcon, 'left', true, true, 'auto')};
-        background-color: white;
-    }
-`
+    justify-content: center;
+    height: ${rem(60)};
+`;
 
 export const NewInvoiceText = styled(CustomizableTextItem)<FontPropsInterface>`
-    padding-left: ${rem(28)};
+    padding-left: 10px;
+`;
+
+export const NewInvoiceBtnCircleWithSvg = styled.div`
+    background-color: white;
+    width: ${rem(28)};
+    height: ${rem(28)};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: ${rem(3)};
 `;
 
 export const InvoiceQuantityStyled = styled.span`

@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import rem from "../utilities/pxIntoRem";
-import logo from '../assets/logo.svg';
 import avatar from '../assets/image-avatar.jpg';
 import { Link } from "react-router-dom";
 import { svgBackgroundMixin } from "./GlobalStyles";
@@ -22,6 +21,10 @@ export const LogoLink = styled(Link)`
     border-radius: 0 ${rem(20)} ${rem(20)} 0;
     cursor: pointer;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &::before {
         position: absolute;
         content: '';
@@ -32,10 +35,12 @@ export const LogoLink = styled(Link)`
         background: ${ ({ theme }) => theme.general.purpleLight};
         border-radius: ${rem(38)} 0 ${rem(20)} 0;
     }
+`;
 
-    &::after {
-        ${svgBackgroundMixin(logo)};
-    }
+export const LogoImg = styled.img`
+    width: ${rem(30)};
+    height: auto;
+    z-index: 10;
 `;
 
 export const ThemeButton = styled.button`
