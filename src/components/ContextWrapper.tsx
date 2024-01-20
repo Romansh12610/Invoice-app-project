@@ -33,7 +33,7 @@ export default function ContextWrapper({ children }: { children: React.ReactNode
 		}}>
 			<ThemeProvider theme={theme === 'dark' ? styleTheme.dark : styleTheme.light}>
 				<GlobalStyles $isDark={theme === 'dark' ? true : false}/>
-				<BrowserRouter>
+				<BrowserRouter basename='/Invoice-app-project/'>
 					{children}
 				</BrowserRouter>
 			</ThemeProvider>
